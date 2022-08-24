@@ -12,3 +12,5 @@
 # dev
 
 .idea
+/docker/nginx/logs/
+/docker/database/data/
