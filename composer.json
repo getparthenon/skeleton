@@ -14,10 +14,20 @@
         "symfony/console": "6.0.*",
         "symfony/dotenv": "6.0.*",
         "symfony/flex": "^2",
+        "symfony/mailer": "6.*",
         "symfony/framework-bundle": "6.0.*",
         "symfony/runtime": "6.0.*",
         "symfony/webpack-encore-bundle": "^1.15",
         "symfony/yaml": "6.0.*"
+    },
+    "require-dev": {
+        "behat/behat": "^3.8",
+        "friends-of-behat/mink": "^1.8",
+        "friends-of-behat/mink-browserkit-driver": "^1.4",
+        "friends-of-behat/mink-extension": "^2.4",
+        "friends-of-behat/symfony-extension": "^2.0",
+        "friendsofphp/php-cs-fixer": "^3.5",
+        "symfony/web-profiler-bundle": "^6.0"
     },
     "config": {
         "allow-plugins": {
