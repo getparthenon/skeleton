@@ -17,7 +17,7 @@ The first step is to set up the environment.
 
 ```
 composer install
-yarn
+yarn install
 ```
 
 ### Run
