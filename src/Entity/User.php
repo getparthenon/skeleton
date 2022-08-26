@@ -3,8 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Parthenon\Subscriptions\Subscriber\SubscriberInterface;
 use Parthenon\Subscriptions\Plan\LimitedUserInterface;
+use Parthenon\Subscriptions\Subscriber\SubscriberInterface;
 use Parthenon\User\Entity\MemberInterface;
 use Parthenon\User\Entity\TeamInterface;
 

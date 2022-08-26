@@ -8,10 +8,9 @@ use Twig\Environment;
 
 class FrontendController
 {
-    #[Route('/{vueRouting}', name: 'app_index_landing', requirements: ['vueRouting' => '.+'], defaults: ['vueRouting' => null])]
-    public function home(Environment $twig, )
+    #[Route('/', name: 'app_index_landing', requirements: ['vueRouting' => '.+'], defaults: ['vueRouting' => null])]
+    public function home(Environment $twig)
     {
-
         return new Response($twig->render('index.html.twig'));
     }
 }

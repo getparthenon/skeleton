@@ -1,29 +1,40 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
-    password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    access_decision_manager:
+        strategy: unanimous
+        allow_if_all_abstain: false
+    enable_authenticator_manager: true
     providers:
-        users_in_memory: { memory: null }
+        parthenon:
+            id: Parthenon\User\Security\UserProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            pattern: ^/api/
+            stateless: false
             lazy: true
-            provider: users_in_memory
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+            provider: parthenon
+            remember_me:
+                secret: '%kernel.secret%'
+                always_remember_me: true
+            logout:
+                path: parthenon_user_logout
+            json_login:
+                check_path: /api/authenticate
+            user_checker: Parthenon\User\Security\UserChecker\UserCheckerObserver
+    password_hashers:
+        Parthenon\User\Entity\UserInterface:
+            algorithm: bcrypt
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/athena, roles: ROLE_ADMIN }
+        - { path: ^/api/(authenticate|login|logout), roles: PUBLIC_ACCESS }
+        - { path: ^/api/user/(signup|password|reset|confirm), roles: PUBLIC_ACCESS }
+        - { path: ^/api/, roles: ROLE_USER }
+
 
 when@test:
     security:
