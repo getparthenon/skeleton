@@ -10,10 +10,12 @@ import './styles/app.css';
 
 import App from "./components/App";
 
+import {router} from "./helpers/router";
 import { createApp } from "vue";
 
 var app = createApp(
     App
 )
 
+app.use(router)
 app.mount('#app');
