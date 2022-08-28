@@ -2,12 +2,14 @@ import {createRouter, createWebHistory} from 'vue-router'
 
 import axios from "axios";
 import LandingPage from "../components/LandingPage";
+import Login from "../components/Login";
 
 
 export const router = createRouter({
     history: createWebHistory(),
     routes: [
         { path: '/', component: LandingPage },
+        { path: '/login', component: Login },
         // otherwise redirect to home
         { path: '/:pathMatch(.*)/', redirect: '/' }
     ]
