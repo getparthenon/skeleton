@@ -3,3 +3,36 @@
 @tailwind components;
 
 @tailwind utilities;
+
+.h1 {
+  @apply text-2xl font-medium;
+}
+
+.h2 {
+  @apply text-xl font-medium;
+}
+
+.h3 {
+  @apply text-xl font-medium;
+}
+
+.btn--main {
+  @apply p-3 font-medium rounded-xl bg-blue-600 text-white;
+}
+.btn--main:hover {
+  @apply p-3 font-medium rounded-xl bg-blue-500 text-white;
+}
+
+.btn--secondary {
+  @apply p-3 font-medium rounded-xl border-blue-500 text-blue-500 bg-transparent;
+}
+
+.btn--secondary:hover {
+  @apply bg-blue-500 text-white;
+}
+
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
