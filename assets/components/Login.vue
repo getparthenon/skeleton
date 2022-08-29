@@ -29,6 +29,7 @@ export default {
 <style scoped>
 .field {
   @apply bg-transparent rounded-lg text-slate-600 font-medium w-full backdrop-blur-lg;
+  border-color: silver!important;
 }
 
 .login {
