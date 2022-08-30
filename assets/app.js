@@ -10,7 +10,8 @@ import './styles/app.css';
 
 import App from "./components/App";
 
-import {router} from "./helpers/router";
+import {router} from "./helpers/router"
+import {store} from './store'
 import { createApp } from "vue";
 import {ENGLISH_TRANSLATIONS} from "./translations/en";
 import {createI18n} from "vue-i18n";
@@ -29,5 +30,6 @@ var app = createApp(
 
 app.use(router)
 app.use(i18n)
+app.use(store)
 
 app.mount('#app');
