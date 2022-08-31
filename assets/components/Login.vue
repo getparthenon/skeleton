@@ -55,24 +55,5 @@ export default {
 </script>
 
 <style scoped>
-.field {
-  @apply bg-transparent rounded-lg text-slate-600 font-medium w-full backdrop-blur-lg;
-  border-color: silver!important;
-}
 
-.login {
-  background-color: #368aca;
-  background-image: linear-gradient(160deg, #368aca 0%, #c2dcef 100%);
-}
-
-.form-body {
-  @apply rounded-xl w-full md:max-w-screen-sm;
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-
-  animation: fadeIn 1s;
-}
 </style>

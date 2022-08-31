@@ -8,8 +8,8 @@ const login = function (username, password) {
 
     return axios.post("/api/authenticate", payload).then(response => {
         if (response.status !== 200) {
-            const data = response.data;
-            const error = (data && data.message) || data.errors || response.statusText;
+            const data = response.response.data;
+            const error = (data && data.message) || data.error || data.errors || response.statusText;
             return Promise.reject(error);
         }
     })

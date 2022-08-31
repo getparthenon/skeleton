@@ -3,6 +3,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import axios from "axios";
 import LandingPage from "../components/LandingPage";
 import Login from "../components/Login";
+import Signup from "../components/Signup";
 
 
 export const router = createRouter({
@@ -10,6 +11,7 @@ export const router = createRouter({
     routes: [
         { path: '/', component: LandingPage },
         { path: '/login', component: Login },
+        { path: '/signup', component: Signup },
         // otherwise redirect to home
         { path: '/:pathMatch(.*)/', redirect: '/' }
     ]

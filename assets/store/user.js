@@ -28,6 +28,7 @@ const actions = {
                     }
                 },
                 error => {
+                    console.log(error);
                     commit('loginFailure', error);
                 }
             );
