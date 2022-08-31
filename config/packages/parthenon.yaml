@@ -10,7 +10,11 @@ parthenon:
   notification:
     enabled: true
     email:
-      provider: symfony
+      from_name: 'Blether'
+      from_address: 'support@blether.chat'
+      provider: sendgrid
+      sendgrid:
+        api_key: '%env(resolve:SENDGRID_API_KEY)%'
   subscriptions:
     enabled: true
     subscriber_type: team

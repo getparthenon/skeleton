@@ -27,7 +27,8 @@
     background-color: #368aca;
     background-image: linear-gradient(160deg, #368aca 0%, #c2dcef 100%);
 }
-.field {
+
+.input-field {
     @apply bg-transparent rounded-lg text-slate-600 font-medium w-full backdrop-blur-lg;
     border-color: silver!important;
 }
