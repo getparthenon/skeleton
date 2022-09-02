@@ -10,8 +10,8 @@ export const router = createRouter({
     history: createWebHistory(),
     routes: [
         { path: '/', component: LandingPage },
-        { path: '/login', component: Login },
-        { path: '/signup', component: Signup },
+        { path: '/login', name: 'public.login', component: Login },
+        { path: '/signup', name: 'public.signup', component: Signup },
         // otherwise redirect to home
         { path: '/:pathMatch(.*)/', redirect: '/' }
     ]

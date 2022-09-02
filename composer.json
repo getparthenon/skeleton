@@ -82,8 +82,8 @@
     },
     "repositories": {
         "private-packagist": {
-            "type": "composer",
-            "url": "https://packagist.parthenon.cloud/humblyarrogant/"
+            "type": "vcs",
+            "url": "git@github.com:getparthenon/funded-edition.git"
         }
     }
 }

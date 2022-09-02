@@ -5,27 +5,31 @@
         <div class="w-full">
           <img src="/images/logo.svg" alt="" class="m-auto" width="450" />
         </div>
-        <h1 class="h1 text-center">{{ $t('signup.title') }}</h1>
+        <h1 class="h1 text-center">{{ $t('public.signup.title') }}</h1>
         <div class="px-5 mb-3">
-          <label class="block mb-1">{{ $t('signup.email') }}</label>
+          <label class="block mb-1">{{ $t('public.signup.email') }}</label>
           <input type="text" class="input-field" v-model="email" />
         </div>
         <div class="px-5 mb-3">
-          <label class="block mb-1">{{ $t('signup.password') }}</label>
+          <label class="block mb-1">{{ $t('public.signup.password') }}</label>
           <input type="password" class="input-field" v-model="password" />
         </div>
-        <div class="px-5 mb-3 flex items-center justify-between">
-          <a href="#" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
+        <div class="px-5 mb-3">
+          <label class="block mb-1">{{ $t('public.signup.password_confirm') }}</label>
+          <input type="password" class="input-field" v-model="password_confirm" />
         </div>
         <div class="px-5">
-          <button type="submit" class="btn--main w-full">{{ $t('signup.signup_button') }}</button>
+          <button type="submit" class="btn--main w-full">{{ $t('public.signup.signup_button') }}</button>
+        </div>
+        <div class="mt-5 px-5 mb-3  text-center">
+          <router-link :to="{name: 'public.login'}" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">{{ $t('public.signup.login_link') }}</router-link>
         </div>
       </div>
     </form>
     <div v-else>
       <div class="p-5 form-body">
         <div class="px-5">
-          {{ $t('signup.success_message') }}
+          {{ $t('public.signup.success_message') }}
         </div>
       </div>
     </div>
@@ -41,6 +45,7 @@ export default {
     return {
       email: '',
       password: '',
+      password_confirm: '',
       error: '',
       signing_up: true
     }

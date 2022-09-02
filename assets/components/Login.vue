@@ -5,20 +5,23 @@
         <div class="w-full">
           <img src="/images/logo.svg" alt="" class="m-auto" width="450" />
         </div>
-        <h1 class="h1 text-center">{{ $t('login.title') }}</h1>
+        <h1 class="h1 text-center">{{ $t('public.login.title') }}</h1>
         <div class="px-5 mb-3">
-          <label class="block mb-1">{{ $t('login.email') }}</label>
-          <input type="text" class="field" v-model="email" />
+          <label class="block mb-1">{{ $t('public.login.email') }}</label>
+          <input type="text" class="input-field" v-model="email" />
         </div>
         <div class="px-5 mb-3">
-          <label class="block mb-1">{{ $t('login.password') }}</label>
-          <input type="password" class="field" v-model="password" />
+          <label class="block mb-1">{{ $t('public.login.password') }}</label>
+          <input type="password" class="input-field" v-model="password" />
         </div>
         <div class="px-5 mb-3 flex items-center justify-between">
-          <a href="#" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
+          <a href="#" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">{{ $t('public.login.forgot_password_link') }}</a>
         </div>
         <div class="px-5">
-          <button type="submit" class="btn--main w-full">{{ $t('login.login_button') }}</button>
+          <button type="submit" class="btn--main w-full">{{ $t('public.login.login_button') }}</button>
+        </div>
+        <div class="mt-5 px-5 mb-3  text-center">
+          <router-link :to="{name: 'public.signup'}" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">{{ $t('public.login.signup_link') }}</router-link>
         </div>
       </div>
     </form>

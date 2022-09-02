@@ -29,8 +29,8 @@
 }
 
 .input-field {
-    @apply bg-transparent rounded-lg text-slate-600 font-medium w-full backdrop-blur-lg;
     border-color: silver!important;
+    @apply bg-transparent rounded-lg text-slate-600 font-medium w-full backdrop-blur-lg p-2;
 }
 
 .form-body {
