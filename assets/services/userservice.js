@@ -6,6 +6,7 @@ const login = function (username, password) {
         password
     };
 
+    console.log(payload)
     return axios.post("/api/authenticate", payload).then(response => {
         if (response.status !== 200) {
             const data = response.response.data;
@@ -22,7 +23,6 @@ function signup(user, code) {
     } else {
         url = '/api/user/signup/'+code
     }
-
 
     return axios.post(url, user).then(response => {
         if (response.status < 200 || response.status > 299) {

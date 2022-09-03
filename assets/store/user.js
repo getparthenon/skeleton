@@ -5,13 +5,17 @@ const state = {
     logged_in: (user === null),
     status: null,
     error_info: {
-        message: null,
+        has_error: false,
+        message: undefined,
     },
     redirect_page: undefined,
+    in_progress: false,
 }
 
 const actions = {
     login({ dispatch, commit }, { username, password }) {
+        console.log(username)
+
         commit('loginRequest', { username });
 
         userservice.login(username, password)
@@ -28,7 +32,6 @@ const actions = {
                     }
                 },
                 error => {
-                    console.log(error);
                     commit('loginFailure', error);
                 }
             );
@@ -44,15 +47,25 @@ const actions = {
 
 const mutations = {
     loginRequest(state, user) {
-        state.status = { loggingIn: true };
+        state.in_progress = true;
         state.user = user;
+        state.error_info = {
+            has_error: false,
+            message: undefined,
+        }
     },
     loginSuccess(state, user) {
+        state.in_progress = false;
         state.status = { loggedIn: true };
         state.user = user;
     },
     loginFailure(state, error) {
+        state.in_progress = false;
         state.status = {error: true};
+        state.error_info = {
+            has_error: true,
+            message: error
+        }
         state.user = null;
     },
 };
