@@ -7,7 +7,7 @@
         </div>
         <h1 class="h1 text-center">{{ $t('public.login.title') }}</h1>
         <div class="px-5 mt-2 mb-3" v-if="error_info.has_error">
-          <div class="bg-red-300 p-3 w-full border font-bold rounded-xl border-red-700 text-red-700 text-center">{{ error_info.message }}</div>
+          <div class="alert-error text-center">{{ error_info.message }}</div>
         </div>
         <div class="px-5 mb-3">
           <label class="block mb-1">{{ $t('public.login.email') }}</label>

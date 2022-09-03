@@ -50,3 +50,7 @@
 .animate-fade-out {
      animation: fadeOut 1s;
  }
+
+.alert-error {
+    @apply bg-red-300 p-3 w-full border font-bold rounded-xl border-red-700 text-red-700;
+}
