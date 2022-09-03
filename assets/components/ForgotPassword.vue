@@ -13,6 +13,7 @@
         <div class="px-5 mb-3">
           <label class="block mb-1">{{ $t('public.forgot_password.email') }}</label>
           <input type="text" class="input-field" v-model="email" />
+          <span class="block text-red-500" v-if="email_error !== undefined">{{ email_error }}</span>
         </div>
         <div class="px-5">
           <button type="submit" class="btn--main w-full" v-if="!in_progress">{{ $t('public.login.login_button') }}</button>
@@ -39,6 +40,22 @@ export default {
     return {
       error_info: {
         has_error: false
+      },
+      email: "",
+      email_error: undefined,
+    }
+  },
+  methods: {
+    handleSubmit: function () {
+      const email = this.email;
+      var hasError = false;
+      if (email === "") {
+        this.email_error = this.$t('public.forgot_password.email_error');
+        hasError = true;
+      }
+
+      if (hasError) {
+        return;
       }
     }
   }
