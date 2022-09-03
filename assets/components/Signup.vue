@@ -24,17 +24,27 @@
           <div class="px-5 mb-3">
             <label class="block mb-1">{{ $t('public.signup.email') }}</label>
             <input type="text" class="input-field" v-model="email" />
+            <span class="block text-red-500" v-if="email_error !== undefined">{{ email_error }}</span>
           </div>
           <div class="px-5 mb-3">
             <label class="block mb-1">{{ $t('public.signup.password') }}</label>
             <input type="password" class="input-field" v-model="password" />
+            <span class="block text-red-500" v-if="password_error !== undefined">{{ password_error }}</span>
           </div>
           <div class="px-5 mb-3">
             <label class="block mb-1">{{ $t('public.signup.password_confirm') }}</label>
             <input type="password" class="input-field" v-model="password_confirm" />
+            <span class="block text-red-500" v-if="password_confirm_error !== undefined">{{ password_confirm_error }}</span>
           </div>
-          <div class="px-5">
-            <button type="submit" class="btn--main w-full">{{ $t('public.signup.signup_button') }}</button>
+          <div class="px-5 pt-3">
+            <button type="submit" class="btn--main w-full" v-if="!in_process">{{ $t('public.signup.signup_button') }}</button>
+            <button type="submit" class="btn--main--disabled w-full cursor-not-allowed" v-else>
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              {{ $t('public.signup.signing_up') }}
+            </button>
           </div>
           <div class="mt-5 px-5 mb-3  text-center">
             <router-link :to="{name: 'public.login'}" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">{{ $t('public.signup.login_link') }}</router-link>
@@ -60,20 +70,48 @@ export default {
   data() {
     return {
       email: '',
+      email_error: undefined,
       password: '',
+      password_error: undefined,
       password_confirm: '',
+      password_confirm_error: undefined,
       error: '',
-      signing_up: true
+      signing_up: true,
+      in_process: false,
     }
   },
   methods: {
 
     handleSubmit (e) {
       this.submitted = true;
-      const { email, password } = this;
+      const { email, password, password_confirm } = this;
       var user = {email, password}
-      this.signing_up = false
-      /*
+      var hasError = false
+
+      this.email_error = undefined
+      this.password_error = undefined
+      this.password_confirm_error = undefined
+
+      if (email === "") {
+        this.email_error = this.$t('public.signup.email_error')
+        hasError = true;
+      }
+
+      if (password === "") {
+        this.password_error = this.$t('public.signup.password_error')
+        hasError = true;
+      } else if (password !== password_confirm) {
+        this.password_confirm_error = this.$t('public.signup.password_confirm_error')
+        hasError = true;
+      }
+
+      if (hasError) {
+
+        return;
+      }
+
+      this.in_process = true
+
       if (email && password) {
         userservice.signup(user, this.$route.params.code)
             .then(
@@ -86,7 +124,7 @@ export default {
                   this.error = error
                 }
             );
-      }*/
+      }
     }
   }
 }

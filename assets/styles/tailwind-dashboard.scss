@@ -17,10 +17,11 @@
 }
 
 .btn--main {
-  @apply p-3 font-medium rounded-xl bg-blue-600 text-white;
+  @apply p-3 font-medium rounded-xl bg-blue-600 text-white hover:bg-blue-500;
 }
-.btn--main:hover {
-  @apply p-3 font-medium rounded-xl bg-blue-500 text-white;
+
+.btn--main--disabled {
+  @apply p-3 font-medium rounded-xl bg-blue-700 text-white cursor-not-allowed;
 }
 
 .btn--secondary {
