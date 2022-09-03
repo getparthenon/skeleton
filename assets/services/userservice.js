@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const login = function (username, password) {
+function login(username, password) {
     const payload = {
         username,
         password
@@ -34,8 +34,20 @@ function signup(user, code) {
     });
 }
 
+function forgotPassword(email) {
+    return axios.post("/api/user/reset", {email}).then(response => {
+        if (response.status < 200 || response.status > 299) {
+            const data = response.response.data;
+            const error = (data && data.message) || data.error || data.errors || response.statusText;
+            return Promise.reject(error);
+        }
+        return response;
+    });
+}
+
 
 export const userservice = {
     login,
     signup,
+    forgotPassword,
 };

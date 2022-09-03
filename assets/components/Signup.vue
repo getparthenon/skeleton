@@ -120,7 +120,6 @@ export default {
                   this.signing_up = false
                 },
                 error => {
-                  console.log("error")
                   this.error = error
                 }
             );
