@@ -18,6 +18,9 @@ describe("userService", () => {
 
     beforeAll(() => {
         mock = new MockAdapter(axios);
+        axios.defaults.validateStatus = function () {
+            return true;
+        };
     });
 
     afterEach(() => {
@@ -43,9 +46,6 @@ describe("userService", () => {
 
             var code = "a-random-code";
 
-            axios.defaults.validateStatus = function () {
-                return true;
-            };
             mock.onGet(`/api/user/confirm/`+code).reply(400, {success: false, error: "Invalid code"});
 
             try {
@@ -53,6 +53,38 @@ describe("userService", () => {
                 fail("Didn't throw error")
             } catch (error) {
                 expect(mock.history.get[0].url).toEqual(`/api/user/confirm/`+code);
+                expect(error).toEqual("Invalid code");
+
+            }
+        });
+    })
+
+    describe("When doing reset password check", () => {
+        it("Should return response if successful", async () => {
+
+            var code = "a-random-code";
+
+            mock.onGet(`/api/user/reset/`+code).reply(200, {success: true});
+
+            // when
+            const result = await userservice.forgotPasswordCheck(code)
+
+            // then
+            expect(mock.history.get[0].url).toEqual(`/api/user/reset/`+code);
+            expect(result.data).toEqual({success: true});
+        });
+
+        it("Should return error", async () => {
+
+            var code = "a-random-code";
+
+            mock.onGet(`/api/user/reset/`+code).reply(400, {success: false, error: "Invalid code"});
+
+            try {
+                await  userservice.forgotPasswordCheck(code);
+                fail("Didn't throw error")
+            } catch (error) {
+                expect(mock.history.get[0].url).toEqual(`/api/user/reset/`+code);
                 expect(error).toEqual("Invalid code");
 
             }
