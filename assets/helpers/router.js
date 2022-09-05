@@ -1,11 +1,11 @@
 import {createRouter, createWebHistory} from 'vue-router'
 
 import axios from "axios";
-import Login from "../components/Login";
-import Signup from "../components/Signup";
-import ForgotPassword from "../components/ForgotPassword";
-import ForgotPasswordConfirm from "../components/ForgotPasswordConfirm";
-import ConfirmEmail from "../components/ConfirmEmail";
+import Login from "../views/Login";
+import Signup from "../views/Signup";
+import ForgotPassword from "../views/ForgotPassword";
+import ForgotPasswordConfirm from "../views/ForgotPasswordConfirm";
+import ConfirmEmail from "../views/ConfirmEmail";
 
 
 export const router = createRouter({

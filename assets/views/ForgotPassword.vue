@@ -19,7 +19,7 @@
       <form @submit.prevent="handleSubmit" v-if="!password_requested">
         <div class="p-5 form-body" :class="{'animate-shake': error_info.has_error}">
           <div class="w-full">
-            <img src="/images/logo.svg" alt="" class="m-auto" width="450" />
+            <PublicLogo />
           </div>
           <h1 class="h1 text-center">{{ $t('public.forgot_password.title') }}</h1>
           <div class="px-5 mt-2 mb-3" v-if="error_info.has_error">
@@ -58,9 +58,11 @@
 
 <script>
 import {userservice} from "../services/userservice";
+import PublicLogo from "../components/public/PublicLogo";
 
 export default {
   name: "ForgotPassword",
+  components: {PublicLogo},
   data() {
     return {
       error_info: {

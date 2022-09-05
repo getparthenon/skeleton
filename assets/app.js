@@ -8,7 +8,7 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 
-import App from "./components/App";
+import App from "./views/App";
 
 import {router} from "./helpers/router"
 import {store} from './store'

@@ -18,7 +18,7 @@
       <form @submit.prevent="handleSubmit" v-if="signing_up">
         <div class="p-5 form-body" :class="{'animate-shake': error_info.has_error}">
           <div class="w-full">
-            <img src="/images/logo.svg" alt="" class="m-auto" width="450" />
+            <PublicLogo />
           </div>
           <h1 class="h1 text-center">{{ $t('public.signup.title') }}</h1>
           <div class="px-5 mb-3">
@@ -64,9 +64,11 @@
 
 <script>
 import {userservice} from "../services/userservice";
+import PublicLogo from "../components/public/PublicLogo";
 
 export default {
   name: "Signup",
+  components: {PublicLogo},
   data() {
     return {
       email: '',
