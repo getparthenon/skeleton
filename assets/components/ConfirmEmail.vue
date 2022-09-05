@@ -16,7 +16,7 @@
 
         appear>
       <div v-if="has_error">
-        <div class="p-5 form-body">
+        <div class="p-5 form-body animate-shake">
           <div class="px-5 text-center">
             {{ $t('public.confirm_email.error_message') }}
           </div>
