@@ -16,7 +16,7 @@
           mode="out-in"
 
           appear>
-        <form @submit.prevent="handleSubmit" v-if="!password_requested">
+        <form @submit.prevent="handleSubmit" v-if="!successfully_progress">
           <div class="p-5 form-body">
             <div class="w-full">
               <img src="/images/logo.svg" alt="" class="m-auto" width="450" />
@@ -27,8 +27,13 @@
             </div>
             <div class="px-5 mb-3">
               <label class="block mb-1">{{ $t('public.forgot_password_confirm.password') }}</label>
-              <input type="text" class="input-field" v-model="password" />
+              <input type="password" class="input-field" v-model="password" />
               <span class="block text-red-500" v-if="password_error !== undefined">{{ password_error }}</span>
+            </div>
+            <div class="px-5 mb-3">
+              <label class="block mb-1">{{ $t('public.forgot_password_confirm.password_confirm') }}</label>
+              <input type="password" class="input-field" v-model="password_confirm" />
+              <span class="block text-red-500" v-if="password_confirm_error !== undefined">{{ password_confirm_error }}</span>
             </div>
             <div class="px-5">
               <button type="submit" class="btn--main w-full" v-if="!in_progress">{{ $t('public.forgot_password_confirm.reset_button') }}</button>
@@ -46,6 +51,10 @@
           <div class="p-5 form-body">
             <div class="px-5">
               {{ $t('public.forgot_password_confirm.success_message') }}
+
+            </div>
+            <div class="px-5 pt-2 text-center">
+              <router-link :to="{name: 'public.login'}" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">{{ $t('public.forgot_password_confirm.login_link') }}</router-link>
             </div>
           </div>
         </div>
@@ -65,6 +74,7 @@ export default {
       code: "",
       in_progress: false,
       password: "",
+      password_confirm: "",
       password_error: undefined,
       loaded: false,
       successfully_progress: false,
@@ -86,13 +96,45 @@ export default {
     )
   },
   methods: {
-    send: function () {
+    handleSubmit: function () {
       this.submitted = true;
+      this.password_error = undefined;
+      this.password_confirm_error = undefined;
+
+      var hasError = false;
+      var hasPassword = false;
 
       if (this.password === "") {
-        return
+        this.password_error = this.$t('public.forgot_password_confirm.password_error');
+        hasError = true;
+      } else if (this.password.length < 8) {
+        this.password_error = this.$t('public.forgot_password_confirm.password_length_error');
+        hasError = true;
+      } else {
+        hasPassword = true;
       }
 
+      if (this.password !== this.password_confirm) {
+        this.password_confirm_error = this.$t('public.forgot_password_confirm.password_confirm_error');
+        hasError = true;
+      }
+
+      if (hasError) {
+        return;
+      }
+      this.in_progress=true;
+      userservice.forgotPasswordConfirm(this.code, this.password).then(
+          response => {
+            this.successfully_progress = true;
+          },
+          error => {
+            this.in_progress = false;
+            this.error_info = {
+              has_error: true,
+              message: error
+            }
+          }
+      );
     }
   }
 }
