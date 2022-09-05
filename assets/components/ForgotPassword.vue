@@ -17,7 +17,7 @@
 
         appear>
       <form @submit.prevent="handleSubmit" v-if="!password_requested">
-        <div class="p-5 form-body">
+        <div class="p-5 form-body" :class="{'animate-shake': error_info.has_error}">
           <div class="w-full">
             <img src="/images/logo.svg" alt="" class="m-auto" width="450" />
           </div>

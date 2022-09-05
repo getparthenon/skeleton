@@ -16,7 +16,7 @@
 
         appear>
       <form @submit.prevent="handleSubmit" v-if="signing_up">
-        <div class="p-5 form-body">
+        <div class="p-5 form-body" :class="{'animate-shake': error_info.has_error}">
           <div class="w-full">
             <img src="/images/logo.svg" alt="" class="m-auto" width="450" />
           </div>
@@ -78,6 +78,9 @@ export default {
       error: '',
       signing_up: true,
       in_process: false,
+      error_info: {
+        has_error: false,
+      }
     }
   },
   methods: {
@@ -106,6 +109,7 @@ export default {
       }
 
       if (hasError) {
+        this.error_info = {has_error: true};
         return;
       }
 
