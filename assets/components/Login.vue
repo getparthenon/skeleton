@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-center h-screen login">
     <form @submit.prevent="handleSubmit">
-      <div class="p-5 form-body">
+      <div class="p-5 form-body" :class="{'animate-shake': error_info.has_error}">
         <div class="w-full">
           <img src="/images/logo.svg" alt="" class="m-auto" width="450" />
         </div>
@@ -57,11 +57,7 @@ export default {
     handleSubmit (e) {
       const username = this.email;
       const password = this.password;
-
-      if (username && password) {
-        console.log(username)
-        this.login( {username, password} )
-      }
+      this.login( {username, password} )
     }
   }
 }

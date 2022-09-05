@@ -19,6 +19,16 @@ const actions = {
 
         commit('loginRequest', { username });
 
+        if (username === "") {
+            commit('loginFailure', "A username must be provided");
+            return;
+        }
+
+        if (password === "") {
+            commit('loginFailure', "A password must be provided");
+            return;
+        }
+
         userservice.login(username, password)
             .then(
                 user => {

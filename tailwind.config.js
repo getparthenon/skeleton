@@ -7,12 +7,12 @@ module.exports = {
     extend: {
       keyframes: {
         shake: {
-          '0%, 20%, 40%, 60%, 80%, 100%': { transform: 'translate(-3px, 0px)' },
-          '10%, 30%, 50%, 70%, 90%': { transform: 'translate(3px, 0px)' },
+          '0%, 50%, 100%': { transform: 'translate(-3px, 0px)' },
+          '25%, 75%': { transform: 'translate(3px, 0px)' },
         }
       },
       animation: {
-        shake: 'shake 1s',
+        shake: 'shake 0.5s',
       },
       height: {
         '630px': '630px'
