@@ -48,12 +48,14 @@ describe("userService", () => {
             };
             mock.onGet(`/api/user/confirm/`+code).reply(400, {success: false, error: "Invalid code"});
 
-            userservice.confirmEmail(code).then(form => {}, error => {
-
+            try {
+                await  userservice.confirmEmail(code);
+                fail("Didn't throw error")
+            } catch (error) {
                 expect(mock.history.get[0].url).toEqual(`/api/user/confirm/`+code);
                 expect(error).toEqual("Invalid code");
-            });
 
+            }
         });
     });
 })
