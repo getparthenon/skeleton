@@ -106,7 +106,6 @@ export default {
       }
 
       if (hasError) {
-
         return;
       }
 

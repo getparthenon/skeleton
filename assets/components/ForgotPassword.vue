@@ -31,7 +31,7 @@
             <span class="block text-red-500" v-if="email_error !== undefined">{{ email_error }}</span>
           </div>
           <div class="px-5">
-            <button type="submit" class="btn--main w-full" v-if="!in_progress">{{ $t('public.login.login_button') }}</button>
+            <button type="submit" class="btn--main w-full" v-if="!in_progress">{{ $t('public.forgot_password.request_button') }}</button>
             <button type="submit" class="btn--main--disabled w-full cursor-not-allowed" v-else>
               <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

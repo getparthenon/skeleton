@@ -50,7 +50,6 @@ export default {
     }
   },
   computed: {
-
     ...mapState('user', ['status', 'error_info', 'in_progress'])
   },
   methods: {

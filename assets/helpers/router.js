@@ -5,6 +5,7 @@ import LandingPage from "../components/LandingPage";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 import ForgotPassword from "../components/ForgotPassword";
+import ForgotPasswordConfirm from "../components/ForgotPasswordConfirm";
 
 
 export const router = createRouter({
@@ -14,6 +15,7 @@ export const router = createRouter({
         { path: '/login', name: 'public.login', component: Login },
         { path: '/signup', name: 'public.signup', component: Signup },
         { path: '/forgot-password', name: 'public.forgot_password', component: ForgotPassword },
+        { path: '/forgot-password/:code', name: 'public.forgot_password_confirm', component: ForgotPasswordConfirm },
         // otherwise redirect to home
         { path: '/:pathMatch(.*)/', redirect: '/' }
     ]

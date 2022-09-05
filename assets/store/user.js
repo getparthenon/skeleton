@@ -10,6 +10,7 @@ const state = {
     },
     redirect_page: undefined,
     in_progress: false,
+    successfully_progress: false,
 }
 
 const actions = {
@@ -36,6 +37,9 @@ const actions = {
                 }
             );
     },
+    resetPassword({ dispatch, commit }, { password }) {
+
+    },
     logout({ commit }) {
         commit('logout');
     },
@@ -58,6 +62,7 @@ const mutations = {
         state.in_progress = false;
         state.status = { loggedIn: true };
         state.user = user;
+        state.successfully_progress = true;
     },
     loginFailure(state, error) {
         state.in_progress = false;
@@ -68,6 +73,9 @@ const mutations = {
         }
         state.user = null;
     },
+    resetPasswordRequest(state) {
+        state.in_progress = true;
+    }
 };
 
 export const user = {
