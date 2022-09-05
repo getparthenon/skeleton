@@ -1,7 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 
 import axios from "axios";
-import LandingPage from "../components/LandingPage";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 import ForgotPassword from "../components/ForgotPassword";
@@ -12,14 +11,13 @@ import ConfirmEmail from "../components/ConfirmEmail";
 export const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/', component: LandingPage },
         { path: '/login', name: 'public.login', component: Login },
         { path: '/signup', name: 'public.signup', component: Signup },
         { path: '/forgot-password', name: 'public.forgot_password', component: ForgotPassword },
         { path: '/forgot-password/:code', name: 'public.forgot_password_confirm', component: ForgotPasswordConfirm },
         { path: '/confirm-email/:code', name: 'public.confirm_email', component: ConfirmEmail },
         // otherwise redirect to home
-        { path: '/:pathMatch(.*)/', redirect: '/' }
+        { path: '/:pathMatch(.*)/', redirect: '/login' }
     ]
 });
 
