@@ -38,9 +38,13 @@ function forgotPassword(email) {
     return axios.post("/api/user/reset", {email}).then(handleResponse);
 }
 
+function confirmEmail(code)
+{
+    return axios.get(`/api/user/confirm/`+code, {headers:{ 'Content-Type': 'application/json' }, data: {}}).then(handleResponse);
+}
+
 function forgotPasswordCheck(code)
 {
-    console.log("here")
     return axios.get(`/api/user/reset/`+code, {headers:{ 'Content-Type': 'application/json' }, data: {}}).then(handleResponse);
 }
 
@@ -50,6 +54,9 @@ function forgotPasswordConfirm(code, password)
 }
 
 function handleResponse(response) {
+    if (response.name === 'AxiosError') {
+        response = response.response;
+    }
          if (response.status < 200 || response.status > 299) {
             const data = response.response.data;
             const error = (data && data.message) || data.error || data.errors || response.statusText;
@@ -65,4 +72,5 @@ export const userservice = {
     forgotPassword,
     forgotPasswordCheck,
     forgotPasswordConfirm,
+    confirmEmail,
 };
