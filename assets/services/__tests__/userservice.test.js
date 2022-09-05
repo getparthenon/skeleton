@@ -38,5 +38,22 @@ describe("userService", () => {
             expect(mock.history.get[0].url).toEqual(`/api/user/confirm/`+code);
             expect(result.data).toEqual({success: true});
         });
+
+        it("Should return error", async () => {
+
+            var code = "a-random-code";
+
+            axios.defaults.validateStatus = function () {
+                return true;
+            };
+            mock.onGet(`/api/user/confirm/`+code).reply(400, {success: false, error: "Invalid code"});
+
+            userservice.confirmEmail(code).then(form => {}, error => {
+
+                expect(mock.history.get[0].url).toEqual(`/api/user/confirm/`+code);
+                expect(error).toEqual("Invalid code");
+            });
+
+        });
     });
 })
