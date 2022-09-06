@@ -15,21 +15,24 @@ import {store} from './store'
 import { createApp } from "vue";
 import {ENGLISH_TRANSLATIONS} from "./translations/en";
 import {createI18n} from "vue-i18n";
+import ParthenonMenu from "./modules/parthernon-menu";
 
 const TRANSLATIONS = {
     en: ENGLISH_TRANSLATIONS
-}
+};
+
 const i18n = createI18n({
     locale: 'en',
     messages: TRANSLATIONS,
-})
+});
 
 var app = createApp(
     App
-)
+);
 
-app.use(router)
-app.use(i18n)
-app.use(store)
+app.use(router);
+app.use(i18n);
+app.use(store);
+app.use(ParthenonMenu);
 
 app.mount('#app');

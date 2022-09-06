@@ -1,6 +1,6 @@
-import Menu from "./compoents/Menu";
-import MenuGroup from "./compoents/MenuGroup";
-import MenuItem from "./compoents/MenuItem";
+import Menu from "./components/Menu";
+import MenuGroup from "./components/MenuGroup";
+import MenuItem from "./components/MenuItem";
 
 const ParthenonMenu = {
     install(Vue, options) {

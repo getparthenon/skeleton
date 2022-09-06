@@ -54,3 +54,11 @@
 .alert-error {
     @apply bg-red-300 p-3 w-full border font-bold rounded-xl border-red-700 text-red-700;
 }
+
+.menu-group-title {
+    @apply font-medium text-xl text-slate-900;
+}
+
+.menu-group-list {
+    @apply ml-2 hover:bg-slate-100 rounded p-2;
+}
