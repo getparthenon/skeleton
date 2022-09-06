@@ -15,7 +15,6 @@ const state = {
 
 const actions = {
     login({ dispatch, commit }, { username, password }) {
-        console.log(username)
 
         commit('loginRequest', { username });
 

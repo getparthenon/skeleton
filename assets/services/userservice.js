@@ -6,7 +6,6 @@ function login(username, password) {
         password
     };
 
-    console.log(payload)
     return axios.post("/api/authenticate", payload).then(handleResponse)
 }
 

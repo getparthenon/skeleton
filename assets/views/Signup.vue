@@ -121,7 +121,6 @@ export default {
         userservice.signup(user, this.$route.params.code)
             .then(
                 user => {
-                  console.log("Signed up")
                   this.signing_up = false
                 },
                 error => {
