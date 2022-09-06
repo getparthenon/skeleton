@@ -90,4 +90,37 @@ describe("userService", () => {
             }
         });
     });
+
+    describe("When sending the new password during the reset password", () => {
+        it("Should return response if successful", async () => {
+
+            var code = "a-random-code";
+            var newPassword = "a-new-password";
+            mock.onPost(`/api/user/reset/`+code, {password: newPassword}).reply(200, {success: true});
+
+            // when
+            const result = await userservice.forgotPasswordConfirm(code, newPassword)
+
+            // then
+            expect(mock.history.post[0].url).toEqual(`/api/user/reset/`+code);
+            expect(result.data).toEqual({success: true});
+        });
+
+        it("Should return error", async () => {
+
+            var code = "a-random-code";
+            var newPassword = "a-new-password";
+
+            mock.onPost(`/api/user/reset/`+code, {password: newPassword}).reply(400, {success: false, error: "Invalid code"});
+
+            try {
+                await  userservice.forgotPasswordConfirm(code, newPassword);
+                fail("Didn't throw error")
+            } catch (error) {
+                expect(mock.history.post[0].url).toEqual(`/api/user/reset/`+code);
+                expect(error).toEqual("Invalid code");
+
+            }
+        });
+    });
 })
