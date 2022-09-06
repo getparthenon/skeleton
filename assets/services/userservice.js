@@ -7,13 +7,7 @@ function login(username, password) {
     };
 
     console.log(payload)
-    return axios.post("/api/authenticate", payload).then(response => {
-        if (response.status !== 200) {
-            const data = response.response.data;
-            const error = (data && data.message) || data.error || data.errors || response.statusText;
-            return Promise.reject(error);
-        }
-    })
+    return axios.post("/api/authenticate", payload).then(handleResponse)
 }
 
 function signup(user, code) {
@@ -25,14 +19,7 @@ function signup(user, code) {
         url = '/api/user/signup/' + code
     }
 
-    return axios.post(url, user).then(response => {
-        if (response.status < 200 || response.status > 299) {
-            const data = response.response.data;
-            const error = (data && data.message) || data.error || data.errors || response.statusText;
-            return Promise.reject(error);
-        }
-        return response;
-    });
+    return axios.post(url, user).then(handleResponse);
 }
 
 function forgotPassword(email) {
