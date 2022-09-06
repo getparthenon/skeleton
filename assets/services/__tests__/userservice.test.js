@@ -123,4 +123,37 @@ describe("userService", () => {
             }
         });
     });
+
+    describe("When starting the forgot password process", () => {
+        it("Should return response if successful", async () => {
+
+            var code = "a-random-code";
+            var email = "iain.cambridge@example.org";
+            mock.onPost(`/api/user/reset`, {email}).reply(200, {success: true});
+
+            // when
+            const result = await userservice.forgotPassword( email)
+
+            // then
+            expect(mock.history.post[0].url).toEqual(`/api/user/reset`);
+            expect(result.data).toEqual({success: true});
+        });
+
+        it("Should return error", async () => {
+
+            var code = "a-random-code";
+            var email = "iain.cambridge@example.org";
+
+            mock.onPost(`/api/user/reset`, {email}).reply(400, {success: false, error: "Invalid code"});
+
+            try {
+                await  userservice.forgotPassword(email);
+                fail("Didn't throw error")
+            } catch (error) {
+                expect(mock.history.post[0].url).toEqual(`/api/user/reset`);
+                expect(error).toEqual("Invalid code");
+
+            }
+        });
+    });
 })
