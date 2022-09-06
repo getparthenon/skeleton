@@ -234,4 +234,42 @@ describe("userService", () => {
             }
         });
     });
+
+    describe("The login", () => {
+        it("Should return response if successful", async () => {
+
+            var user =  {
+                username: "iain.cambridge@example.org",
+                password: "a-password"
+            };
+
+            mock.onPost(`/api/authenticate`, user).reply(200, {success: true});
+
+            // when
+            const result = await userservice.login(user.username, user.password);
+
+            // then
+            expect(mock.history.post[0].url).toEqual(`/api/authenticate`);
+            expect(result.data).toEqual({success: true});
+        });
+
+        it("Should return error", async () => {
+
+            var user =  {
+                username: "iain.cambridge@example.org",
+                password: "a-password"
+            };
+
+            mock.onPost(`/api/authenticate`, user).reply(400, {success: false, error: "Invalid code"});
+
+            try {
+                await  userservice.login(user.username, user.password);
+                fail("Didn't throw error")
+            } catch (error) {
+                expect(mock.history.post[0].url).toEqual(`/api/authenticate`);
+                expect(error).toEqual("Invalid code");
+
+            }
+        });
+    });
 })
