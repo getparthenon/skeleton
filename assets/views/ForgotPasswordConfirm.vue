@@ -102,7 +102,7 @@ export default {
       this.submitted = true;
       this.password_error = undefined;
       this.password_confirm_error = undefined;
-
+      this.error_info = {has_error: false, message: undefined};
       var hasError = false;
       var hasPassword = false;
 
