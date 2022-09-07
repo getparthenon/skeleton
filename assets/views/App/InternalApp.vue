@@ -1,6 +1,7 @@
 <template>
   <div class="lg:flex  main-background">
     <div class="dashboard-sidebar menu-background">
+      <AppLogo />
       <Menu>
         <MenuGroup :name="$t('app.menu.main.title')">
           <MenuItem route-name="app.home"><i class="fa-solid fa-house"></i> {{ $t('app.menu.main.home') }}</MenuItem>
@@ -16,8 +17,10 @@
 </template>
 
 <script>
+import AppLogo from "../../components/app/AppLogo";
 export default {
-  name: "InternalApp"
+  name: "InternalApp",
+  components: {AppLogo}
 }
 </script>
 
