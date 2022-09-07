@@ -4,6 +4,7 @@
       <Menu>
         <MenuGroup :name="$t('app.menu.main.title')">
           <MenuItem route-name="app.home"><i class="fa-solid fa-house"></i> {{ $t('app.menu.main.home') }}</MenuItem>
+          <MenuItem route-name="app.team"><i class="fa-solid fa-user"></i> {{ $t('app.menu.main.team') }}</MenuItem>
         </MenuGroup>
       </Menu>
     </div>
