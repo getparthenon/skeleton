@@ -17,6 +17,8 @@ import {ENGLISH_TRANSLATIONS} from "./translations/en";
 import {createI18n} from "vue-i18n";
 import ParthenonMenu from "./modules/parthernon-menu";
 
+import '@fortawesome/fontawesome-free/css/all.css'
+
 const TRANSLATIONS = {
     en: ENGLISH_TRANSLATIONS
 };
