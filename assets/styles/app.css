@@ -78,3 +78,51 @@
 .dashboard-sidebar {
     @apply flex flex-col lg:w-80 sticky top-0 left-0 lg:h-screen px-4 py-8 overflow-y-auto lg:shadow-md bg-white;
 }
+
+.page-title {
+    @apply text-3xl;
+}
+
+.card-body {
+    @apply rounded-xl bg-white p-5 w-full shadow;
+}
+
+
+.h1 {
+    @apply text-2xl font-medium;
+}
+
+.h2 {
+    @apply text-xl font-medium;
+}
+
+.h3 {
+    @apply text-xl font-medium;
+}
+
+.btn--main {
+    @apply p-3 font-medium rounded-xl bg-blue-600 text-white hover:bg-blue-500;
+}
+
+.btn--main--disabled {
+    @apply p-3 font-medium rounded-xl bg-blue-700 text-white cursor-not-allowed;
+}
+
+.btn--secondary {
+    @apply p-3 font-medium rounded-xl border-blue-500 text-blue-500 bg-transparent;
+}
+
+.btn--secondary:hover {
+    @apply bg-blue-500 text-white;
+}
+
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}

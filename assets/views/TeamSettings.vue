@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h1 class="header-title">{{ $t('app.team.main.title') }}</h1>
+    <h1 class="page-title">{{ $t('app.team.main.title') }}</h1>
+
+    <div class="card-body">
+      Test
+    </div>
   </div>
 </template>
 
