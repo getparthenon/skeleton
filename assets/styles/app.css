@@ -62,3 +62,7 @@
 .menu-group-list {
     @apply ml-2 hover:bg-slate-100 rounded p-2;
 }
+
+.main-background {
+    background-color: #f7fbff;
+}
