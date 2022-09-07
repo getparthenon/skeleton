@@ -56,13 +56,25 @@
 }
 
 .menu-group-title {
-    @apply font-medium text-xl text-slate-900;
+    @apply font-medium text-xl text-slate-900 mb-3;
 }
 
-.menu-group-list {
-    @apply ml-2 hover:bg-slate-100 rounded p-2;
+.menu-item {
+    @apply my-3;
+}
+
+.menu-link {
+    @apply pl-2 hover:bg-slate-200 rounded-xl p-2 w-full inline-block;
+}
+
+.router-link-active {
+    @apply bg-slate-100;
 }
 
 .main-background {
     background-color: #f7fbff;
+}
+
+.dashboard-sidebar {
+    @apply flex flex-col lg:w-80 sticky top-0 left-0 lg:h-screen px-4 py-8 overflow-y-auto lg:shadow-md bg-white;
 }
