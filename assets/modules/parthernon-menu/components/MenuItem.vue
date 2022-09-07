@@ -1,6 +1,6 @@
 <template>
-  <li>
-    <router-link :to="{name: routeName, ...routeOptions}">{{ linkText }}</router-link>
+  <li :class="itemClass">
+    <router-link :to="{name: routeName, ...routeOptions}" :class="linkClass"><slot></slot></router-link>
   </li>
 </template>
 
@@ -12,14 +12,22 @@ export default {
       type: String,
       required: true,
     },
-    linkText: {
-      type: String,
-      required: true,
-    },
     routeOptions: {
       type: Object,
       default() {
         return {};
+      }
+    },
+    linkClass: {
+      type: [String, Object],
+      default() {
+        return "menu-link";
+      }
+    },
+    itemClass: {
+      type: [String, Object],
+      default() {
+        return "menu-item";
       }
     },
   }

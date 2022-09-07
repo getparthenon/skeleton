@@ -3,7 +3,7 @@
     <div class="flex flex-col lg:w-80 sticky top-0 left-0 lg:h-screen px-4 py-8 overflow-y-auto lg:shadow-md menu-background">
       <Menu>
         <MenuGroup :name="$t('app.menu.main.title')">
-          <MenuItem route-name="app.home" :link-text="$t('app.menu.main.home')" />
+          <MenuItem route-name="app.home">{{ $t('app.menu.main.home') }}</MenuItem>
         </MenuGroup>
       </Menu>
     </div>
