@@ -105,7 +105,7 @@
 }
 
 .btn--main--disabled {
-    @apply p-3 font-medium rounded-xl bg-blue-700 text-white cursor-not-allowed;
+    @apply p-3 font-medium rounded-xl bg-blue-400 text-white cursor-not-allowed;
 }
 
 .btn--secondary {
@@ -129,4 +129,8 @@
 
 .top-button-container {
     @apply mb-4 text-end;
+}
+
+.form-input-field {
+    @apply p-2 border rounded-xl;
 }
