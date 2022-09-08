@@ -15,12 +15,14 @@ const actions = {
         commit('showInviteFormDisable');
     },
     sendInvite({commit}, {email}) {
+
+        commit('startInviteProcess');
+
         if (email === "" || email === undefined || email === null) {
             commit('inviteError', 'An email must be provided')
             return;
         }
 
-        commit('startInviteProcess');
         teamservice.invite(email).then(
             result => {
                 commit('inviteSent');

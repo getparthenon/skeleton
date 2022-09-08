@@ -24,10 +24,11 @@
           appear>
         <div class="" v-if="!successfully_processed">
           <div class="items-center justify-content-center">
-            <form @submit.prevent="handleSubmit">
-              <div class="alert-error text-center" v-if="invite_error !== undefined">
-                {{ invite_error }}
-              </div>
+            <div class="alert-error text-center" v-if="invite_error !== undefined">
+              {{ invite_error }}
+            </div>
+            <form @submit.prevent="handleSubmit" :class="{'animate-shake': invite_error !== undefined}">
+
               <div class="form-field text-center my-4">
                 <label for="user_email" class="mr-3 font-medium">{{ $t('app.team.invite.email') }}</label>
                 <input type="email" id="user_email" v-model="email" class="form-input-field" />
