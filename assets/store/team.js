@@ -5,6 +5,9 @@ const state = {
     invite_sending_in_progress: false,
     invite_successfully_processed: false,
     invite_error: undefined,
+    sent_invites: [],
+    members: [],
+    team_error: undefined,
 }
 
 const actions = {
@@ -35,10 +38,25 @@ const actions = {
                 commit('inviteError', error)
             }
         )
+    },
+    loadTeamInfo({commit}) {
+        teamservice.getTeam().then(result => {
+                commit("setTeamInfo", result.sent_invites, result.members);
+            },
+            error => {
+                commit("setTeamError", error);
+            })
     }
 }
 
 const mutations = {
+    setTeamInfo(state, sent_invites, members) {
+        state.sent_invites = sent_invites;
+        state.members = members;
+    },
+    setTeamError(state, error) {
+        state.team_error = error
+    },
     resetInvite(state) {
         state.invite_successfully_processed = false;
         state.invite_error = undefined;

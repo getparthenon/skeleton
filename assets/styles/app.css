@@ -108,6 +108,15 @@
     @apply p-3 font-medium rounded-xl bg-blue-400 text-white cursor-not-allowed;
 }
 
+.btn--danger {
+    @apply p-3 font-medium rounded-xl bg-red-600 text-white hover:bg-red-500;
+}
+
+.btn--danger-disabled {
+    @apply p-3 font-medium rounded-xl bg-red-300 text-white cursor-not-allowed;
+}
+
+
 .btn--secondary {
     @apply p-3 font-medium rounded-xl border-blue-500 text-blue-500 bg-transparent;
 }

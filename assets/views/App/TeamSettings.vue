@@ -9,25 +9,30 @@
     <TeamInvite v-if="show_invite_form" />
 
     <div class="card-body">
-      Test
+      {{ sent_invites }}
     </div>
+
+    <TeamPendingInvites />
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
 import TeamInvite from "../../components/app/Team/TeamInvite";
+import TeamPendingInvites from "../../components/app/Team/TeamPendingInvites";
 
 export default {
   name: "TeamSettings",
-  components: {TeamInvite},
+  components: {TeamPendingInvites, TeamInvite},
   computed: {
-    ...mapState('teamStore', ['show_invite_form'])
+    ...mapState('teamStore', ['show_invite_form', 'sent_invites', 'members'])
+  },
+  mounted() {
+    this.loadTeamInfo()
   },
   methods: {
-    ...mapActions('teamStore', ['showInviteForm']),
+    ...mapActions('teamStore', ['showInviteForm', 'loadTeamInfo']),
     displayInviteForm: function () {
-      console.log("Here")
       this.showInviteForm()
     }
   }

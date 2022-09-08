@@ -8,6 +8,13 @@ function invite(email) {
             if (response.name === 'AxiosError') {
                 response = response.response;
             }
+
+            if (response.status < 200 || response.status > 299) {
+                const data = response.data;
+                const error = (data && data.message) || data.error || data.errors || response.statusText;
+                return Promise.reject(error);
+            }
+
             if (response.data !== undefined && !response.data.success) {
                 if (response.data.already_invited) {
                     return Promise.reject("User already invited");
@@ -16,12 +23,26 @@ function invite(email) {
                 } else {
                     return Promise.reject("There was an unexpected error. Please try later.");
                 }
+            } else {
+                return Promise.reject("There was an unexpected error. Please try later.");
             }
 
             return response;
     });
 }
 
+function getTeam() {
+    return axios.get("/api/user/team")
+        .then(handleResponse)
+        .then((result) => {
+            return {
+                sent_invites: result.data.sent_invites,
+                members: result.data.members,
+            };
+        })
+}
+
 export const teamservice = {
     invite,
+    getTeam,
 };
