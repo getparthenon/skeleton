@@ -18,7 +18,7 @@ function invite(email) {
                 }
             }
 
-            return result;
+            return response;
     });
 }
 

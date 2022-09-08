@@ -22,7 +22,7 @@
           mode="out-in"
 
           appear>
-        <div class="" v-if="!successfully_processed">
+        <div class="" v-if="!invite_successfully_processed">
           <div class="items-center justify-content-center">
             <div class="alert-error text-center" v-if="invite_error !== undefined">
               {{ invite_error }}
@@ -47,7 +47,8 @@
           </div>
         </div>
         <div v-else class="text-center">
-          <p class="text-center">{{ $t('app.team.invite.invite_successfully_sent') }}</p>
+          <p class="text-center mb-2">{{ $t('app.team.invite.invite_successfully_sent') }}</p>
+          <button class="btn--main" @click="reset">{{ $t('app.team.invite.send_another') }}</button>
         </div>
       </transition>
     </div>
@@ -68,10 +69,13 @@ export default {
     ...mapState('teamStore', ['invite_successfully_processed', 'invite_sending_in_progress', 'invite_successfully_processed', 'invite_error']),
   },
   methods: {
-    ...mapActions('teamStore', ['hideInviteForm', 'sendInvite']),
+    ...mapActions('teamStore', ['hideInviteForm', 'sendInvite', 'sendAnother']),
     handleSubmit: function () {
       this.sendInvite({email: this.email})
-
+    },
+    reset: function () {
+      this.email = "";
+      this.sendAnother();
     }
   }
 }

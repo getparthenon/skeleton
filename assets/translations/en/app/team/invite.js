@@ -4,5 +4,6 @@ export const TEAM_INVITE_TRANSLATIONS = {
     email: "Email",
     invite_successfully_sent: "The invite has successfully been sent.",
     send: "Send Invite",
-    sending: "Sending"
+    sending: "Sending",
+    send_another: "Send Another",
 }

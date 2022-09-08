@@ -14,6 +14,9 @@ const actions = {
     hideInviteForm({commit}) {
         commit('showInviteFormDisable');
     },
+    sendAnother({commit}) {
+        commit('resetInvite')
+    },
     sendInvite({commit}, {email}) {
 
         commit('startInviteProcess');
@@ -36,6 +39,10 @@ const actions = {
 }
 
 const mutations = {
+    resetInvite(state) {
+        state.invite_successfully_processed = false;
+        state.invite_error = undefined;
+    },
     showInviteFormEnable(state) {
         state.show_invite_form = true;
     },
