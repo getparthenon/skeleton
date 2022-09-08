@@ -6,4 +6,5 @@ export const LOGIN_TRANSLATIONS = {
     remember_me_label: "Remember me",
     forgot_password_link: "Forgot your password?",
     signup_link: "Sign up for an account",
+    logging_in: "Logging In"
 }
