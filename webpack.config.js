@@ -22,11 +22,6 @@ Encore
     .cleanupOutputBeforeBuild()
     .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
-    .configureBabel(() => {
-    }, {
-        useBuiltIns: 'usage',
-        corejs: 3
-    })
     .enableSassLoader(sassOptions => {
     }, {
         resolveUrlLoader: false

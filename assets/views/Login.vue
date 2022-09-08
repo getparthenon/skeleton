@@ -52,10 +52,10 @@ export default {
     }
   },
   computed: {
-    ...mapState('user', ['status', 'error_info', 'in_progress'])
+    ...mapState('userStore', ['status', 'error_info', 'in_progress'])
   },
   methods: {
-    ...mapActions('user', ['login', 'logout']),
+    ...mapActions('userStore', ['login', 'logout']),
     handleSubmit (e) {
       const username = this.email;
       const password = this.password;

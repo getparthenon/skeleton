@@ -1,5 +1,5 @@
 import Dashboard from "../views/App/Dashboard";
-import TeamSettings from "../views/TeamSettings";
+import TeamSettings from "../views/App/TeamSettings";
 
 // All paths have the prefix /app/.
 export const APP_ROUTES = [

@@ -1,8 +1,9 @@
 import { router } from "../helpers/router";
 import { userservice } from "../services/userservice";
 
+const userData = localStorage.getItem('user');
 const state = {
-    logged_in: (user === null),
+    logged_in: (userData === null),
     status: null,
     error_info: {
         has_error: false,
@@ -87,7 +88,7 @@ const mutations = {
     }
 };
 
-export const user = {
+export const userStore = {
     namespaced: true,
     state,
     actions,
