@@ -5,12 +5,25 @@ const state = {
     invite_sending_in_progress: false,
     invite_successfully_processed: false,
     invite_error: undefined,
+    current_invite: undefined,
+    cancel_invite_in_progress: false,
     sent_invites: [],
     members: [],
     team_error: undefined,
 }
 
 const actions = {
+    cancelInvite({commit}, {invite}) {
+        commit('startCancelInvite', invite);
+        teamservice.cancelInvite(invite).then(
+            result => {
+                commit('removeInvite', invite);
+            },
+            error => {
+                commit('setTeamError', error);
+            }
+        )
+    },
     showInviteForm({commit}) {
         commit('showInviteFormEnable');
     },
@@ -50,6 +63,18 @@ const actions = {
 }
 
 const mutations = {
+    startCancelInvite(state, invite) {
+        state.current_invite = invite;
+        state.cancel_invite_in_progress = true;
+    },
+    removeInvite(state, invite) {
+        const invites = state.sent_invites;
+        const index = invites.indexOf(invite);
+        invites.splice(index, 1);
+
+        state.current_invite = undefined;
+        state.cancel_invite_in_progress = false;
+    },
     setTeamInfo(state, sent_invites, members) {
         state.sent_invites = sent_invites;
         state.members = members;

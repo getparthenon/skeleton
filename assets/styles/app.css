@@ -112,7 +112,7 @@
     @apply p-3 font-medium rounded-xl bg-red-600 text-white hover:bg-red-500;
 }
 
-.btn--danger-disabled {
+.btn--danger--disabled {
     @apply p-3 font-medium rounded-xl bg-red-300 text-white cursor-not-allowed;
 }
 

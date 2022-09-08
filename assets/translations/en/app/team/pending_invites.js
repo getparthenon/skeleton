@@ -3,5 +3,6 @@ export const TEAM_PENDING_INVITES_TRANSLATIONS = {
     none: "There are no pending invites",
     email: "Email",
     invited_at: "Invited At",
-    disable: "Disable"
+    cancel: "Cancel",
+    cancelling: "Cancelling",
 }
