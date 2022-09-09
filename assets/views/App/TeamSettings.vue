@@ -8,9 +8,7 @@
 
     <TeamInvite v-if="show_invite_form" />
 
-    <div class="card-body">
-      {{ sent_invites }}
-    </div>
+    <TeamMembers />
 
     <TeamPendingInvites />
   </div>
@@ -20,10 +18,11 @@
 import { mapState, mapActions } from 'vuex';
 import TeamInvite from "../../components/app/Team/TeamInvite";
 import TeamPendingInvites from "../../components/app/Team/TeamPendingInvites";
+import TeamMembers from "../../components/app/Team/TeamMembers";
 
 export default {
   name: "TeamSettings",
-  components: {TeamPendingInvites, TeamInvite},
+  components: {TeamMembers, TeamPendingInvites, TeamInvite},
   computed: {
     ...mapState('teamStore', ['show_invite_form', 'sent_invites', 'members'])
   },

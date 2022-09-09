@@ -2,6 +2,7 @@ import { router } from "../helpers/router";
 import { userservice } from "../services/userservice";
 
 const userData = localStorage.getItem('user');
+
 const state = {
     logged_in: (userData === null),
     status: null,
@@ -9,6 +10,7 @@ const state = {
         has_error: false,
         message: undefined,
     },
+    user: JSON.parse(userData),
     redirect_page: undefined,
     in_progress: false,
     successfully_progress: false,
@@ -32,7 +34,8 @@ const actions = {
         userservice.login(username, password)
             .then(
                 user => {
-                    commit('loginSuccess', user);
+                    commit('loginSuccess', user.data);
+                    localStorage.setItem('user', JSON.stringify(user.data));
 
                     const url = localStorage.getItem('app_redirect')
                     if (url === null) {

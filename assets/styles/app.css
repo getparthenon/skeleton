@@ -143,3 +143,11 @@
 .form-input-field {
     @apply p-2 border rounded-xl;
 }
+
+.badge--green {
+    @apply text-white font-bold bg-green-500 p-2 rounded-xl;
+}
+
+.badge--red {
+    @apply text-white font-bold bg-red-500 p-2 rounded-xl;
+}

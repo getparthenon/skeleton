@@ -10,6 +10,8 @@ const state = {
     sent_invites: [],
     members: [],
     team_error: undefined,
+    disable_member_in_progress: false,
+    current_member: undefined,
 }
 
 const actions = {
@@ -18,6 +20,17 @@ const actions = {
         teamservice.cancelInvite(invite).then(
             result => {
                 commit('removeInvite', invite);
+            },
+            error => {
+                commit('setTeamError', error);
+            }
+        )
+    },
+    disableMember({commit}, {member}) {
+        commit('startDisableMember', member);
+        teamservice.disableMember(member).then(
+            result => {
+                commit('markMemberAsDisabled', member);
             },
             error => {
                 commit('setTeamError', error);
@@ -54,7 +67,7 @@ const actions = {
     },
     loadTeamInfo({commit}) {
         teamservice.getTeam().then(result => {
-                commit("setTeamInfo", result.sent_invites, result.members);
+                commit("setTeamInfo", result);
             },
             error => {
                 commit("setTeamError", error);
@@ -63,6 +76,15 @@ const actions = {
 }
 
 const mutations = {
+    startDisableMember(state, member) {
+        state.disable_member_in_progress = true;
+        state.current_member = member;
+    },
+    markMemberAsDisabled(state, member) {
+        state.disable_member_in_progress = false;
+        const index = state.members.indexOf(member);
+        state.members[index].is_deleted = true;
+    },
     startCancelInvite(state, invite) {
         state.current_invite = invite;
         state.cancel_invite_in_progress = true;
@@ -75,12 +97,14 @@ const mutations = {
         state.current_invite = undefined;
         state.cancel_invite_in_progress = false;
     },
-    setTeamInfo(state, sent_invites, members) {
-        state.sent_invites = sent_invites;
-        state.members = members;
+    setTeamInfo(state, result) {
+        state.sent_invites = result.sent_invites;
+        state.members = result.members;
     },
     setTeamError(state, error) {
-        state.team_error = error
+        state.team_error = error;
+        state.cancel_invite_in_progress = false;
+        state.invite_sending_in_progress = false;
     },
     resetInvite(state) {
         state.invite_successfully_processed = false;

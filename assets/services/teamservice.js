@@ -39,16 +39,20 @@ function getTeam() {
                 sent_invites: result.data.sent_invites,
                 members: result.data.members,
             };
-        })
+        });
 }
 
 function cancelInvite(invite) {
-    console.log(invite);
-    return axios.post("/api/user/team/invite/"+invite.id+"/cancel").then(handleResponse)
+    return axios.post("/api/user/team/invite/"+invite.id+"/cancel").then(handleResponse);
+}
+
+function disableMember(member) {
+    return axios.post("/api/user/team/member/"+member.id+"/disable").then(handleResponse);
 }
 
 export const teamservice = {
     invite,
     getTeam,
     cancelInvite,
+    disableMember,
 };
