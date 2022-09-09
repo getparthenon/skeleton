@@ -2,6 +2,7 @@ export const MENU_TRANSLATIONS = {
     main: {
         title: "Main",
         home: "Home",
-        team: "Team Settings"
+        team: "Team Settings",
+        plan: "Plan"
     }
 }

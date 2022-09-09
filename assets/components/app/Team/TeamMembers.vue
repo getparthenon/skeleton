@@ -1,6 +1,5 @@
 <template>
   <div class="card-body">
-
     <table class="w-full">
       <thead>
         <tr>
@@ -9,7 +8,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-if="members.length == 0">
+        <tr v-if="members.length === 0">
           <td colspan="3" class="text-center">{{ $t('app.team.members.no_members') }}</td>
         </tr>
         <tr v-for="member in members">
