@@ -16,7 +16,7 @@ export const APP_ROUTES = [
     },
     {
         name: 'app.plan',
-        path: "plah",
+        path: "plan",
         component: Plan
     }
 ]
