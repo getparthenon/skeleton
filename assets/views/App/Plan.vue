@@ -7,8 +7,8 @@
         <h2 class="h2">{{ plan.name }}</h2>
 
         <div class="plan_head_rgt">
-          <h4 v-if="showYearly == false">${{ plan.prices.monthly }}<span>/{{ $t('plan.view.monthly') }}</span></h4>
-          <h4 v-else>${{ plan.prices.yearly }}<span>/{{ $t('plan.view.yearly') }}</span></h4>
+          <h4 v-if="showYearly == false">${{ plan.prices.monthly }}<span>/{{ $t('app.plan.main.payment_schedule_monthly') }}</span></h4>
+          <h4 v-else>${{ plan.prices.yearly }}<span>/{{ $t('app.plan.main.payment_schedule_yearly') }}</span></h4>
       </div>
       <div class="plans_bdy">
         <h6>{{ $t('plan.view.features') }}:</h6>
