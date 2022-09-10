@@ -38,7 +38,7 @@ parthenon:
       public_api_key: '%env(resolve:STRIPE_PUBLIC_API_KEY)%'
       success_url: "%env(resolve:APPLICATION_URL)%/api/payments/success/{CHECKOUT_SESSION_ID}"
       cancel_url: "%env(resolve:APPLICATION_URL)%/api/payments/cancel"
-      return_url: '%env(resolve:APPLICATION_URL)%/app/plan/select'
+      return_url: '%env(resolve:APPLICATION_URL)%/app/plan'
     price:
       Basic:
         monthly:

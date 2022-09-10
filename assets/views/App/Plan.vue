@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="plans_bttn">
-        <button class="btn--main" @click="select(planName, plan_type)">{{ $t('app.plan.main.select_plan') }}</button>
+        <button class="btn--main" @click="select(planName, paymentSchedule)">{{ $t('app.plan.main.select_plan') }}</button>
       </div>
       <div class="cancle_bttn">
         <a  v-if="(current_plan.plan_name == planName && ((current_plan.payment_schedule == 'monthly' && showYearly == false) || (current_plan.payment_schedule == 'yearly' && showYearly == true)) && (current_plan.status == 'active' || current_plan.status == 'pending'))" href="/api/payments/portal" class="mb-3">{{ $t('plan.view.change_payment_details.button') }}</a>
@@ -52,7 +52,7 @@ export default {
       sessionId: undefined,
       plans: [],
       current_plan: {},
-      plan_type: "yearly",
+      paymentSchedule: "yearly",
       showYearly: true,
       stripe: {},
     }
