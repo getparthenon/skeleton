@@ -71,9 +71,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer config --global repositories.private-packagist composer https://packagist.parthenon.cloud/${{ secrets.PACKAGIST_USERNAME }}/
-          composer config --global --auth http-basic.packagist.parthenon.cloud token ${{ secrets.PACKAGIST_TOKEN }}
-          composer install --prefer-dist
           composer update "parthenon/parthenon"
 
       - name: Code Style
