@@ -249,7 +249,8 @@ class UserContext implements Context
         $user = $this->repository->findOneBy(['email' => $email]);
         $this->passwordHash = $user->getPassword();
 
-        $this->sendJsonRequest('POST', '/api/user/reset/'.$code.'?password='.$password);
+        
+        $this->sendJsonRequest('POST', '/api/user/reset/'.$code, ['password' => $password]);
 
         $this->count = $this->passwordResetRepository->count([]);
     }
