@@ -83,3 +83,13 @@ jobs:
       - name: Behat
         run: |
           vendor/bin/behat
+
+      - name: Install yarn
+        uses: borales/actions-yarn@v3.0.0
+        with:
+          cmd: install
+
+      - name: Run vitest
+        uses: borales/actions-yarn@v3.0.0
+        with:
+          cmd: vitest
