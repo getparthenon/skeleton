@@ -1,7 +1,5 @@
 
 function redirectToCheckout(apiKey, sessionId) {
-    console.log(sessionId)
-
     var imported = document.createElement('script');
     imported.src = 'https://js.stripe.com/v3/';
     document.head.appendChild(imported);

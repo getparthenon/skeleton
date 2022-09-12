@@ -2,12 +2,20 @@
   <div>
     <h1 class="page-title">{{ $t('app.plan.main.title') }}</h1>
 
+    <div class="my-5 text-end">
+      {{ $t('app.plan.main.payment_schedule_label') }}
+      <select v-model="paymentSchedule">
+        <option value="yearly">{{ $t('app.plan.main.payment_schedule_yearly') }}</option>
+        <option value="monthly">{{ $t('app.plan.main.payment_schedule_monthly') }}</option>
+      </select>
+    </div>
+
     <div class="columns mt-5 flex flex-column gap-4">
       <div class="w-2/6 bg-white rounded-xl shadow p-5" v-for="(plan, planName) in plans">
         <h2 class="h2">{{ plan.name }}</h2>
 
         <div class="plan_head_rgt">
-          <h4 v-if="showYearly == false">${{ plan.prices.monthly }}<span>/{{ $t('app.plan.main.payment_schedule_monthly') }}</span></h4>
+          <h4 v-if="paymentSchedule === 'monthly'">${{ plan.prices.monthly }}<span>/{{ $t('app.plan.main.payment_schedule_monthly') }}</span></h4>
           <h4 v-else>${{ plan.prices.yearly }}<span>/{{ $t('app.plan.main.payment_schedule_yearly') }}</span></h4>
       </div>
       <div class="plans_bdy">
