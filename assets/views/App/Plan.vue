@@ -38,7 +38,7 @@
       <div class="cancle_bttn mt-3" v-if="current_plan.plan_name === planName">
         <a  v-if="(current_plan.plan_name == planName) && (current_plan.status == 'active' || current_plan.status == 'pending')" href="/api/payments/portal" class="btn--main mb-3 text-center block">{{ $t('app.plan.main.payment_settings') }}</a>
 
-        <a  v-if="(current_plan.plan_name == planName) && (current_plan.status == 'active' || current_plan.status == 'pending')" @click="cancel" class="btn--danger block text-center">{{ $t('app.plan.main.cancel_button') }}</a>
+        <a  v-if="(current_plan.plan_name == planName) && (current_plan.status == 'active' || current_plan.status == 'pending')" @click="cancel" class="btn--danger block text-center cursor-pointer	">{{ $t('app.plan.main.cancel_button') }}</a>
       </div>
     </div>
     </div>
@@ -79,6 +79,9 @@ export default {
       planservice.createCheckout(planName, paymentSchedule).then(response => {
           stripeservice.redirectToCheckout(this.stripe.api_key, response.data.id)
       })
+    },
+    cancel: function () {
+      console.log("Hello world")
     }
   }
 }
