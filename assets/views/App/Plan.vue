@@ -60,9 +60,8 @@
 </template>
 
 <script>
-import { StripeCheckout } from '@vue-stripe/vue-stripe';
-import {planservice} from "../../services/planservice";
-import {stripeservice} from "../../services/stripeservice";
+import { planservice } from "../../services/planservice";
+import { stripeservice } from "../../services/stripeservice";
 
 export default {
   name: "Plan.vue",
