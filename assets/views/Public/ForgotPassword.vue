@@ -57,8 +57,8 @@
 </template>
 
 <script>
-import {userservice} from "../services/userservice";
-import PublicLogo from "../components/public/PublicLogo";
+import {userservice} from "../../services/userservice";
+import PublicLogo from "../../components/public/PublicLogo";
 
 export default {
   name: "ForgotPassword",

@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import {userservice} from "../services/userservice";
+import {userservice} from "../../services/userservice";
 
 export default {
   name: "ConfirmEmail",

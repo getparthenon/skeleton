@@ -1,11 +1,11 @@
 import {createRouter, createWebHistory} from 'vue-router'
 
 import axios from "axios";
-import Login from "../views/Login";
-import Signup from "../views/Signup";
-import ForgotPassword from "../views/ForgotPassword";
-import ForgotPasswordConfirm from "../views/ForgotPasswordConfirm";
-import ConfirmEmail from "../views/ConfirmEmail";
+import Login from "../views/Public/Login";
+import Signup from "../views/Public/Signup";
+import ForgotPassword from "../views/Public/ForgotPassword";
+import ForgotPasswordConfirm from "../views/Public/ForgotPasswordConfirm";
+import ConfirmEmail from "../views/Public/ConfirmEmail";
 import {APP_ROUTES} from "./app.routes";
 import InternalApp from "../views/App/InternalApp";
 

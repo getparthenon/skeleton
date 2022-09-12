@@ -40,7 +40,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import PublicLogo from "../components/public/PublicLogo";
+import PublicLogo from "../../components/public/PublicLogo";
 
 export default {
   name: "Login",
