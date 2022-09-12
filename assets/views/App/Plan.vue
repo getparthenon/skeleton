@@ -18,20 +18,15 @@
       <div class="w-2/6 bg-white rounded-xl shadow p-5" v-for="(plan, planName) in plans" :class="{'border-2 border-red-500': plan.name === current_plan.plan_name}">
         <h2 class="h2">{{ plan.name }}</h2>
 
-        <div class="plan_head_rgt">
-          <h4 v-if="paymentSchedule === 'monthly'">${{ plan.prices.monthly }}<span>/{{ $t('app.plan.main.payment_schedule_monthly') }}</span></h4>
-          <h4 v-else>${{ plan.prices.yearly }}<span>/{{ $t('app.plan.main.payment_schedule_yearly') }}</span></h4>
+        <div class="plan_head_rgt my-3">
+          <h4 v-if="paymentSchedule === 'monthly'" class="h1">${{ plan.prices.monthly }}<span>/{{ $t('app.plan.main.payment_schedule_monthly') }}</span></h4>
+          <h4 v-else class="h1">${{ plan.prices.yearly }}<span>/{{ $t('app.plan.main.payment_schedule_yearly') }}</span></h4>
       </div>
       <div class="plans_bdy">
-        <h6>{{ $t('plan.view.features') }}:</h6>
+        <h6 class="mb-5">{{ $t('app.plan.main.features') }}:</h6>
 
         <div class="media" v-for="limit in plan.limits">
-          <i class="fa fa-check"></i>
-          <div class="media-body">
-            <p>
-              {{ limit.limit }} {{ limit.description }}
-            </p>
-          </div>
+          <i class="fa fa-check"></i>  {{ limit.limit }} {{ limit.description }}
         </div>
       </div>
       <div class="plans_bttn mt-5" v-if="in_progress === false">

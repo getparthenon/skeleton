@@ -10,4 +10,5 @@ export const PLAN_MAIN_TRANSLATIONS = {
     payment_settings: "Payment Settings",
     cancel_button: "Cancel",
     in_progress: "Processing",
+    features: "Features",
 }
