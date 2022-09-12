@@ -8,5 +8,6 @@ export const PLAN_MAIN_TRANSLATIONS = {
     selected_plan: "Currently Active",
     change: "Change To This Plan",
     payment_settings: "Payment Settings",
-    cancel_button: "Cancel"
+    cancel_button: "Cancel",
+    in_progress: "Processing",
 }
