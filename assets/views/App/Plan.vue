@@ -108,7 +108,14 @@ export default {
       )
     },
     cancel: function () {
-      console.log("Hello world")
+      planservice.cancel().then(
+          response => {
+            
+          },
+          error => {
+            this.error_message = error;
+          }
+      )
     }
   }
 }
