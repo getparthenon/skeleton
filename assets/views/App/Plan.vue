@@ -11,7 +11,7 @@
     </div>
 
     <div class="columns mt-5 flex flex-column gap-4">
-      <div class="w-2/6 bg-white rounded-xl shadow p-5" v-for="(plan, planName) in plans">
+      <div class="w-2/6 bg-white rounded-xl shadow p-5" v-for="(plan, planName) in plans" :class="{'border-2 border-red-500': plan.name === current_plan.plan_name}">
         <h2 class="h2">{{ plan.name }}</h2>
 
         <div class="plan_head_rgt">
@@ -30,13 +30,15 @@
           </div>
         </div>
       </div>
-      <div class="plans_bttn">
-        <button class="btn--main" @click="select(planName, paymentSchedule)">{{ $t('app.plan.main.select_plan') }}</button>
+      <div class="plans_bttn mt-5">
+        <button class="btn--main block w-full" @click="select(planName, paymentSchedule)" v-if="current_plan === null">{{ $t('app.plan.main.select_plan') }}</button>
+        <button class="btn--main block w-full" @click="select(planName, paymentSchedule)" v-else-if="current_plan.plan_name !== planName || current_plan.payment_schedule !== paymentSchedule">{{ $t('app.plan.main.change') }}</button>
+        <button class="btn--main--disabled w-full" disabled v-else>{{ $t('app.plan.main.selected_plan') }}</button>
       </div>
-      <div class="cancle_bttn">
-        <a  v-if="(current_plan.plan_name == planName && ((current_plan.payment_schedule == 'monthly' && showYearly == false) || (current_plan.payment_schedule == 'yearly' && showYearly == true)) && (current_plan.status == 'active' || current_plan.status == 'pending'))" href="/api/payments/portal" class="mb-3">{{ $t('plan.view.change_payment_details.button') }}</a>
+      <div class="cancle_bttn mt-3" v-if="current_plan.plan_name === planName">
+        <a  v-if="(current_plan.plan_name == planName) && (current_plan.status == 'active' || current_plan.status == 'pending')" href="/api/payments/portal" class="btn--main mb-3 text-center block">{{ $t('app.plan.main.payment_settings') }}</a>
 
-        <a  v-if="(current_plan.plan_name == planName && ((current_plan.payment_schedule == 'monthly' && showYearly == false) || (current_plan.payment_schedule == 'yearly' && showYearly == true)) && (current_plan.status == 'active' || current_plan.status == 'pending'))" @click="cancel">{{ $t('plan.view.cancel.button') }}</a>
+        <a  v-if="(current_plan.plan_name == planName) && (current_plan.status == 'active' || current_plan.status == 'pending')" @click="cancel" class="btn--danger block text-center">{{ $t('app.plan.main.cancel_button') }}</a>
       </div>
     </div>
     </div>
