@@ -2,8 +2,7 @@
   <img width="450px" src="https://getparthenon.com/images/logo.svg">
 </p>
 
-
-**NOT STABLE RELEASE**
+**Work in Progress - NOT STABLE RELEASE**
 
 ## Local Development Environment
 

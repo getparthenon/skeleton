@@ -10,7 +10,6 @@
         "ext-iconv": "*",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.13",
-        "friendsofphp/proxy-manager-lts": "^1.0",
         "parthenon/parthenon": "dev-main",
         "symfony/console": "6.0.*",
         "symfony/dotenv": "6.0.*",
