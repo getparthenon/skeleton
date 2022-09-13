@@ -23,8 +23,8 @@ function invite(email) {
                 } else {
                     return Promise.reject("There was an unexpected error. Please try later.");
                 }
-            } else {
-                return Promise.reject("There was an unexpected error. Please try later.");
+            } else if (response.data === undefined || response.data === null) {
+                return Promise.reject("There was an unexplained error");
             }
 
             return response;
