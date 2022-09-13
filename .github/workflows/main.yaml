@@ -71,7 +71,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer update "parthenon/parthenon"
+          composer install
 
       - name: Code Style
         run: |
