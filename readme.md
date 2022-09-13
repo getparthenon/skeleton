@@ -1,6 +1,7 @@
 Skeleton Parthenon Application
 ==============================
 
+**NOT STABLE RELEASE**
 
 ## Local Development Environment
 
