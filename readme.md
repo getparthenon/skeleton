@@ -1,5 +1,7 @@
-Skeleton Parthenon Application
-==============================
+<p align="center">
+  <img width="450px" src="https://getparthenon.com/images/logo.svg">
+</p>
+
 
 **NOT STABLE RELEASE**
 
