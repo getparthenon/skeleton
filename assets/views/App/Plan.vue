@@ -14,10 +14,10 @@
       </select>
     </div>
 
-    <div class="columns mt-5 flex flex-column gap-4">
+    <div class="columns mt-5 flex gap-4">
       <div class="w-2/6 bg-white rounded-xl shadow p-5" v-for="(plan, planName) in plans" :class="{'border-2 border-red-500': plan.name === current_plan.plan_name}">
         <h2 class="h2">{{ plan.name }}</h2>
-
+        <h3 class="text-xl text-red-500" v-if=" plan.name === current_plan.plan_name">{{ $t('app.plan.main.your_current_plan') }}</h3>
         <div class="plan_head_rgt my-3">
           <h4 v-if="paymentSchedule === 'monthly'" class="h1">${{ plan.prices.monthly }}<span>/{{ $t('app.plan.main.payment_schedule_monthly') }}</span></h4>
           <h4 v-else class="h1">${{ plan.prices.yearly }}<span>/{{ $t('app.plan.main.payment_schedule_yearly') }}</span></h4>

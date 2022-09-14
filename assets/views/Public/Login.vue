@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-center h-screen login">
     <form @submit.prevent="handleSubmit">
-      <div class="p-5 form-body" :class="{'animate-shake': error_info.has_error}">
+      <div class="p-5 public-form-body" :class="{'animate-shake': error_info.has_error}">
         <div class="w-full">
           <PublicLogo />
         </div>

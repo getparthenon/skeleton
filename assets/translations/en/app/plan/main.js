@@ -11,4 +11,5 @@ export const PLAN_MAIN_TRANSLATIONS = {
     cancel_button: "Cancel",
     in_progress: "Processing",
     features: "Features",
+    your_current_plan: "Your Current Plan",
 }

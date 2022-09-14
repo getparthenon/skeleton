@@ -17,7 +17,7 @@
 
         appear>
       <form @submit.prevent="handleSubmit" v-if="!password_requested">
-        <div class="p-5 form-body" :class="{'animate-shake': error_info.has_error}">
+        <div class="p-5 public-form-body" :class="{'animate-shake': error_info.has_error}">
           <div class="w-full">
             <PublicLogo />
           </div>
@@ -46,7 +46,7 @@
         </div>
       </form>
       <div v-else>
-        <div class="p-5 form-body">
+        <div class="p-5 public-form-body">
           <div class="px-5">
             {{ $t('public.forgot_password.success_message') }}
           </div>
