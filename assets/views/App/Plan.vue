@@ -15,9 +15,9 @@
     </div>
 
     <div class="columns mt-5 flex gap-4">
-      <div class="w-2/6 bg-white rounded-xl shadow p-5" v-for="(plan, planName) in plans" :class="{'border-2 border-red-500': plan.name === current_plan.plan_name}">
+      <div class="w-2/6 bg-white rounded-xl shadow p-5" v-for="(plan, planName) in plans" :class="{'border-2 border-red-500': isCurrentPlan(planName)}">
         <h2 class="h2">{{ plan.name }}</h2>
-        <h3 class="text-xl text-red-500" v-if=" plan.name === current_plan.plan_name">{{ $t('app.plan.main.your_current_plan') }}</h3>
+        <h3 class="text-xl text-red-500" v-if="isCurrentPlan(planName)">{{ $t('app.plan.main.your_current_plan') }}</h3>
         <div class="plan_head_rgt my-3">
           <h4 v-if="paymentSchedule === 'monthly'" class="h1">${{ plan.prices.monthly }}<span>/{{ $t('app.plan.main.payment_schedule_monthly') }}</span></h4>
           <h4 v-else class="h1">${{ plan.prices.yearly }}<span>/{{ $t('app.plan.main.payment_schedule_yearly') }}</span></h4>
@@ -31,7 +31,7 @@
       </div>
       <div class="plans_bttn mt-5" v-if="in_progress === false">
         <button class="btn--main block w-full" @click="select(planName, paymentSchedule)" v-if="current_plan === null">{{ $t('app.plan.main.select_plan') }}</button>
-        <button class="btn--main block w-full" @click="change(planName, paymentSchedule)" v-else-if="current_plan.plan_name !== planName || current_plan.payment_schedule !== paymentSchedule">{{ $t('app.plan.main.change') }}</button>
+        <button class="btn--main block w-full" @click="change(planName, paymentSchedule)" v-else-if="!isCurrentPlan(planName) || current_plan.payment_schedule !== paymentSchedule">{{ $t('app.plan.main.change') }}</button>
         <button class="btn--main--disabled w-full" disabled v-else>{{ $t('app.plan.main.selected_plan') }}</button>
       </div>
       <div class="mt-5" v-else>
@@ -43,7 +43,7 @@
           </svg>
           {{ $t('app.plan.main.in_progress') }}</button>
       </div>
-      <div class="cancle_bttn mt-3" v-if="current_plan.plan_name === planName && (current_plan.plan_name == planName) && (current_plan.status == 'active' || current_plan.status == 'pending')">
+      <div class="cancle_bttn mt-3" v-if="isCurrentPlan(planName)">
         <a href="/api/payments/portal" class="btn--main mb-3 text-center block">{{ $t('app.plan.main.payment_settings') }}</a>
 
         <a @click="cancel" class="btn--danger block text-center cursor-pointer	"  v-if="in_progress === false">{{ $t('app.plan.main.cancel_button') }}</a>
@@ -92,6 +92,9 @@ export default {
       planservice.createCheckout(planName, paymentSchedule).then(response => {
           stripeservice.redirectToCheckout(this.stripe.api_key, response.data.id)
       })
+    },
+    isCurrentPlan: function (planName) {
+        return planName === this.current_plan.plan_name && (this.current_plan.status == 'active' || this.current_plan.status == 'pending');
     },
     change: function (planName, paymentSchedule) {
       this.in_progress = true;
