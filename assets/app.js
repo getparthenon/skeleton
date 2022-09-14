@@ -15,9 +15,9 @@ import {store} from './store'
 import { createApp } from "vue";
 import {ENGLISH_TRANSLATIONS} from "./translations/en";
 import {createI18n} from "vue-i18n";
-import ParthenonMenu from "./modules/parthernon-menu";
 
 import '@fortawesome/fontawesome-free/css/all.css'
+import ParthenonMenu from "@parthenon/vue-menu/src";
 
 const TRANSLATIONS = {
     en: ENGLISH_TRANSLATIONS
