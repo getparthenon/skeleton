@@ -24,7 +24,7 @@ function createCheckout(planName, paymentSchedule) {
 }
 
 function changePlan(planName, paymentSchedule) {
-    return axios.get(`/api/payments/plans/change/` + planName + '/' + paymentSchedule, {
+    return axios.post(`/api/payments/plans/change/` + planName + '/' + paymentSchedule, {
         headers: {'Content-Type': 'application/json'},
         data: {}
     }).then(handleResponse);
@@ -32,9 +32,5 @@ function changePlan(planName, paymentSchedule) {
 
 
 function cancel() {
-    const requestOptions = {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'}
-    };
     return axios.post(`/api/payments/cancel`, {}).then(handleResponse);
 }
