@@ -44,6 +44,20 @@ function forgotPasswordConfirm(code, password) {
     return axios.post(`/api/user/reset/` + code, {password}).then(handleResponse);
 }
 
+function fetchSettings() {
+    return axios.get("/api/user/settings", {
+        headers: {'Content-Type': 'application/json'},
+        data: {}
+    })
+    .then(handleResponse)
+    .then(result => {
+        return result.data.form;
+    });
+}
+
+function updateSettings(user) {
+    return axios.post("/api/user/settings", user).then(handleResponse);
+}
 
 export const userservice = {
     login,
@@ -52,4 +66,6 @@ export const userservice = {
     forgotPasswordCheck,
     forgotPasswordConfirm,
     confirmEmail,
+    fetchSettings,
+    updateSettings,
 };

@@ -25,6 +25,11 @@ Feature: Send invites
     When I sent an invite to "tom.brown@example.org"
     Then I should be told that the email has already been invited
 
+  Scenario: View and see Team name
+    Given I have logged in as "sally.brown@example.org" with the password "AF@k3P@ss"
+    When I sent an invite to "tim.brown@example.org"
+    Then there will not be an invite code for "tom.brown@example.org"
+
   Scenario: Cancel invite
     Given I have logged in as "sally.brown@example.org" with the password "AF@k3P@ss"
     And I sent an invite to "tom.brown@example.org"

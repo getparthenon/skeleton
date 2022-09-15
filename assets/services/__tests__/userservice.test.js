@@ -22,6 +22,68 @@ describe("userService", () => {
         mock.reset();
     });
 
+    describe("Fetch user settings", () => {
+        it("Should return response if successful", async () => {
+            mock.onGet(`/api/user/settings`).reply(200, {form: {success: true}});
+
+            // when
+            const result = await userservice.fetchSettings();
+
+            // then
+            expect(mock.history.get[0].url).toEqual(`/api/user/settings`);
+            expect(result).toEqual({success: true});
+        });
+
+        it("Should return error", async () => {
+            mock.onGet(`/api/user/settings`).reply(400, {success: false, error: "Invalid code"});
+
+            try {
+                await  userservice.fetchSettings();
+                fail("Didn't throw error")
+            } catch (error) {
+                expect(mock.history.get[0].url).toEqual(`/api/user/settings`);
+                expect(error).toEqual("Invalid code");
+
+            }
+        });
+    });
+
+    describe("Update user settings", () => {
+        it("Should return response if successful", async () => {
+            const user = {
+                name: "Name",
+                email: "iain.cambridge@example.org",
+            }
+
+            mock.onPost(`/api/user/settings`, user).reply(200, {success: true});
+
+            // when
+            const result = await userservice.updateSettings(user);
+
+            // then
+            expect(mock.history.post[0].url).toEqual(`/api/user/settings`);
+            expect(result.data).toEqual({success: true});
+        });
+
+        it("Should return error", async () => {
+            const user = {
+                name: "Name",
+                email: "iain.cambridge@example.org",
+            }
+
+            mock.onPost(`/api/user/settings`, user).reply(400, {success: false, error: "Invalid code"});
+
+            try {
+                await  userservice.updateSettings(user);
+                fail("Didn't throw error")
+            } catch (error) {
+                expect(mock.history.post[0].url).toEqual(`/api/user/settings`);
+                expect(error).toEqual("Invalid code");
+
+            }
+        });
+    });
+
     describe("When doing confirm email", () => {
         it("Should return response if successful", async () => {
 
@@ -52,7 +114,7 @@ describe("userService", () => {
 
             }
         });
-    })
+    });
 
     describe("When doing reset password check", () => {
         it("Should return response if successful", async () => {

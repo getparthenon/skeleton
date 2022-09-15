@@ -128,7 +128,7 @@ export default {
 
 <style scoped>
 .column {
-  @apply w-2/6 bg-white rounded-xl grow shadow p-5 h-full relative;
+  @apply w-full sm:w-2/6 bg-white rounded-xl grow shadow p-5 h-full relative;
   min-height: 600px;
 }
 .button-container {

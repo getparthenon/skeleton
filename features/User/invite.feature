@@ -18,3 +18,8 @@ Feature: User profile
     Given I have logged in as "sally.brown@example.org" with the password "AF@k3P@ss"
     When I invite "new.user@example.org"
     Then there will be an invite code for "new.user@example.org"
+
+  Scenario: Invite user who is already a memeber
+    Given I have logged in as "sally.brown@example.org" with the password "AF@k3P@ss"
+    When I invite "sally.braun@example.org"
+    Then there will not be an invite code for "sally.braun@example.org"
