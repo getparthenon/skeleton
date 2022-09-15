@@ -14,7 +14,7 @@
       </select>
     </div>
 
-    <div class="columns flex flex-row gap-4 ">
+    <div class="columns md:flex md:flex-row gap-4 ">
       <div class="column" v-for="(plan, planName) in plans" :class="{'border-2 border-red-500': isCurrentPlan(planName)}">
         <h2 class="h2">{{ plan.name }}</h2>
         <h3 class="text-xl text-red-500" v-if="isCurrentPlan(planName)">{{ $t('app.plan.main.your_current_plan') }}</h3>
@@ -128,7 +128,7 @@ export default {
 
 <style scoped>
 .column {
-  @apply w-full sm:w-2/6 bg-white rounded-xl grow shadow p-5 h-full relative;
+  @apply w-full md:w-2/6 bg-white rounded-xl grow shadow p-5 relative;
   min-height: 600px;
 }
 .button-container {
