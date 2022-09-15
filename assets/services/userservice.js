@@ -39,6 +39,10 @@ function forgotPasswordCheck(code) {
         data: {}
     }).then(handleResponse);
 }
+function changePassword(password, new_password)
+{
+    return axios.post(`/api/user/password`, {password, new_password}).then(handleResponse);
+}
 
 function forgotPasswordConfirm(code, password) {
     return axios.post(`/api/user/reset/` + code, {password}).then(handleResponse);
@@ -68,4 +72,5 @@ export const userservice = {
     confirmEmail,
     fetchSettings,
     updateSettings,
+    changePassword,
 };
