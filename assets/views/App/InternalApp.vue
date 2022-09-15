@@ -7,6 +7,7 @@
           <MenuItem route-name="app.home"><i class="fa-solid fa-house"></i> {{ $t('app.menu.main.home') }}</MenuItem>
           <MenuItem route-name="app.team"><i class="fa-solid fa-user"></i> {{ $t('app.menu.main.team') }}</MenuItem>
           <MenuItem route-name="app.plan"><i class="fa-solid fa-user"></i> {{ $t('app.menu.main.plan') }}</MenuItem>
+          <MenuItem route-name="app.user.settings"><i class="fa-solid fa-user"></i> {{ $t('app.menu.main.user_settings') }}</MenuItem>
         </MenuGroup>
       </Menu>
     </div>
