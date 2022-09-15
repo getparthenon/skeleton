@@ -10,8 +10,9 @@
         </MenuGroup>
       </Menu>
     </div>
-    <div class="w-full h-full lg:p-4 lg:m-8 p-2 overflow-y-auto">
-      <router-view></router-view>
+    <div class="w-full h-screen lg:p-4 lg:m-8 p-2">
+
+        <router-view></router-view>
     </div>
   </div>
 

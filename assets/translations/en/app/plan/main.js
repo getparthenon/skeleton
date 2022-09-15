@@ -12,4 +12,5 @@ export const PLAN_MAIN_TRANSLATIONS = {
     in_progress: "Processing",
     features: "Features",
     your_current_plan: "Your Current Plan",
+    plan_options: "Plan Options",
 }
