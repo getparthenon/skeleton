@@ -181,6 +181,37 @@ describe("userService", () => {
         });
     });
 
+    describe("Change Password", () => {
+        it("Should return response if successful", async () => {
+
+            var password = "a-random-password";
+            var new_password = "new.password";
+            mock.onPost(`/api/user/password`, {password, new_password}).reply(200, {success: true});
+
+            // when
+            const result = await userservice.changePassword(password, new_password)
+
+            // then
+            expect(mock.history.post[0].url).toEqual(`/api/user/password`);
+            expect(result.data).toEqual({success: true});
+        });
+
+        it("Should return error", async () => {
+
+            var password = "a-random-password";
+            var new_password = "new.password";
+            mock.onPost(`/api/user/password`, {password, new_password}).reply(400, {success: false, error: "Invalid code"});
+
+            try {
+                await  userservice.changePassword(password, new_password);
+                fail("Didn't throw error")
+            } catch (error) {
+                expect(mock.history.post[0].url).toEqual(`/api/user/password`);
+                expect(error).toEqual("Invalid code");
+
+            }
+        });
+    });
     describe("When starting the forgot password process", () => {
         it("Should return response if successful", async () => {
 
