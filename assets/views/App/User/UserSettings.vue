@@ -163,18 +163,4 @@ export default {
 </script>
 
 <style scoped>
-.label {
-  @apply block text-gray-700 font-medium mt-2;
-}
-
-.form-error {
-  @apply border-red-500 border-2 bg-red-100 !important;
-}
-
-.form-field {
-  @apply border border-slate-400 p-2 rounded-lg;
-}
-.error-message {
-  @apply block text-red-500;
-}
 </style>

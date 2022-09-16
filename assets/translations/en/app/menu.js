@@ -4,6 +4,7 @@ export const MENU_TRANSLATIONS = {
         home: "Home",
         team: "Manage Team",
         plan: "Plan",
-        user_settings: "User Settings"
+        user_settings: "User Settings",
+        user_invite: "Invite A Friend"
     }
 }

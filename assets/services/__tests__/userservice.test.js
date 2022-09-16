@@ -212,6 +212,40 @@ describe("userService", () => {
             }
         });
     });
+
+    describe("User Invite", () => {
+        it("Should return response if successful", async () => {
+
+            var code = "a-random-code";
+            var email = "iain.cambridge@example.org";
+            mock.onPost(`/api/user/invite`, {email}).reply(200, {success: true});
+
+            // when
+            const result = await userservice.invite( email)
+
+            // then
+            expect(mock.history.post[0].url).toEqual(`/api/user/invite`);
+            expect(result.data).toEqual({success: true});
+        });
+
+        it("Should return error", async () => {
+
+            var code = "a-random-code";
+            var email = "iain.cambridge@example.org";
+
+            mock.onPost(`/api/user/invite`, {email}).reply(400, {success: false, error: "Invalid code"});
+
+            try {
+                await  userservice.invite(email);
+                fail("Didn't throw error")
+            } catch (error) {
+                expect(mock.history.post[0].url).toEqual(`/api/user/invite`);
+                expect(error).toEqual("Invalid code");
+
+            }
+        });
+    });
+
     describe("When starting the forgot password process", () => {
         it("Should return response if successful", async () => {
 

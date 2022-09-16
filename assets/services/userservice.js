@@ -63,6 +63,9 @@ function updateSettings(user) {
     return axios.post("/api/user/settings", user).then(handleResponse);
 }
 
+function invite(email) {
+    return axios.post("/api/user/invite", {email}).then(handleResponse);
+}
 export const userservice = {
     login,
     signup,
@@ -73,4 +76,5 @@ export const userservice = {
     fetchSettings,
     updateSettings,
     changePassword,
+    invite,
 };
