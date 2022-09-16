@@ -167,3 +167,7 @@
 .error-message {
     @apply block text-red-500;
 }
+
+.menu-link {
+    @apply no-underline text-black hover:text-slate-800 hover:no-underline;
+}
