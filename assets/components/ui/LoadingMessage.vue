@@ -12,7 +12,7 @@ export default {
   name: "LoadingMessage",
   props: {
     height: {
-      type: Object,
+      type: String,
       default() {
         return "20px";
       }
