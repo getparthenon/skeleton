@@ -20,12 +20,7 @@
         </div>
 
         <div class="mt-3">
-          <button class="btn--main" v-if="!sending_settings">{{ $t('app.user.settings.save') }}</button>
-          <button type="submit" class="btn--main--disabled cursor-not-allowed" v-else>
-            <LoadingMessage>
-              {{ $t('app.user.settings.in_progress') }}
-            </LoadingMessage>
-          </button>
+          <SubmitButton :in-progress="sending_settings" :loading-text="$t('app.user.settings.in_progress')">{{ $t('app.user.settings.save') }}</SubmitButton>
         </div>
       </form>
 
@@ -48,12 +43,9 @@
           <span class="error-message" v-if="need_passwords_to_match">{{ $t('app.user.settings.need_password_to_match') }}</span>
         </div>
         <div class="mt-3">
-          <button class="btn--main" v-if="!sending_password">{{ $t('app.user.settings.change_password') }}</button>
-          <button type="submit" class="btn--main--disabled cursor-not-allowed" v-else>
-            <LoadingMessage>
-              {{ $t('app.user.settings.in_progress') }}
-            </LoadingMessage>
-          </button>
+          <SubmitButton :in-progress="sending_password" :loading-text="$t('app.user.settings.in_progress')">
+            {{ $t('app.user.settings.change_password') }}
+          </SubmitButton>
         </div>
       </form>
     </template>
@@ -65,10 +57,11 @@
 import {userservice} from "../../../services/userservice";
 import LoadingMessage from "../../../components/ui/LoadingMessage";
 import LoadingScreen from "../../../components/ui/LoadingScreen";
+import SubmitButton from "../../../components/ui/SubmitButton";
 
 export default {
   name: "UserSettings",
-  components: {LoadingScreen, LoadingMessage},
+  components: {SubmitButton, LoadingScreen, LoadingMessage},
   data() {
     return {
       loading: false,
@@ -143,6 +136,7 @@ export default {
     },
     save: function () {
       this.sending_settings = true;
+      return;
       userservice.updateSettings(this.user).then(
           user => {
             this.alert = {
