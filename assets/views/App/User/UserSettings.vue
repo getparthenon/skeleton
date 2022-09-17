@@ -1,70 +1,74 @@
 <template>
-  <div>
-    <h1 class="page-title">{{ $t('app.user.settings.title') }}</h1>
+  <LoadingScreen :ready="loading">
+    <template v-slot:content>
+      <h1 class="page-title">{{ $t('app.user.settings.title') }}</h1>
 
-    <div v-if="alert !== undefined" class="mt-5" :class="{'alert-error': alert.type==='error','alert-success': alert.type==='success'}">
-      {{ alert.message }}
-    </div>
-
-    <form @submit.prevent="save">
-
-      <div class="mt-5 card-body">
-        <label class="label">{{ $t('app.user.settings.name') }}</label>
-        <input type="text" class="form-field" :class="{'form-error': errors.name !== undefined}" v-model="user.name" />
-        <span class="error-message" v-if="errors.name" v-for="error in errors.name">{{ error }}</span>
-
-        <label class="label">{{ $t('app.user.settings.email') }}</label>
-        <input type="text" class="form-field"  :class="{'form-error': errors.email !== undefined}"  v-model="user.email" />
-        <span class="error-message" v-if="errors.email" v-for="error in errors.email">{{ error }}</span>
+      <div v-if="alert !== undefined" class="mt-5" :class="{'alert-error': alert.type==='error','alert-success': alert.type==='success'}">
+        {{ alert.message }}
       </div>
 
-      <div class="mt-3">
-        <button class="btn--main" v-if="!sending_settings">{{ $t('app.user.settings.save') }}</button>
-        <button type="submit" class="btn--main--disabled cursor-not-allowed" v-else>
-          <LoadingMessage>
-            {{ $t('app.user.settings.in_progress') }}
-          </LoadingMessage>
-        </button>
-      </div>
-    </form>
+      <form @submit.prevent="save">
 
-    <h2 class="h2 text-slate-500 mt-3 cursor-pointer" @click="show_danger_zone = !show_danger_zone">{{ $t('app.user.settings.danger_zone') }} <i class="fa-solid fa-caret-down" v-if="!show_danger_zone"></i><i class="fa-solid fa-caret-up" v-else></i></h2>
+        <div class="mt-5 card-body">
+          <label class="label">{{ $t('app.user.settings.name') }}</label>
+          <input type="text" class="form-field" :class="{'form-error': errors.name !== undefined}" v-model="user.name" />
+          <span class="error-message" v-if="errors.name" v-for="error in errors.name">{{ error }}</span>
 
-    <form @submit.prevent="changePassword" v-if="show_danger_zone">
-      <div class="card-body" >
+          <label class="label">{{ $t('app.user.settings.email') }}</label>
+          <input type="text" class="form-field"  :class="{'form-error': errors.email !== undefined}"  v-model="user.email" />
+          <span class="error-message" v-if="errors.email" v-for="error in errors.email">{{ error }}</span>
+        </div>
 
-        <label class="label">{{ $t('app.user.settings.current_password') }}</label>
-        <input type="password" class="form-field" v-model="current_password" />
-        <span class="error-message" v-if="need_current_password">{{ $t('app.user.settings.need_current_password') }}</span>
+        <div class="mt-3">
+          <button class="btn--main" v-if="!sending_settings">{{ $t('app.user.settings.save') }}</button>
+          <button type="submit" class="btn--main--disabled cursor-not-allowed" v-else>
+            <LoadingMessage>
+              {{ $t('app.user.settings.in_progress') }}
+            </LoadingMessage>
+          </button>
+        </div>
+      </form>
 
-        <label class="label">{{ $t('app.user.settings.new_password') }}</label>
-        <input type="password" name="password" class="form-field" v-model="new_password" />
-        <span class="error-message" v-if="need_new_password">{{ $t('app.user.settings.need_new_password') }}</span>
-        <span class="error-message" v-if="need_valid_password">{{ $t('app.user.settings.need_valid_password') }}</span>
+      <h2 class="h2 text-slate-500 mt-3 cursor-pointer" @click="show_danger_zone = !show_danger_zone">{{ $t('app.user.settings.danger_zone') }} <i class="fa-solid fa-caret-down" v-if="!show_danger_zone"></i><i class="fa-solid fa-caret-up" v-else></i></h2>
 
-        <label class="label">{{ $t('app.user.settings.new_password_again') }}</label>
-        <input type="password" class="form-field" v-model="new_password_again" />
-        <span class="error-message" v-if="need_passwords_to_match">{{ $t('app.user.settings.need_password_to_match') }}</span>
-      </div>
-      <div class="mt-3">
-        <button class="btn--main" v-if="!sending_password">{{ $t('app.user.settings.change_password') }}</button>
-        <button type="submit" class="btn--main--disabled cursor-not-allowed" v-else>
-          <LoadingMessage>
-            {{ $t('app.user.settings.in_progress') }}
-          </LoadingMessage>
-        </button>
-      </div>
-    </form>
-  </div>
+      <form @submit.prevent="changePassword" v-if="show_danger_zone">
+        <div class="card-body" >
+
+          <label class="label">{{ $t('app.user.settings.current_password') }}</label>
+          <input type="password" class="form-field" v-model="current_password" />
+          <span class="error-message" v-if="need_current_password">{{ $t('app.user.settings.need_current_password') }}</span>
+
+          <label class="label">{{ $t('app.user.settings.new_password') }}</label>
+          <input type="password" name="password" class="form-field" v-model="new_password" />
+          <span class="error-message" v-if="need_new_password">{{ $t('app.user.settings.need_new_password') }}</span>
+          <span class="error-message" v-if="need_valid_password">{{ $t('app.user.settings.need_valid_password') }}</span>
+
+          <label class="label">{{ $t('app.user.settings.new_password_again') }}</label>
+          <input type="password" class="form-field" v-model="new_password_again" />
+          <span class="error-message" v-if="need_passwords_to_match">{{ $t('app.user.settings.need_password_to_match') }}</span>
+        </div>
+        <div class="mt-3">
+          <button class="btn--main" v-if="!sending_password">{{ $t('app.user.settings.change_password') }}</button>
+          <button type="submit" class="btn--main--disabled cursor-not-allowed" v-else>
+            <LoadingMessage>
+              {{ $t('app.user.settings.in_progress') }}
+            </LoadingMessage>
+          </button>
+        </div>
+      </form>
+    </template>
+    <template v-slot:message>Loading</template>
+  </LoadingScreen>
 </template>
 
 <script>
 import {userservice} from "../../../services/userservice";
 import LoadingMessage from "../../../components/ui/LoadingMessage";
+import LoadingScreen from "../../../components/ui/LoadingScreen";
 
 export default {
   name: "UserSettings",
-  components: {LoadingMessage},
+  components: {LoadingScreen, LoadingMessage},
   data() {
     return {
       loading: false,
@@ -88,6 +92,7 @@ export default {
     userservice.fetchSettings().then(
         user => {
           this.user = user;
+          this.loading = true;
         }
     )
   },

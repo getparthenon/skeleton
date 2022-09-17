@@ -17,6 +17,12 @@ export default {
         return "20px";
       }
     },
+    color: {
+      type: String,
+      default() {
+        return "rgb(255 255 255 / var(--tw-text-opacity))"
+      }
+    }
   }
 }
 </script>
@@ -26,8 +32,10 @@ export default {
   -webkit-animation: spin-30994d36 1s linear infinite;
   animation: spin-30994d36 1s linear infinite;
   --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
+  color: v-bind('color');
   height: v-bind('height');
   display: inline;
 }
+
+
 </style>
