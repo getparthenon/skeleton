@@ -5,7 +5,7 @@ import LoadingScreen from '../LoadingScreen.vue';
 describe('LoadingScreen.vue', () => {
     test('render message', () => {
         const wrapper = mount(LoadingScreen, {
-            slots: {content: "Content", message: "Loading message"},
+            slots: {content: "Content", loading: "Loading message"},
             propsData: {ready: false},
             global: {plugins: []}
         });
@@ -14,7 +14,7 @@ describe('LoadingScreen.vue', () => {
     });
     test('render content', () => {
         const wrapper = mount(LoadingScreen, {
-            slots: {content: "Content", message: "Loading message"},
+            slots: {default: "Content", message: "Loading message"},
             propsData: {ready: true},
             global: {plugins: []}
         });

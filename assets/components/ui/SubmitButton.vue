@@ -23,6 +23,7 @@ export default {
     },
     inProgress: {
       type: Boolean,
+      required: true,
       default() {
         return false;
       }

@@ -1,9 +1,11 @@
 <template>
   <div v-if="ready">
-    <slot name="content"></slot>
+    <slot name="default"></slot>
   </div>
   <div v-else :class="loadingClass">
-    <LoadingMessage :color="loadingSpinnerColor"><slot name="message"></slot></LoadingMessage>
+    <slot name="loading">
+      <LoadingMessage :color="loadingSpinnerColor">{{ loadingMessage }}</LoadingMessage>
+    </slot>
   </div>
 </template>
 
@@ -21,6 +23,12 @@ export default {
       type: String,
       default() {
         return "black";
+      }
+    },
+    loadingMessage: {
+      type: String,
+      default() {
+        return "Loading";
       }
     },
     loadingClass: {

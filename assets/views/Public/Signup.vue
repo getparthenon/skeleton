@@ -37,10 +37,9 @@
             <span class="block text-red-500" v-if="password_confirm_error !== undefined">{{ password_confirm_error }}</span>
           </div>
           <div class="px-5 pt-3">
-            <button type="submit" class="btn--main w-full" v-if="!in_process">{{ $t('public.signup.signup_button') }}</button>
-            <button type="submit" class="btn--main--disabled w-full cursor-not-allowed" v-else>
-              <LoadingMessage>{{ $t('public.signup.signing_up') }}</LoadingMessage>
-            </button>
+            <SubmitButton class="w-full" :in-progress="in_process" :loading-text="$t('public.signup.signing_up')">
+              {{ $t('public.signup.signup_button') }}
+            </SubmitButton>
           </div>
           <div class="mt-5 px-5 mb-3  text-center">
             <router-link :to="{name: 'public.login'}" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">{{ $t('public.signup.login_link') }}</router-link>

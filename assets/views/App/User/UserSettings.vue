@@ -1,6 +1,5 @@
 <template>
-  <LoadingScreen :ready="loading">
-    <template v-slot:content>
+  <LoadingScreen :ready="loading" :loading-message="$t('global.loading')">
       <h1 class="page-title">{{ $t('app.user.settings.title') }}</h1>
 
       <div v-if="alert !== undefined" class="mt-5" :class="{'alert-error': alert.type==='error','alert-success': alert.type==='success'}">
@@ -48,8 +47,6 @@
           </SubmitButton>
         </div>
       </form>
-    </template>
-    <template v-slot:message>Loading</template>
   </LoadingScreen>
 </template>
 
@@ -61,7 +58,6 @@ import SubmitButton from "../../../components/ui/SubmitButton";
 
 export default {
   name: "UserSettings",
-  components: {SubmitButton, LoadingScreen, LoadingMessage},
   data() {
     return {
       loading: false,
