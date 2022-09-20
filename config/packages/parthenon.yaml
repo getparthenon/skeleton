@@ -20,15 +20,9 @@ parthenon:
     subscriber_type: team
     plan:
       Basic:
-        limit:
-          team_invite:
-            limit: 1
-            description: "Number of users"
+        user_count: 1
       Standard:
-        limit:
-          team_invite:
-            limit: 5
-            description: "Number of users"
+        user_count: 5
   payments:
     enabled: true
     provider: stripe
