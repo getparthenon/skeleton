@@ -5,7 +5,7 @@ namespace App\Tests\Behat;
 use Behat\Behat\Context\Context;
 use Behat\Mink\Session;
 use Doctrine\ORM\EntityManagerInterface;
-use Parthenon\Subscriptions\Plan\PlanManager;
+use Parthenon\Payments\Plan\PlanManager;
 
 class PlanContext implements Context
 {
