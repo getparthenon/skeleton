@@ -89,13 +89,13 @@ describe("planservice", () => {
             const planName = "plan-name";
             const paymentSchedule = "payment-schedule";
 
-            mock.onGet(`/api/payments/plans/checkout/` + planName + '/' + paymentSchedule).reply(200, {success: true});
+            mock.onPost(`/api/payments/plans/checkout/` + planName + '/' + paymentSchedule).reply(200, {success: true});
 
             // when
             const result = await planservice.createCheckout(planName, paymentSchedule)
 
             // then
-            expect(mock.history.get[0].url).toEqual(`/api/payments/plans/checkout/` + planName + '/' + paymentSchedule);
+            expect(mock.history.post[0].url).toEqual(`/api/payments/plans/checkout/` + planName + '/' + paymentSchedule);
             expect(result.data).toEqual({success: true});
         });
 
@@ -104,13 +104,46 @@ describe("planservice", () => {
             const planName = "plan-name";
             const paymentSchedule = "payment-schedule";
 
-            mock.onGet(`/api/payments/plans/checkout/` + planName + '/' + paymentSchedule).reply(400, {success: false, error: "Error message here"});
+            mock.onPost(`/api/payments/plans/checkout/` + planName + '/' + paymentSchedule).reply(400, {success: false, error: "Error message here"});
 
             try {
                 await planservice.createCheckout(planName, paymentSchedule);
                 fail("Didn't throw error")
             } catch (error) {
-                expect(mock.history.get[0].url).toEqual(`/api/payments/plans/checkout/` + planName + '/' + paymentSchedule);
+                expect(mock.history.post[0].url).toEqual(`/api/payments/plans/checkout/` + planName + '/' + paymentSchedule);
+                expect(error).toEqual("Error message here");
+
+            }
+        });
+    });
+    describe("Create Per Seat Checkout", () => {
+        it("Should return response if successful", async () => {
+
+            const planName = "plan-name";
+            const paymentSchedule = "payment-schedule";
+
+            mock.onPost(`/api/payments/plans/checkout/` + planName + '/' + paymentSchedule, {seats: 1}).reply(200, {success: true});
+
+            // when
+            const result = await planservice.createPerSeatCheckout(planName, paymentSchedule, 1)
+
+            // then
+            expect(mock.history.post[0].url).toEqual(`/api/payments/plans/checkout/` + planName + '/' + paymentSchedule);
+            expect(result.data).toEqual({success: true});
+        });
+
+        it("Should return error", async () => {
+
+            const planName = "plan-name";
+            const paymentSchedule = "payment-schedule";
+
+            mock.onPost(`/api/payments/plans/checkout/` + planName + '/' + paymentSchedule, {seats: 1}).reply(400, {success: false, error: "Error message here"});
+
+            try {
+                await planservice.createPerSeatCheckout(planName, paymentSchedule, 1);
+                fail("Didn't throw error")
+            } catch (error) {
+                expect(mock.history.post[0].url).toEqual(`/api/payments/plans/checkout/` + planName + '/' + paymentSchedule);
                 expect(error).toEqual("Error message here");
 
             }
