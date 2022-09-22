@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
-use Parthenon\Subscriptions\SubscriptionInterface;
+use Parthenon\Payments\SubscriptionInterface;
 use Parthenon\User\Entity\UserInterface;
 
 class TeamRepository extends \Parthenon\User\Repository\TeamRepository implements TeamRepositoryInterface

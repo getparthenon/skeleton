@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220922080749 extends AbstractMigration
+final class Version20220922203335 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -48,7 +48,7 @@ final class Version20220922080749 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN team_invite_codes.user_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN team_invite_codes.invited_user_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN team_invite_codes.team_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE teams (id UUID NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, deleted_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, name VARCHAR(255) DEFAULT NULL, subscription_price_id VARCHAR(255) DEFAULT NULL, subscription_plan_name VARCHAR(255) DEFAULT NULL, subscription_payment_schedule VARCHAR(255) DEFAULT NULL, subscription_active BOOLEAN DEFAULT NULL, subscription_status VARCHAR(255) DEFAULT NULL, subscription_started_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, subscription_valid_until TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, subscription_updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, subscription_ended_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, subscription_payment_id VARCHAR(255) DEFAULT NULL, subscription_checkout_id VARCHAR(255) DEFAULT NULL, subscription_seats INT DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE teams (id UUID NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, deleted_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, name VARCHAR(255) DEFAULT NULL, subscription_price_id VARCHAR(255) DEFAULT NULL, subscription_plan_name VARCHAR(255) DEFAULT NULL, subscription_payment_schedule VARCHAR(255) DEFAULT NULL, subscription_active BOOLEAN DEFAULT NULL, subscription_status VARCHAR(255) DEFAULT NULL, subscription_started_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, subscription_valid_until TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, subscription_updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, subscription_ended_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, subscription_payment_id VARCHAR(255) DEFAULT NULL, subscription_customer_id VARCHAR(255) DEFAULT NULL, subscription_checkout_id VARCHAR(255) DEFAULT NULL, subscription_seats INT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN teams.id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE users (id UUID NOT NULL, team_id UUID DEFAULT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, name VARCHAR(255) DEFAULT NULL, confirmation_code VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, activated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, deactivated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, deleted_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, is_confirmed BOOLEAN NOT NULL, is_deleted BOOLEAN NOT NULL, roles TEXT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_1483A5E9296CD8AE ON users (team_id)');

@@ -11,11 +11,6 @@ parthenon_user_controllers:
     resource: ../vendor/parthenon/parthenon/src/User/Controller/
     type: annotation
 
-parthenon_plan_controllers:
-    prefix: /api
-    resource: ../vendor/parthenon/parthenon/src/Subscriptions/Controller/
-    type: annotation
-
 parthenon_payments_controllers:
     prefix: /api
     resource: ../vendor/parthenon/parthenon/src/Payments/Controller/

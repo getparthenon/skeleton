@@ -10,19 +10,11 @@ parthenon:
   notification:
     enabled: true
     email:
-      from_name: 'Blether'
-      from_address: 'support@blether.chat'
+      from_name: 'Parthenon'
+      from_address: 'support@example.org'
       provider: sendgrid
       sendgrid:
         api_key: '%env(resolve:SENDGRID_API_KEY)%'
-  subscriptions:
-    enabled: true
-    subscriber_type: team
-    plan:
-      Basic:
-        user_count: 1
-      Standard:
-        user_count: 5
   payments:
     enabled: true
     provider: stripe
@@ -49,3 +41,10 @@ parthenon:
         yearly:
           price: '5000'
           price_id: '%env(resolve:STANDARD_YEARLY_PRICE_ID)%'
+    subscriptions:
+      subscriber_type: team
+      plan:
+        Basic:
+          user_count: 1
+        Standard:
+          user_count: 5
