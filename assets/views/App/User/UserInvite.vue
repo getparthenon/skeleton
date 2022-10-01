@@ -25,7 +25,6 @@
 
 <script>
 import {userservice} from "../../../services/userservice";
-import LoadingMessage from "../../../components/ui/LoadingMessage";
 
 export default {
   name: "UserInvite",

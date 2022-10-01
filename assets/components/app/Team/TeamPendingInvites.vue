@@ -33,7 +33,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import LoadingMessage from "../../ui/LoadingMessage";
 
 export default {
   name: "TeamPendingInvites",
