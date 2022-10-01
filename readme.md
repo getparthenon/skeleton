@@ -2,8 +2,6 @@
   <img width="450px" src="https://getparthenon.com/images/logo.svg">
 </p>
 
-**Work in Progress - NOT STABLE RELEASE**
-
 ## Local Development Environment
 
 Requirements:
@@ -32,3 +30,5 @@ docker-compose up -d
 cd ..
 yarn encore dev-server
 ```
+
+Then visit https://localhost
