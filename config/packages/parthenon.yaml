@@ -12,9 +12,7 @@ parthenon:
     email:
       from_name: 'Parthenon'
       from_address: 'support@example.org'
-      provider: sendgrid
-      sendgrid:
-        api_key: '%env(resolve:SENDGRID_API_KEY)%'
+      provider: symfony
   payments:
     enabled: true
     provider: stripe
