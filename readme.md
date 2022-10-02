@@ -8,7 +8,7 @@ A quick and easy way to start your next application.
 
 ## Get started
 
-To get started you can either click the use template button on GitHub that will create a repository for you which you can clone and use.
+To get started you can either click the use template button \([click here](https://github.com/getparthenon/skeleton/generate)\) on GitHub that will create a repository for you which you can clone and use.
 
 Or via composer using the `create-project` command.
 
