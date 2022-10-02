@@ -8,6 +8,10 @@ A quick and easy way to start your next application.
 
 ## Get started
 
+To get started you can either click the use template button on GitHub that will create a repository for you which you can clone and use.
+
+Or via composer using the `create-project` command.
+
 `composer create-project parthenon/skeleton new-application`
 
 ## Local Development Environment
