@@ -86,7 +86,7 @@ For non-production use, you can use Parthenon for free. This includes developmen
 
 ### Where can I get a commercial license?
 
-You can find out more information about getting a commercial license at https://getparthenon.com.
+You can find out more information about getting a commercial license at https://getparthenon.com or email iain@humblyarrogant.io.
 
 ### How much does a commercial license cost?
 
