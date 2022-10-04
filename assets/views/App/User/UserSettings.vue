@@ -52,6 +52,9 @@
 
 <script>
 import {userservice} from "../../../services/userservice";
+import LoadingMessage from "../../../components/ui/LoadingMessage";
+import LoadingScreen from "../../../components/ui/LoadingScreen";
+import SubmitButton from "../../../components/ui/SubmitButton";
 
 export default {
   name: "UserSettings",
