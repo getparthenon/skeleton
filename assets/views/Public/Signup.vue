@@ -63,7 +63,7 @@ import PublicLogo from "../../components/public/PublicLogo";
 
 export default {
   name: "Signup",
-  components: {LoadingMessage, PublicLogo},
+  components: {PublicLogo},
   data() {
     return {
       email: '',

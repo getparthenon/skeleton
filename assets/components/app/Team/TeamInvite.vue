@@ -56,7 +56,6 @@ import { mapState, mapActions } from 'vuex';
 
 export default {
   name: "TeamInvite",
-  components: {LoadingMessage},
   data() {
       return {
         email: '',

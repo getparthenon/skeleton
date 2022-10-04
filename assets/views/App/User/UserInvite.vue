@@ -28,7 +28,6 @@ import {userservice} from "../../../services/userservice";
 
 export default {
   name: "UserInvite",
-  components: {LoadingMessage},
   data() {
     return {
       email: "",
