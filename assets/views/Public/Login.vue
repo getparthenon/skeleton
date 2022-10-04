@@ -40,7 +40,7 @@ import PublicLogo from "../../components/public/PublicLogo";
 
 export default {
   name: "Login",
-  components: {LoadingMessage, PublicLogo},
+  components: {PublicLogo},
   data () {
     return {
       email: '',

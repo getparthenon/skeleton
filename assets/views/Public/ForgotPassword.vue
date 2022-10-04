@@ -58,7 +58,7 @@ import PublicLogo from "../../components/public/PublicLogo";
 
 export default {
   name: "ForgotPassword",
-  components: {LoadingMessage, PublicLogo},
+  components: {PublicLogo},
   data() {
     return {
       error_info: {
