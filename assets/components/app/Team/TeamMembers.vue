@@ -34,11 +34,9 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import LoadingMessage from "../../ui/LoadingMessage";
 
 export default {
   name: "TeamMembers",
-  components: {LoadingMessage},
   computed: {
     ...mapState('userStore', ['user']),
     ...mapState('teamStore', ['members', 'current_member', 'disable_member_in_progress'])

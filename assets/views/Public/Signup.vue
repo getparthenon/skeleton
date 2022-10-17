@@ -60,11 +60,10 @@
 <script>
 import {userservice} from "../../services/userservice";
 import PublicLogo from "../../components/public/PublicLogo";
-import LoadingMessage from "../../components/ui/LoadingMessage";
 
 export default {
   name: "Signup",
-  components: {LoadingMessage, PublicLogo},
+  components: {PublicLogo},
   data() {
     return {
       email: '',

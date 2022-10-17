@@ -33,11 +33,9 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import LoadingMessage from "../../ui/LoadingMessage";
 
 export default {
   name: "TeamPendingInvites",
-  components: {LoadingMessage},
   computed: {
     ...mapState('teamStore', ['sent_invites', 'current_invite' , 'cancel_invite_in_progress'])
   },

@@ -37,11 +37,10 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import PublicLogo from "../../components/public/PublicLogo";
-import LoadingMessage from "../../components/ui/LoadingMessage";
 
 export default {
   name: "Login",
-  components: {LoadingMessage, PublicLogo},
+  components: {PublicLogo},
   data () {
     return {
       email: '',
