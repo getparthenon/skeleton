@@ -58,8 +58,12 @@ const actions = {
     },
     signup({ dispatch, commit }, user) {
         commit('signupRequest', user);
-
+    },
+    markAsLoggedin({commit}, {user}) {
+        localStorage.setItem('user', JSON.stringify(user));
+        commit('loginSuccess', user);
     }
+
 };
 
 const mutations = {

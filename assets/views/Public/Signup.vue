@@ -60,6 +60,7 @@
 <script>
 import {userservice} from "../../services/userservice";
 import PublicLogo from "../../components/public/PublicLogo";
+import {mapActions} from "vuex";
 
 export default {
   name: "Signup",
@@ -81,7 +82,7 @@ export default {
     }
   },
   methods: {
-
+    ...mapActions('userStore', ['markAsLoggedin']),
     handleSubmit (e) {
       this.submitted = true;
       const { email, password, password_confirm } = this;
@@ -111,12 +112,18 @@ export default {
       }
 
       this.in_process = true
-
+      var that = this
       if (email && password) {
         userservice.signup(user, this.$route.params.code)
             .then(
-                user => {
+                response => {
+
                   this.signing_up = false
+                  if (response.data.user !== undefined) {
+                    that.$router.push({name: 'app.home'})
+                  }
+                  var user = response.data.user
+                  this.markAsLoggedin({user});
                 },
                 error => {
                   this.error = error
