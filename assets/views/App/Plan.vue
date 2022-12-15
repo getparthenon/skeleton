@@ -65,6 +65,7 @@
 <script>
 import { planservice } from "../../services/planservice";
 import { stripeservice } from "../../services/stripeservice";
+import { transactoncloudservice } from "../../services/transactioncloudservice";
 
 export default {
   name: "Plan.vue",
@@ -85,13 +86,17 @@ export default {
     planservice.fetchPlanInfo().then(response =>{
       this.plans = response.data.plans;
       this.current_plan = response.data.current_plan;
-      this.stripe = response.data.stripe;
+      this.provider = response.data.provider;
     })
   },
   methods: {
     select: function (planName, paymentSchedule) {
       planservice.createCheckout(planName, paymentSchedule).then(response => {
-          stripeservice.redirectToCheckout(this.stripe.api_key, response.data.id)
+        if (this.provider.provider === "stripe") {
+          stripeservice.redirectToCheckout(this.provider.api_key, response.data.id)
+        } else if (this.provider.provider === "transactioncloud") {
+          transactoncloudservice.redirectToCheckout(response.data.id)
+        }
       })
     },
     isCurrentPlan: function (planName) {
