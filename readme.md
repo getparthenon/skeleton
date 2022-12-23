@@ -30,6 +30,10 @@ The first step is to set up the environment.
 ```
 composer install
 yarn install
+cd docker
+docker-compose up -d
+cd ..
+bin/console doctrine:migrations:migrate
 ```
 
 ### Run
