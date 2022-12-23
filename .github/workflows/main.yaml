@@ -6,6 +6,8 @@ on:
   workflow_dispatch:
   repository_dispatch:
       types: [ push ]
+  schedule: # Added to ensure build still works daily.
+    - cron: '0 2 * * *' # run at 2 AM UTC
 
 
 jobs:
