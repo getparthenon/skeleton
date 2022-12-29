@@ -18,7 +18,8 @@
         "symfony/framework-bundle": "6.1.*",
         "symfony/runtime": "6.1.*",
         "symfony/webpack-encore-bundle": "^1.15",
-        "symfony/yaml": "6.1.*"
+        "symfony/yaml": "6.1.*",
+        "monolog/monolog": "2.8.*"
     },
     "require-dev": {
         "behat/behat": "^3.11",
