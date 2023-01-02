@@ -313,20 +313,22 @@ class UserContext implements Context
         $this->iLoginAsWithThePassword($arg1, 'RealPassword');
     }
 
+
+
     /**
-     * @When I edit my profile with the name :arg1
+     * @When I edit my settings with the name :arg1
      */
     public function iEditMyProfileWithTheName($arg1)
     {
-        $this->sendJsonRequest('GET', '/api/user/profile');
+        $this->sendJsonRequest('GET', '/api/user/settings');
         $content = $this->getJsonContent()['form'];
         $output = [];
-        foreach ($content as $key => $options) {
-            $output[$key] = $options['value'];
+        foreach ($content as $key => $value) {
+            $output[$key] = $value;
         }
 
         $output['name'] = $arg1;
-        $this->sendJsonRequest('POST', '/api/user/profile', $output);
+        $this->sendJsonRequest('POST', '/api/user/settings', $output);
     }
 
     /**
@@ -349,11 +351,11 @@ class UserContext implements Context
     }
 
     /**
-     * @When I visit the profiile page
+     * @When I visit the settings page
      */
     public function iVisitTheProfiilePage()
     {
-        $this->session->visit('/api/user/profile');
+        $this->session->visit('/api/user/settings');
     }
 
     /**
