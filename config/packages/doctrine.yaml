@@ -12,7 +12,6 @@ doctrine:
         resolve_target_entities:
             Parthenon\User\Entity\UserInterface: App\Entity\User
             Parthenon\User\Entity\TeamInterface: App\Entity\Team
-            Parthenon\Billing\Entity\CustomerInterface: App\Entity\Team
         mappings:
             App:
                 is_bundle: false
