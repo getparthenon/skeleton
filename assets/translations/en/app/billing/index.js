@@ -1,0 +1,7 @@
+import {BILLING_DETAILS_TRANSLATIONS} from "./details";
+import {BILLING_MAIN_TRANSLATIONS} from "./main";
+
+export const BILLING_TRANSLATIONS = {
+    details: BILLING_DETAILS_TRANSLATIONS,
+    main: BILLING_MAIN_TRANSLATIONS,
+}
