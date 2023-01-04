@@ -8,35 +8,53 @@ function redirectToCheckout(apiKey, sessionId) {
     }, 500);
 }
 
-function getCardToken(apiKey, client_secret, card) {
-    addJs();
-    setTimeout(function () {
-        var stripe = Stripe(apiKey);
+function getCardToken(stripe, client_secret) {
         var elements = stripe.elements({
-            clientSecret: apiKey,
+            clientSecret: client_secret,
         });
 
-        var cardElement = elements.create('card');
+        var style = {
+            base: {
+                color: "#32325d",
+                fontFamily: 'Arial, sans-serif',
+                fontSmoothing: "antialiased",
+                fontSize: "16px",
+                "::placeholder": {
+                    color: "#32325d"
+                }
+            },
+            invalid: {
+                fontFamily: 'Arial, sans-serif',
+                color: "#fa755a",
+                iconColor: "#fa755a"
+            }
+        };
 
-        cardElement.name(card.name);
-        cardElement.number(card.number);
-        cardElement.exp_year(card.exp_year);
-        cardElement.exp_month(card.exp_month);
-        cardElement.cvc(card.cvc);
+        var card = elements.create("card", { style: style });
+        card.mount("#cardInput");
 
-        return stripe.createToken(cardElement);
-    }, 500);
+        card.on("change", function (event) {
+            // Disable the Pay button if there are no card details in the Element
+            document.querySelector("button").disabled = event.empty;
+            document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
+        });
+        return card;
 
+
+}
+
+function sendCard(stripe, card) {
+
+
+    return stripe.createToken(card);
 }
 
 function addJs() {
 
-    var imported = document.createElement('script');
-    imported.src = 'https://js.stripe.com/v3/';
-    document.head.appendChild(imported);
 }
 
 export const stripeservice = {
     redirectToCheckout,
     getCardToken,
+    sendCard,
 }
