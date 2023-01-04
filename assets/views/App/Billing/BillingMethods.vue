@@ -1,12 +1,15 @@
 <template>
-  <div>Coming soon</div>
+  <div>
+    <StripeTokenForm />
+  </div>
 </template>
 
 <script>
+import StripeTokenForm from "./Stripe/StripeTokenForm";
 export default {
   name: "BillingMethods",
+  components: {StripeTokenForm},
   mounted() {
-    console.log('Ytest')
   }
 }
 </script>
