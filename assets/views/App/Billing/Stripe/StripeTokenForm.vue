@@ -44,7 +44,7 @@ export default {
     var that = this
     billingservice.getAddCardToken().then(
       tokenResponse => {
-        this.stripe = Stripe('');
+        this.stripe = Stripe(tokenResponse.data.api_info);
         this.loading = false
         setTimeout(function () {
 
