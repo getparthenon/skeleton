@@ -1,31 +1,58 @@
 <template>
   <div>
-    <ul>
+    <h2 class="text-2xl mb-4">{{ $t('app.billing.payment_methods.title') }}</h2>
+
+    <ul class="my-4">
       <li v-for="paymentDetail in paymentDetails">
-        <div>
-          **** **** **** {{ paymentDetail.lastFour }}
+        <div class="flex flex-row">
+          <div class="mr-3">
+            <label class="block font-weight-bold">{{ $t('app.billing.payment_methods.card_number') }}</label>
+              **** **** **** {{ paymentDetail.lastFour }}
+          </div>
+          <div class="">
+
+            <label class="block font-weight-bold">{{ $t('app.billing.payment_methods.card_expiry') }}</label>
+            {{ paymentDetail.expiryMonth }}/{{ paymentDetail.expiryYear }}
+          </div>
+          <div class="w-100 text-right">
+            <button class="btn--main" v-if="!paymentDetail.defaultPaymentOption">{{ $t('app.billing.payment_methods.make_default_btn') }}</button>
+            <button class="btn--danger">{{ $t('app.billing.payment_methods.delete_btn') }}</button>
+          </div>
+        </div>
+      </li>
+      <li v-if="paymentDetails.length === 0">
+        <div class="text-center">
+          {{ $t('app.billing.payment_methods.no_saved_payment_methods') }}
         </div>
       </li>
     </ul>
-    <StripeTokenForm />
+    <button class=" btn--main" @click="addCard" v-if="!show_add_card_form">
+      {{ $t('app.billing.payment_methods.add_card_btn') }}
+    </button>
+    <StripeTokenForm v-if="show_add_card_form" />
   </div>
 </template>
 
 <script>
 import StripeTokenForm from "./Stripe/StripeTokenForm";
 import {billingservice} from "../../../services/billingservice";
+import {mapActions, mapState} from "vuex";
 export default {
   name: "BillingMethods",
   components: {StripeTokenForm},
   data() {
     return {
-      paymentDetails: [],
     }
   },
+  computed: {
+    ...mapState('billingStore', ['show_add_card_form', 'paymentDetails'])
+  },
+  methods: {
+    ...mapActions('billingStore', ['addCard', 'resetForm', 'fetchPaymentMethods']),
+  },
   mounted() {
-    billingservice.getPaymentDetails().then(response => {
-        this.paymentDetails = response.data.payment_details;
-    })
+    this.resetForm();
+    this.fetchPaymentMethods();
   }
 }
 </script>

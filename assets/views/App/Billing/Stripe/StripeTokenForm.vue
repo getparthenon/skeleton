@@ -18,6 +18,7 @@
 <script>
 import {stripeservice} from "../../../../services/stripeservice";
 import {billingservice} from "../../../../services/billingservice";
+import {mapActions} from "vuex";
 
 export default {
   name: "StripeTokenForm",
@@ -60,6 +61,7 @@ export default {
 
   },
   methods: {
+    ...mapActions('billingStore', ['cardAdded']),
     send: function () {
       this.sending = true;
       var that = this
@@ -67,6 +69,8 @@ export default {
         response => {
           var token = response.token.id;
           billingservice.saveToken(token).then(response => {
+            var paymentDetails = response.data.payment_details;
+            this.cardAdded({paymentDetails});
             that.sending = false
           })
         }

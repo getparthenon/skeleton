@@ -2,7 +2,7 @@
     <div>
       <h1 class="page-title">{{ $t('app.billing.main.title') }}</h1>
 
-      <div class="lg:flex body-panel">
+      <div class="lg:flex body-panel mt-5">
         <div class="flex flex-col lg:w-80 border-r-1 p-3 border-r-1 border-slate-200">
           <ul>
             <li class="submenu-list-item"><router-link :to="{name: 'app.billing.details'}" class="submenu">{{ $t('app.billing.main.details') }}</router-link></li>
