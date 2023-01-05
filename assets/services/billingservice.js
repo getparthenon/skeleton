@@ -9,11 +9,15 @@ function saveToken(token) {
 }
 
 function getAddress() {
-    return axios.get("/api/billing/address").then(handleResponse)
+    return axios.get("/api/billing/address").then(handleResponse);
 }
 
 function getAddCardToken() {
-    return axios.get("/api/billing/card/token/start").then(handleResponse)
+    return axios.get("/api/billing/card/token/start").then(handleResponse);
+}
+
+function getPaymentDetails() {
+    return axios.get("/api/billing/payment-details").then(handleResponse);
 }
 
 export const billingservice = {
@@ -21,4 +25,5 @@ export const billingservice = {
     getAddress,
     getAddCardToken,
     saveToken,
+    getPaymentDetails,
 }
