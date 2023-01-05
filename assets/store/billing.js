@@ -35,6 +35,10 @@ const mutations = {
         state.paymentDetails = paymentDetails;
     },
     addNewCard(state, paymentDetail) {
+        for (var i =0; i < state.paymentDetails.length; i++) {
+            state.paymentDetails[i].defaultPaymentOption = false;
+        }
+
         state.paymentDetails.push(paymentDetail)
     }
 };
