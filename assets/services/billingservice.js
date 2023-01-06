@@ -20,10 +20,15 @@ function getPaymentDetails() {
     return axios.get("/api/billing/payment-details").then(handleResponse);
 }
 
+function deletePaymentDetails(id) {
+    return axios.delete("/api/billing/card/"+id).then(handleResponse);
+}
+
 export const billingservice = {
     sendAddress,
     getAddress,
     getAddCardToken,
     saveToken,
     getPaymentDetails,
+    deletePaymentDetails,
 }

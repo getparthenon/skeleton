@@ -21,6 +21,13 @@ const actions = {
     cardAdded({commit}, {paymentDetails}) {
         commit('hideForm');
         commit('addNewCard', paymentDetails);
+    },
+    deleteCard({commit}, {paymentDetail}) {
+        billingservice.deletePaymentDetails(paymentDetail.id).then( response => {
+            commit('removedCard', paymentDetail);
+        }, error => {
+
+        });
     }
 };
 
@@ -33,6 +40,15 @@ const mutations = {
     },
     setPaymentDetails(state, paymentDetails) {
         state.paymentDetails = paymentDetails;
+    },
+    removedCard(state, paymentDetail) {
+        var newArray = [];
+        for (var i =0; i < state.paymentDetails.length; i++) {
+            if (state.paymentDetails[i].id !== paymentDetail.id) {
+                newArray.push(state.paymentDetails[i])
+            }
+        }
+        state.paymentDetails = newArray;
     },
     addNewCard(state, paymentDetail) {
         for (var i =0; i < state.paymentDetails.length; i++) {

@@ -16,7 +16,7 @@
           </div>
           <div class="w-100 text-right">
             <button class="btn--main" v-if="!paymentDetail.default">{{ $t('app.billing.payment_methods.make_default_btn') }}</button>
-            <button class="btn--danger">{{ $t('app.billing.payment_methods.delete_btn') }}</button>
+            <button class="btn--danger" @click="deleteCard({paymentDetail})">{{ $t('app.billing.payment_methods.delete_btn') }}</button>
           </div>
         </div>
       </li>
@@ -48,7 +48,7 @@ export default {
     ...mapState('billingStore', ['show_add_card_form', 'paymentDetails'])
   },
   methods: {
-    ...mapActions('billingStore', ['addCard', 'resetForm', 'fetchPaymentMethods']),
+    ...mapActions('billingStore', ['addCard', 'resetForm', 'fetchPaymentMethods', 'deleteCard']),
   },
   mounted() {
     this.resetForm();
