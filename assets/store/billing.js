@@ -4,6 +4,7 @@ import {billingservice} from "../services/billingservice";
 const state = {
     show_add_card_form: false,
     paymentDetails: [],
+    error: {}
 };
 
 const actions = {
@@ -20,18 +21,25 @@ const actions = {
     },
     cardAdded({commit}, {paymentDetails}) {
         commit('hideForm');
+        commit('removeDefaultFromAllCards');
         commit('addNewCard', paymentDetails);
     },
     deleteCard({commit}, {paymentDetail}) {
         billingservice.deletePaymentDetails(paymentDetail.id).then( response => {
             commit('removedCard', paymentDetail);
         }, error => {
-
+            commit('changeError', 'app.billing.payment_method.delete_error')
         });
+    },
+    makeCardDefault({commit}, {paymentDetail}) {
+        commit('removeDefaultFromAllCards');
     }
 };
 
 const mutations = {
+    changeError(state, error) {
+      state.error = error;
+    },
     enableForm(state) {
       state.show_add_card_form = true;
     },
@@ -50,11 +58,12 @@ const mutations = {
         }
         state.paymentDetails = newArray;
     },
-    addNewCard(state, paymentDetail) {
+    removeDefaultFromAllCards(state) {
         for (var i =0; i < state.paymentDetails.length; i++) {
             state.paymentDetails[i].defaultPaymentOption = false;
         }
-
+    },
+    addNewCard(state, paymentDetail) {
         state.paymentDetails.push(paymentDetail)
     }
 };
