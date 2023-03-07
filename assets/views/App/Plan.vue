@@ -18,9 +18,8 @@
       <div class="column" v-for="(plan, planName) in plans" :class="{'border-2 border-red-500': isCurrentPlan(planName)}">
         <h2 class="h2">{{ plan.name }}</h2>
         <h3 class="text-xl text-red-500" v-if="isCurrentPlan(planName)">{{ $t('app.plan.main.your_current_plan') }}</h3>
-        <div class="plan_head_rgt my-3" v-if="plan.prices.length !== 0">
-          <h4 v-if="paymentSchedule === 'monthly'" class="h1">${{ plan.prices.monthly.usd.amount }}<span>/{{ $t('app.plan.main.payment_schedule_monthly') }}</span></h4>
-          <h4 v-else class="h1">${{ plan.prices.yearly.usd.amount }}<span>/{{ $t('app.plan.main.payment_schedule_yearly') }}</span></h4>
+        <div class="plan_head_rgt my-3" v-if="plan.prices[paymentSchedule] !== undefined">
+          <h4 class="h1">${{ plan.prices[paymentSchedule].usd.amount }}<span>/{{ $t('app.plan.main.payment_schedule_'+paymentSchedule) }}</span></h4>
       </div>
       <div class="plans_bdy">
         <h6 class="mb-5">{{ $t('app.plan.main.features') }}:</h6>
