@@ -79,6 +79,7 @@ export default {
       stripe: {},
       error_message: undefined,
       in_progress: false,
+      currency: 'usd'
     }
   },
   mounted() {
@@ -92,12 +93,9 @@ export default {
   },
   methods: {
     select: function (planName, paymentSchedule) {
-      planservice.createCheckout(planName, paymentSchedule).then(response => {
-        if (this.provider.provider === "stripe") {
-          stripeservice.redirectToCheckout(this.provider.api_key, response.data.id)
-        } else if (this.provider.provider === "transactioncloud") {
-          transactoncloudservice.redirectToCheckout(response.data.id)
-        }
+      planservice.startSubscriptionFromPaymentDetails(planName, paymentSchedule, this.currency).then(response => {
+        console.log(response)
+        alert('here')
       })
     },
     isCurrentPlan: function (planName) {
