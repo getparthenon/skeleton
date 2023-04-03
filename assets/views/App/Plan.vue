@@ -9,8 +9,8 @@
     <div class="my-5 text-end">
       {{ $t('app.plan.main.payment_schedule_label') }}
       <select v-model="paymentSchedule">
-        <option value="yearly">{{ $t('app.plan.main.payment_schedule_yearly') }}</option>
-        <option value="monthly">{{ $t('app.plan.main.payment_schedule_monthly') }}</option>
+        <option value="year">{{ $t('app.plan.main.payment_schedule_yearly') }}</option>
+        <option value="month">{{ $t('app.plan.main.payment_schedule_monthly') }}</option>
       </select>
     </div>
 
@@ -74,7 +74,7 @@ export default {
       sessionId: undefined,
       plans: [],
       current_plan: {},
-      paymentSchedule: "yearly",
+      paymentSchedule: "year",
       showYearly: true,
       stripe: {},
       error_message: undefined,
