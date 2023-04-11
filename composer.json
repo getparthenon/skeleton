@@ -10,13 +10,14 @@
         "ext-iconv": "*",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.13",
-        "parthenon/parthenon": "dev-main",
         "parthenon/obol": "dev-main",
+        "parthenon/parthenon": "dev-main",
+        "ramsey/uuid-doctrine": "^2.0",
         "symfony/console": "6.1.*",
         "symfony/dotenv": "6.1.*",
         "symfony/flex": "^2",
-        "symfony/mailer": "6.*",
         "symfony/framework-bundle": "6.1.*",
+        "symfony/mailer": "6.*",
         "symfony/runtime": "6.1.*",
         "symfony/webpack-encore-bundle": "^1.15",
         "symfony/yaml": "6.1.*"
@@ -34,7 +35,8 @@
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "php-http/discovery": true
         },
         "optimize-autoloader": true,
         "preferred-install": {
