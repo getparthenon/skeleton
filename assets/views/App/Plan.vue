@@ -9,8 +9,8 @@
     <div class="my-5 text-end">
       {{ $t('app.plan.main.payment_schedule_label') }}
       <select v-model="paymentSchedule">
-        <option value="year">{{ $t('app.plan.main.payment_schedule_yearly') }}</option>
-        <option value="month">{{ $t('app.plan.main.payment_schedule_monthly') }}</option>
+        <option value="year">{{ $t('app.plan.main.payment_schedule_year') }}</option>
+        <option value="month">{{ $t('app.plan.main.payment_schedule_month') }}</option>
       </select>
     </div>
 
@@ -29,9 +29,20 @@
         </div>
       </div>
       <div class="button-container" v-if="in_progress === false">
-        <button class="btn--main block w-full" @click="select(planName, paymentSchedule)" v-if="current_plan === null || !(this.current_plan.status == 'active' || this.current_plan.status == 'pending')">{{ $t('app.plan.main.select_plan') }}</button>
-        <button class="btn--main block w-full" @click="change(planName, paymentSchedule)" v-else-if="!isCurrentPlan(planName) || current_plan.payment_schedule !== paymentSchedule">{{ $t('app.plan.main.change') }}</button>
-        <button class="btn--main--disabled w-full" disabled v-else>{{ $t('app.plan.main.selected_plan') }}</button>
+        <button class="btn--main block w-full" @click="select(planName, paymentSchedule)" v-if="this.current_plans.length == 0">{{ $t('app.plan.main.select_plan') }}</button>
+        <button class="btn--main block w-full" @click="change(planName, paymentSchedule)" v-else-if="!isCurrentPlan(planName) || planSchedule(planName) !== paymentSchedule">{{ $t('app.plan.main.change') }}</button>
+        <div v-else>
+
+          <button class="btn--danger w-full mb-2" @click="cancel(planName)"  v-if="in_progress === false">{{ $t('app.plan.main.cancel_button') }}</button>
+          <a @click="cancel" class="btn--danger--disabled block text-center "  v-else>
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            {{ $t('app.plan.main.in_progress') }}
+          </a>
+          <button class="btn--main--disabled w-full" disabled >{{ $t('app.plan.main.selected_plan') }}</button>
+        </div>
       </div>
       <div class="button-container" v-else>
         <button class="btn--main--disabled w-full" disabled >
@@ -42,21 +53,6 @@
           {{ $t('app.plan.main.in_progress') }}</button>
       </div>
     </div>
-    </div>
-
-    <div class="bottom-body" v-if="(this.current_plan.status == 'active' || this.current_plan.status == 'pending')">
-      <h3 class="h3">{{ $t('app.plan.main.plan_options') }}</h3>
-
-      <a href="/api/payments/portal" class="btn--main mb-3 text-center block">{{ $t('app.plan.main.payment_settings') }}</a>
-
-      <a @click="cancel" class="btn--danger block text-center cursor-pointer	"  v-if="in_progress === false">{{ $t('app.plan.main.cancel_button') }}</a>
-      <a @click="cancel" class="btn--danger--disabled block text-center "  v-else>
-        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        {{ $t('app.plan.main.in_progress') }}
-      </a>
     </div>
   </div>
 </template>
@@ -73,7 +69,7 @@ export default {
       loading: false,
       sessionId: undefined,
       plans: [],
-      current_plan: {},
+      current_plans: [],
       paymentSchedule: "year",
       showYearly: true,
       stripe: {},
@@ -85,8 +81,8 @@ export default {
   mounted() {
     planservice.fetchPlanInfo().then(response =>{
       this.plans = response.data.plans;
-      if (response.data.current_plan !== null && response.data.current_plan !== undefined) {
-        this.current_plan = response.data.current_plan;
+      if (response.data.current_plans !== null && response.data.current_plans !== undefined) {
+        this.current_plans = response.data.current_plans;
       }
       this.provider = response.data.provider;
     })
@@ -98,12 +94,32 @@ export default {
         alert('here')
       })
     },
-    isCurrentPlan: function (planName) {
-      if (this.current_plan === null || this.current_plan === undefined) {
-        return false;
+    planSchedule: function (planName) {
+      for (var i = 0; i < this.current_plans.length; i++) {
+        if (this.current_plans[i].name === planName) {
+          return this.current_plans[i].schedule;
+        }
       }
 
-      return planName === this.current_plan.plan_name && (this.current_plan.status == 'active' || this.current_plan.status == 'pending');
+      return false;
+    },
+    getSubscriptionId: function (planName) {
+      for (var i = 0; i < this.current_plans.length; i++) {
+        if (this.current_plans[i].name === planName) {
+          return this.current_plans[i].id;
+        }
+      }
+
+      return false;
+    },
+    isCurrentPlan: function (planName) {
+      for (var i = 0; i < this.current_plans.length; i++) {
+        if (this.current_plans[i].name === planName) {
+          return true;
+        }
+      }
+
+      return false;
     },
     change: function (planName, paymentSchedule) {
       this.in_progress = true;
@@ -118,11 +134,20 @@ export default {
           }
       )
     },
-    cancel: function () {
+    cancel: function (planName) {
       this.in_progress = true;
-      planservice.cancel().then(
+      const subscriptionId = this.getSubscriptionId(planName);
+      planservice.cancel(subscriptionId).then(
           response => {
             this.in_progress = false;
+
+            planservice.fetchPlanInfo().then(response =>{
+              this.plans = response.data.plans;
+              if (response.data.current_plans !== null && response.data.current_plans !== undefined) {
+                this.current_plans = response.data.current_plans;
+              }
+              this.provider = response.data.provider;
+            })
           },
           error => {
             this.error_message = error;

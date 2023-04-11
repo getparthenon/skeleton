@@ -46,6 +46,6 @@ function changePlan(planName, paymentSchedule) {
 }
 
 
-function cancel() {
-    return axios.post(`/api/billing/cancel`, {}).then(handleResponse);
+function cancel(subscriptionId) {
+    return axios.post(`/api/billing/subscription/`+subscriptionId+`/cancel`, {}).then(handleResponse);
 }
