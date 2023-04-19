@@ -5,7 +5,7 @@ function sendAddress(address) {
     return axios.post("/api/billing/details", address).then(handleResponse);
 }
 function saveToken(token) {
-    return axios.post("/api/billing/payment-details/token/add", {token}).then(handleResponse);
+    return axios.post("/api/billing/payment-method/token/add", {token}).then(handleResponse);
 }
 
 function getAddress() {
@@ -13,15 +13,15 @@ function getAddress() {
 }
 
 function getAddCardToken() {
-    return axios.get("/api/billing/payment-details/token/start").then(handleResponse);
+    return axios.get("/api/billing/payment-method/token/start").then(handleResponse);
 }
 
 function getPaymentDetails() {
-    return axios.get("/api/billing/payment-details").then(handleResponse);
+    return axios.get("/api/billing/payment-method").then(handleResponse);
 }
 
 function deletePaymentDetails(id) {
-    return axios.delete("/api/billing/payment-details/"+id).then(handleResponse);
+    return axios.delete("/api/billing/payment-method/"+id).then(handleResponse);
 }
 
 export const billingservice = {
