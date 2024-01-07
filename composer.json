@@ -10,6 +10,7 @@
         "ext-iconv": "*",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.13",
+        "ramsey/uuid-doctrine": "^1.8.1",
         "parthenon/parthenon": "^2.2.5",
         "symfony/console": "6.1.*",
         "symfony/dotenv": "6.1.*",
