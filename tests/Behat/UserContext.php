@@ -618,6 +618,17 @@ class UserContext implements Context
             throw new \Exception('No invite code found');
         }
     }
+    /**
+     * @Then there will not be an invite code for :arg1
+     */
+    public function thereWillNotBeAnInviteCodeFor($email)
+    {
+        $inviteCode = $this->inviteCodeRepository->findOneBy(['email' => $email]);
+
+        if ($inviteCode) {
+            throw new \Exception('invite code found');
+        }
+    }
 
     /**
      * @Given the invite code :arg1 exists
@@ -632,6 +643,32 @@ class UserContext implements Context
         $this->inviteCodeRepository->getEntityManager()->flush();
     }
 
+
+    /**
+     * @When I edit my settings with the name :arg1
+     */
+    public function iEditMySettingsWithTheName($arg1)
+    {
+        $this->sendJsonRequest('GET', '/api/user/settings');
+        $content = $this->getJsonContent()['form'];
+        $output = [];
+        foreach ($content as $key => $options) {
+            $output[$key] = $options;
+        }
+
+        $output['name'] = $arg1;
+        $this->sendJsonRequest('POST', '/api/user/settings', $output);
+    }
+
+
+    /**
+     * @When I visit the settings page
+     */
+    public function iVisitTheSettingsPage()
+    {
+        $this->session->visit('/api/user/settings');
+    }
+    
     /**
      * @When I try to sign up with the code :arg1
      */
