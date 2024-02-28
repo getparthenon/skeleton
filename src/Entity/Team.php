@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Parthenon\Payments\Entity\Subscription;
 use Parthenon\Payments\Subscriber\SubscriberInterface;
-use Parthenon\User\Entity\UserInterface;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'teams')]
