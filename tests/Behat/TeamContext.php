@@ -1,19 +1,8 @@
 <?php
 
-declare(strict_types=1);
+namespace App\Tests\Behat;
 
-/*
- * Copyright Humbly Arrogant Software Limited 2020-2024
- *
- * Use of this software is governed by the Business Source License included in the LICENSE file and at https://getparthenon.com/docs/next/license.
- *
- * Change Date: 26.06.2026 ( 3 years after 2.2.0 release )
- *
- * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
- */
-
-namespace App\Tests\Behat\Skeleton;
-
+use App\Repository\Orm\InviteCodeRepository;
 use App\Repository\Orm\TeamInviteCodeRepository;
 use App\Repository\Orm\TeamRepository;
 use Behat\Behat\Context\Context;
@@ -30,6 +19,7 @@ class TeamContext implements Context
         private TeamRepository $teamRepository,
         private TeamInviteCodeRepository $inviteCodeRepository
     ) {
+
     }
 
     /**
@@ -82,6 +72,7 @@ class TeamContext implements Context
     public function iShouldSeeAsAnInvitedUser($email)
     {
         $jsonData = json_decode($this->session->getPage()->getContent(), true);
+
         foreach ($jsonData['sent_invites'] as $invite) {
             if ($invite['email'] == $email) {
                 return;
@@ -118,18 +109,6 @@ class TeamContext implements Context
 
         if (!$inviteCode->isUsed()) {
             throw new \Exception('Invite is usable');
-        }
-    }
-
-    /**
-     * @Then /^I should be told that the email is already a member$/
-     */
-    public function iShouldBeToldThatTheEmailIsAlreadyAMember()
-    {
-        $jsonData = json_decode($this->session->getPage()->getContent(), true);
-
-        if (!$jsonData['already_a_member']) {
-            throw new \Exception('Not declared as already a member');
         }
     }
 }
