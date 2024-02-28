@@ -12,14 +12,14 @@
         "doctrine/orm": "^2.13",
         "ramsey/uuid-doctrine": "^1.8.1",
         "parthenon/parthenon": "^2.2.10",
-        "symfony/console": "6.1.*",
-        "symfony/dotenv": "6.1.*",
+        "symfony/console": "7.*",
+        "symfony/dotenv": "7.*",
         "symfony/flex": "^2",
-        "symfony/mailer": "6.*",
-        "symfony/framework-bundle": "6.1.*",
-        "symfony/runtime": "6.1.*",
-        "symfony/webpack-encore-bundle": "^1.15",
-        "symfony/yaml": "6.1.*"
+        "symfony/mailer": "7.*",
+        "symfony/framework-bundle": "7.*",
+        "symfony/runtime": "7.*",
+        "symfony/webpack-encore-bundle": "^2.1.1",
+        "symfony/yaml": "7.*"
     },
     "require-dev": {
         "behat/behat": "^3.11",
@@ -28,7 +28,7 @@
         "friends-of-behat/mink-extension": "^2.7",
         "friends-of-behat/symfony-extension": "^2.3",
         "friendsofphp/php-cs-fixer": "^3.11",
-        "symfony/web-profiler-bundle": "^6.1"
+        "symfony/web-profiler-bundle": "^7.0"
     },
     "config": {
         "allow-plugins": {
@@ -79,7 +79,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.1.*"
+            "require": "7.*"
         }
     }
 }
