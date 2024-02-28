@@ -668,7 +668,7 @@ class UserContext implements Context
     {
         $this->session->visit('/api/user/settings');
     }
-    
+
     /**
      * @When I try to sign up with the code :arg1
      */
