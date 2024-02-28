@@ -1,13 +1,25 @@
 <?php
 
-namespace App\Tests\Behat;
+declare(strict_types=1);
+
+/*
+ * Copyright Humbly Arrogant Software Limited 2020-2024
+ *
+ * Use of this software is governed by the Business Source License included in the LICENSE file and at https://getparthenon.com/docs/next/license.
+ *
+ * Change Date: 26.06.2026 ( 3 years after 2.2.0 release )
+ *
+ * On the date above, in accordance with the Business Source License, use of this software will be governed by the open source license specified in the LICENSE file.
+ */
+
+namespace App\Tests\Behat\Skeleton;
 
 use App\Entity\ForgotPasswordCode;
 use App\Entity\InviteCode;
 use App\Entity\Team;
 use App\Entity\User;
-use App\Repository\Orm\InviteCodeRepository;
 use App\Repository\Orm\ForgotPasswordCodeRepository;
+use App\Repository\Orm\InviteCodeRepository;
 use App\Repository\Orm\TeamRepository;
 use App\Repository\Orm\UserRepository;
 use Behat\Behat\Context\Context;
@@ -16,8 +28,9 @@ use Behat\Mink\Session;
 use Doctrine\ORM\EntityManagerInterface;
 use Parthenon\Athena\Entity\Link;
 use Parthenon\Athena\Entity\Notification;
-use Parthenon\Payments\Entity\Subscription;
-use Ramsey\Uuid\Uuid;
+use Parthenon\Billing\Entity\EmbeddedSubscription;
+use Parthenon\Billing\Entity\Subscription;
+use Parthenon\Billing\Enum\SubscriptionStatus;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 class UserContext implements Context
@@ -34,13 +47,13 @@ class UserContext implements Context
     private string $passwordHash;
 
     public function __construct(
-        private Session                        $session,
-        private UserRepository                 $repository,
-        private EntityManagerInterface         $entityManager,
+        private Session $session,
+        private UserRepository $repository,
+        private EntityManagerInterface $entityManager,
         private PasswordHasherFactoryInterface $hasherFactory,
-        private ForgotPasswordCodeRepository   $passwordResetRepository,
-        private InviteCodeRepository           $inviteCodeRepository,
-        private TeamRepository                 $teamRepository
+        private ForgotPasswordCodeRepository $passwordResetRepository,
+        private InviteCodeRepository $inviteCodeRepository,
+        private TeamRepository $teamRepository
     ) {
     }
 
@@ -107,6 +120,7 @@ class UserContext implements Context
 
     /**
      * @When I login as :username with the password :password
+     *
      * @Given I have logged in as :username with the password :password
      */
     public function iLoginAsWithThePassword($username, $password)
@@ -142,30 +156,6 @@ class UserContext implements Context
     public function anUnconfirmedUserWithThePasswordExists($username, $password, $confirmationCode = 'confirmation')
     {
         $this->createUser($username, $password, $confirmationCode, false);
-    }
-
-    protected function createUser($username, $password, $confirmationCode, $confirmed, $name = 'A test user', $isAdmin = false, $bulk = false)
-    {
-        $user = new User();
-        if (!$bulk) {
-            $encodedPassword = $this->hasherFactory->getPasswordHasher($user)->hash($password);
-        } else {
-            $encodedPassword = $password;
-        }
-        $user->setEmail($username);
-        $user->setPassword($encodedPassword);
-        $user->setName($name);
-        $user->setConfirmationCode($confirmationCode);
-        $user->setIsConfirmed($confirmed);
-        $user->setCreatedAt(new \DateTime('now'));
-        $user->setRoles($isAdmin ? ['ROLE_ADMIN'] : ['ROLE_USER']);
-
-        $this->repository->getEntityManager()->persist($user);
-        if (!$bulk) {
-            $this->repository->getEntityManager()->flush();
-        }
-
-        return $user;
     }
 
     /**
@@ -314,19 +304,19 @@ class UserContext implements Context
     }
 
     /**
-     * @When I edit my profile with the name :arg1
+     * @When I edit my settings with the name :arg1
      */
-    public function iEditMyProfileWithTheName($arg1)
+    public function iEditMySettingsWithTheName($arg1)
     {
-        $this->sendJsonRequest('GET', '/api/user/profile');
+        $this->sendJsonRequest('GET', '/api/user/settings');
         $content = $this->getJsonContent()['form'];
         $output = [];
         foreach ($content as $key => $options) {
-            $output[$key] = $options['value'];
+            $output[$key] = $options;
         }
 
         $output['name'] = $arg1;
-        $this->sendJsonRequest('POST', '/api/user/profile', $output);
+        $this->sendJsonRequest('POST', '/api/user/settings', $output);
     }
 
     /**
@@ -349,11 +339,11 @@ class UserContext implements Context
     }
 
     /**
-     * @When I visit the profiile page
+     * @When I visit the settings page
      */
-    public function iVisitTheProfiilePage()
+    public function iVisitTheSettingsPage()
     {
-        $this->session->visit('/api/user/profile');
+        $this->session->visit('/api/user/settings');
     }
 
     /**
@@ -364,22 +354,6 @@ class UserContext implements Context
         if (401 !== $this->session->getStatusCode()) {
             throw new \Exception('Was not given an unauthorized response');
         }
-    }
-
-    /**
-     * @param $email
-     *
-     * @return User|null
-     *
-     * @throws \Doctrine\ORM\ORMException
-     */
-    protected function fetchUser($email)
-    {
-        /** @var User $user */
-        $user = $this->repository->findOneBy(['email' => $email]);
-        $this->repository->getEntityManager()->refresh($user);
-
-        return $user;
     }
 
     /**
@@ -433,7 +407,9 @@ class UserContext implements Context
         $users = $table->getColumnsHash();
 
         foreach ($users as $user) {
-            $this->createUser($user['Email'], $user['Password'], 'ddd', true, $user['Name'], false, true);
+            $userEnt = $this->createUser($user['Email'], $user['Password'], 'ddd', true, $user['Name'], false, true);
+
+            $this->createTeam($userEnt, $user['Name']);
         }
 
         $this->repository->getEntityManager()->flush();
@@ -444,7 +420,8 @@ class UserContext implements Context
      */
     public function anAdminUserWithThePasswordExist($email, $password)
     {
-        $this->createUser($email, $password, 'fake', true, 'A system user', true);
+        $user = $this->createUser($email, $password, 'fake', true, 'A system user', true);
+        $this->createTeam($user, 'admin');
     }
 
     /**
@@ -476,6 +453,19 @@ class UserContext implements Context
     }
 
     /**
+     * @When I click back
+     */
+    public function iClickBack()
+    {
+        try {
+            $this->session->getPage()->clickLink('crud_list_back');
+        } catch (\Throwable $e) {
+            echo $this->session->getPage()->getContent();
+            throw $e;
+        }
+    }
+
+    /**
      * @Then I should see :arg1 items
      */
     public function iShouldSeeItems($arg1)
@@ -494,6 +484,7 @@ class UserContext implements Context
     {
         if (!$this->session->getPage()->hasContent($arg1)) {
             echo $this->session->getPage()->getContent();
+            echo $this->session->getCurrentUrl();
             throw new \Exception("Can't see ".$arg1);
         }
     }
@@ -582,7 +573,7 @@ class UserContext implements Context
         $this->session->visit('/athena/user/'.$user->getId().'/edit');
 
         foreach ($table->getRowsHash() as $fieldName => $value) {
-            $this->session->getPage()->fillField('form['.$fieldName.']', $value);
+            $this->session->getPage()->fillField('athena['.$fieldName.']', $value);
         }
         $this->session->getPage()->pressButton('crud_edit_submit');
     }
@@ -618,6 +609,7 @@ class UserContext implements Context
             throw new \Exception('No invite code found');
         }
     }
+
     /**
      * @Then there will not be an invite code for :arg1
      */
@@ -626,7 +618,7 @@ class UserContext implements Context
         $inviteCode = $this->inviteCodeRepository->findOneBy(['email' => $email]);
 
         if ($inviteCode) {
-            throw new \Exception('invite code found');
+            throw new \Exception('Invite code found');
         }
     }
 
@@ -641,32 +633,6 @@ class UserContext implements Context
         $inviteCode->setCode($code);
         $this->inviteCodeRepository->getEntityManager()->persist($inviteCode);
         $this->inviteCodeRepository->getEntityManager()->flush();
-    }
-
-
-    /**
-     * @When I edit my settings with the name :arg1
-     */
-    public function iEditMySettingsWithTheName($arg1)
-    {
-        $this->sendJsonRequest('GET', '/api/user/settings');
-        $content = $this->getJsonContent()['form'];
-        $output = [];
-        foreach ($content as $key => $options) {
-            $output[$key] = $options;
-        }
-
-        $output['name'] = $arg1;
-        $this->sendJsonRequest('POST', '/api/user/settings', $output);
-    }
-
-
-    /**
-     * @When I visit the settings page
-     */
-    public function iVisitTheSettingsPage()
-    {
-        $this->session->visit('/api/user/settings');
     }
 
     /**
@@ -755,31 +721,6 @@ class UserContext implements Context
         }
     }
 
-    protected function createTeam(?User $user, $name, $plan = 'Trial')
-    {
-        $team = new Team();
-        $team->setName($name);
-        if ($user) {
-            $team->addMember($user);
-        }
-        $team->setCreatedAt(new \DateTime('now'));
-        $team->setSubscription(new Subscription());
-        $team->getSubscription()->setPlanName($plan);
-        $team->getSubscription()->setValidUntil(new \DateTime('+7 days'));
-        $team->getSubscription()->setActive(true);
-
-        $this->teamRepository->getEntityManager()->persist($team);
-
-        $this->teamRepository->getEntityManager()->flush();
-        if ($user) {
-            $user->setTeam($team);
-            $this->teamRepository->getEntityManager()->persist($user);
-        }
-
-        $this->teamRepository->getEntityManager()->flush();
-    }
-
-
     /**
      * @When I sent an invite to :arg1
      */
@@ -804,5 +745,84 @@ class UserContext implements Context
                 throw new \Exception('Email found');
             }
         }
+    }
+
+    protected function createUser($username, $password, $confirmationCode, $confirmed, $name = 'A test user', $isAdmin = false, $bulk = false)
+    {
+        $user = new User();
+        if (!$bulk) {
+            $encodedPassword = $this->hasherFactory->getPasswordHasher($user)->hash($password);
+        } else {
+            $encodedPassword = $password;
+        }
+        $user->setEmail($username);
+        $user->setPassword($encodedPassword);
+        $user->setName($name);
+        $user->setConfirmationCode($confirmationCode);
+        $user->setIsConfirmed($confirmed);
+        $user->setCreatedAt(new \DateTime('now'));
+        $user->setRoles($isAdmin ? ['ROLE_ADMIN'] : ['ROLE_USER']);
+
+        $this->repository->getEntityManager()->persist($user);
+        if (!$bulk) {
+            $this->repository->getEntityManager()->flush();
+        }
+
+        return $user;
+    }
+
+    /**
+     * @return User|null
+     *
+     * @throws \Doctrine\ORM\ORMException
+     */
+    protected function fetchUser($email)
+    {
+        /** @var User $user */
+        $user = $this->repository->findOneBy(['email' => $email]);
+        $this->repository->getEntityManager()->refresh($user);
+
+        return $user;
+    }
+
+    protected function createTeam(?User $user, $name, $plan = 'Trial')
+    {
+        $team = new Team();
+        $team->setName($name);
+        if ($user) {
+            $team->addMember($user);
+        }
+        $team->setCreatedAt(new \DateTime('now'));
+        $team->setSubscription(new EmbeddedSubscription());
+        $team->getSubscription()->setPlanName($plan);
+        $team->getSubscription()->setValidUntil(new \DateTime('+7 days'));
+        $team->getSubscription()->setActive(true);
+
+        $externalReference = bin2hex(random_bytes(40));
+        $team->setExternalCustomerReference($externalReference);
+
+        $this->teamRepository->getEntityManager()->persist($team);
+
+        $this->teamRepository->getEntityManager()->flush();
+        if ($user) {
+            $user->setTeam($team);
+            $this->teamRepository->getEntityManager()->persist($user);
+        }
+
+        $this->teamRepository->getEntityManager()->flush();
+
+        $subscription = new Subscription();
+        $subscription->setPlanName($plan);
+        $subscription->setCustomer($team);
+        $subscription->setActive(true);
+        $subscription->setStatus(SubscriptionStatus::ACTIVE);
+        $subscription->setAmount(100);
+        $subscription->setCurrency('EUR');
+        $subscription->setPaymentSchedule('year');
+        $subscription->setCreatedAt(new \DateTime());
+        $subscription->setUpdatedAt(new \DateTime());
+
+        $this->teamRepository->getEntityManager()->persist($subscription);
+        $this->teamRepository->getEntityManager()->flush();
     }
 }

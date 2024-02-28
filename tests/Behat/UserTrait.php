@@ -14,20 +14,20 @@ declare(strict_types=1);
 
 namespace App\Tests\Behat\Skeleton;
 
-use App\Entity\Team;
+use App\Entity\User;
 
-trait TeamTrait
+trait UserTrait
 {
-    protected function getTeamByName(string $name): Team
+    protected function findUser($email): User
     {
-        $team = $this->teamRepository->findOneBy(['name' => $name]);
+        $user = $this->userRepository->findOneBy(['email' => $email]);
 
-        if (!$team instanceof Team) {
-            throw new \Exception("Can't find team");
+        if (!$user instanceof User) {
+            throw new \Exception('No user found');
         }
 
-        $this->teamRepository->getEntityManager()->refresh($team);
+        $this->userRepository->getEntityManager()->refresh($user);
 
-        return $team;
+        return $user;
     }
 }
