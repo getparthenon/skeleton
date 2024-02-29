@@ -11,7 +11,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.13",
         "ramsey/uuid-doctrine": "^1.8.1",
-        "parthenon/parthenon": "^2.2.10",
+        "parthenon/parthenon": "^2.2.11",
         "symfony/console": "7.*",
         "symfony/dotenv": "7.*",
         "symfony/flex": "^2",

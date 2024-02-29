@@ -27,7 +27,7 @@ class TeamContext implements Context
      */
     public function iViewTheTeamView()
     {
-        $this->sendJsonRequest('GET', '/api/user/team/invite');
+        $this->sendJsonRequest('GET', '/api/user/team');
     }
 
     /**

@@ -59,7 +59,7 @@ class UserContext implements Context
     public function iWillSeeAnErrorAboutAnInvalidEmailAddress()
     {
         $json = json_decode($this->session->getPage()->getContent(), true);
-
+        
         if (!$json || $json['errors']['email'] !== ['A valid email must be provided.']) {
             throw new \Exception("Can't find an error about an invalid email");
         }
