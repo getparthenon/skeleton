@@ -1,7 +1,7 @@
 {
     "name": "parthenon/skeleton",
     "type": "project",
-    "license": "BUSL-1.1",
+    "license": "MIT",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
