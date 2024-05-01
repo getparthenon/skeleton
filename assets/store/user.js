@@ -1,16 +1,22 @@
 import { router } from "../helpers/router";
 import { userservice } from "../services/userservice";
 
-const userData = localStorage.getItem('user');
+const rawUserData = localStorage.getItem('user');
+var userData;
+try {
+     userData = JSON.parse(rawUserData);
+} catch (e) {
+     userData = null;
+}
 
 const state = {
-    logged_in: (userData === null),
+    logged_in: (userData !== null),
     status: null,
     error_info: {
         has_error: false,
         message: undefined,
     },
-    user: JSON.parse(userData),
+    user: userData,
     redirect_page: undefined,
     in_progress: false,
     successfully_progress: false,

@@ -89,6 +89,22 @@
     @apply rounded-xl bg-white p-5 w-full shadow;
 }
 
+.body-panel {
+    @apply rounded-xl bg-white w-full shadow;
+}
+
+.border-r-1 {
+    border-right-width: 1px;
+}
+
+.submenu-list-item {
+    @apply my-2;
+}
+
+.submenu {
+    @apply inline-block rounded-xl p-2 text-black font-bold no-underline w-full  hover:text-slate-800 hover:no-underline hover:bg-blue-50 hover:text-slate-600;
+}
+
 
 .h1 {
     @apply text-2xl font-medium;

@@ -49,6 +49,7 @@ axios.interceptors.response.use(response => {
     if (error.response.status === 401) {
         localStorage.setItem('user', null);
         router.push('/login')
+        return;
     }
-    return error;
+    return Promise.reject(error);
 });
