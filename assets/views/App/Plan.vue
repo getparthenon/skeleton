@@ -75,7 +75,8 @@ export default {
       stripe: {},
       error_message: undefined,
       in_progress: false,
-      currency: 'USD'
+      currency: 'USD',
+      sending: false,
     }
   },
   mounted() {
@@ -89,9 +90,31 @@ export default {
   },
   methods: {
     select: function (planName, paymentSchedule) {
+      this.in_progress = true;
       planservice.startSubscriptionFromPaymentDetails(planName, paymentSchedule, this.currency).then(response => {
         console.log(response)
         alert('here')
+
+        this.in_progress = false;
+      }).catch(error => {
+        this.in_progress = false;
+        if (!error.response) {
+          this.error_message = this.$t('app.plan.main.errors.general_error')
+          return;
+        }
+
+        switch (error.response.data.code) {
+          case "320001":
+            this.error_message = this.$t('app.plan.main.errors.no_payment_details');
+            return;
+          case "320006":
+            this.error_message = this.$t('app.plan.main.errors.payment_failure', {reason: error.response.data.reason});
+            return;
+          default:
+            this.error_message = this.$t('app.plan.main.errors.general_error')
+            return;
+        }
+
       })
     },
     planSchedule: function (planName) {
