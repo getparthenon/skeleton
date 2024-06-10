@@ -24,13 +24,16 @@
       <div class="plans_bdy">
         <h6 class="mb-5">{{ $t('app.plan.main.features') }}:</h6>
 
+        <div class="media" v-for="feature in plan.features">
+          <i class="fa fa-check"></i> {{ feature.description }}
+        </div>
         <div class="media" v-for="limit in plan.limits">
           <i class="fa fa-check"></i>  {{ limit.limit }} {{ limit.description }}
         </div>
       </div>
       <div class="button-container" v-if="in_progress === false">
-        <button class="btn--main block w-full" @click="select(planName, paymentSchedule)" v-if="this.current_plans.length == 0">{{ $t('app.plan.main.select_plan') }}</button>
-        <button class="btn--main block w-full" @click="change(planName, paymentSchedule)" v-else-if="!isCurrentPlan(planName) || planSchedule(planName) !== paymentSchedule">{{ $t('app.plan.main.change') }}</button>
+        <button class="btn--main block w-full" @click="select(planName, paymentSchedule, plan)" v-if="this.current_plans.length == 0">{{ $t('app.plan.main.select_plan') }}</button>
+        <button class="btn--main block w-full" @click="change(planName, paymentSchedule, plan)" v-else-if="!isCurrentPlan(planName) || planSchedule(planName) !== paymentSchedule">{{ $t('app.plan.main.change') }}</button>
         <div v-else>
 
           <button class="btn--danger w-full mb-2" @click="cancel(planName)"  v-if="in_progress === false">{{ $t('app.plan.main.cancel_button') }}</button>
@@ -61,6 +64,8 @@
 import { planservice } from "../../services/planservice";
 import { stripeservice } from "../../services/stripeservice";
 import { transactoncloudservice } from "../../services/transactioncloudservice";
+import {toRaw} from "vue";
+import currency from "currency.js";
 
 export default {
   name: "Plan.vue",
@@ -89,11 +94,17 @@ export default {
     })
   },
   methods: {
-    select: function (planName, paymentSchedule) {
-      this.in_progress = true;
+    displayCurrency: function (value) {
+      return currency(value, { fromCents: true }).format({symbol: ''});
+    },
+    select: function (planName, paymentSchedule, plan) {
+       this.in_progress = true;
       planservice.startSubscriptionFromPaymentDetails(planName, paymentSchedule, this.currency).then(response => {
-        console.log(response)
-        alert('here')
+
+        const newPlan = plan;
+        newPlan.schedule = paymentSchedule;
+
+        this.current_plans.push(newPlan)
 
         this.in_progress = false;
       }).catch(error => {

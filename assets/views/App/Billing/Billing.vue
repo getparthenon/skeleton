@@ -7,7 +7,7 @@
           <ul>
             <li class="submenu-list-item"><router-link :to="{name: 'app.billing.details'}" class="submenu">{{ $t('app.billing.main.details') }}</router-link></li>
             <li class="submenu-list-item"><router-link :to="{name: 'app.billing.methods'}" class="submenu">{{ $t('app.billing.main.methods') }}</router-link></li>
-            <li class="submenu-list-item">{{ $t('app.billing.main.invoices') }}</li>
+            <li class="submenu-list-item"><router-link :to="{name: 'app.billing.invoices'}" class="submenu">{{ $t('app.billing.main.invoices') }}</router-link></li>
           </ul>
         </div>
 
