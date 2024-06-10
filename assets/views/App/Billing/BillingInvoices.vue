@@ -2,11 +2,16 @@
   <div>
     <h2 class="text-2xl mb-4">{{ $t('app.billing.invoices.title') }}</h2>
 
+    <div class="alert-error" v-if="showError">
+      {{ $t('app.billing.invoices.error_message') }}
+    </div>
+
     <table class="table table-striped">
       <thead>
         <tr>
           <th>{{ $t('app.billing.invoices.list.amount_due') }}</th>
           <th>{{ $t('app.billing.invoices.list.created_at') }}</th>
+          <th>{{ $t('app.billing.invoices.list.status') }}</th>
           <th></th>
         </tr>
       </thead>
@@ -14,7 +19,15 @@
         <tr v-for="invoice in invoices">
           <td>{{ displayCurrency(invoice.amount) }} {{ invoice.currency }}</td>
           <td>{{ displayTime(invoice.created_at) }}</td>
-          <td><SubmitButton :in-progress="downloadInProgress" @click="download(invoice.id)">Download</SubmitButton></td>
+          <td>
+            <span class="badge--green" v-if="invoice.paid">{{ $t('app.billing.invoices.list.paid') }}</span>
+            <span class="badge--red"  v-else>{{ $t('app.billing.invoices.list.unpaid') }}</span>
+          </td>
+          <td>
+            <SubmitButton :in-progress="downloadInProgress" @click="download(invoice.id)" v-if="invoice.paid">{{ $t('app.billing.invoices.list.download') }}</SubmitButton>
+            <SubmitButton :in-progress="downloadInProgress" @click="charge(invoice)" v-else>{{ $t('app.billing.invoices.list.charge') }}</SubmitButton>
+
+          </td>
         </tr>
       </tbody>
     </table>
@@ -32,7 +45,8 @@ export default {
   data() {
     return {
       invoices: [],
-      downloadInProgress: false
+      downloadInProgress: false,
+      showError: false,
     }
   },
   mounted() {
@@ -47,24 +61,36 @@ export default {
     displayCurrency: function (value) {
       return currency(value, { fromCents: true }).format({symbol: ''});
     },
+    charge: function (invoice) {
+
+      this.downloadInProgress = true;
+      this.showError = false;
+      axios.post('/api/billing/invoices/'+invoice.id+'/charge').then(response => {
+        invoice.paid = response.data.paid;
+        this.downloadInProgress = false;
+      }).catch(error => {
+        this.showError= true;
+        this.downloadInProgress = false;
+      })
+    },
     download: function (id) {
 
       this.downloadInProgress = true;
+      this.showError = false;
       axios.get('/api/billing/invoices/'+id+'/download', {  responseType: 'blob'}).then(response => {
         var fileDownload = require('js-file-download');
-        fileDownload(response.data, 'example.pdf');
+        fileDownload(response.data, 'invoice-'+id+'.pdf');
         this.downloadInProgress = false;
       }).catch(error => {
         var that = this;
         let errorString = async function getString() {
           const str = await error.response.data.text();
           const errorString = JSON.parse(str);
-          that.templateError = errorString.raw_message;
-          that.options.modelValue = true;
           return str;
         }
         errorString();
 
+        this.showError= true;
         this.downloadInProgress = false;
       })
     },
