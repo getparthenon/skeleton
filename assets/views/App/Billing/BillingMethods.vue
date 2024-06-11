@@ -4,7 +4,7 @@
 
     <ul class="my-4">
       <li v-for="paymentDetail in paymentDetails">
-        <div class="flex flex-row">
+        <div class="grid grid-cols-3 gap-4 mb-5">
           <div class="mr-3">
             <label class="block font-weight-bold">{{ $t('app.billing.payment_methods.card_number') }}</label>
               **** **** **** {{ paymentDetail.last_four }}
@@ -15,7 +15,7 @@
             {{ paymentDetail.expiry_month }}/{{ paymentDetail.expiry_year }}
           </div>
           <div class="w-100 text-right">
-            <button class="btn--main" v-if="!paymentDetail.default">{{ $t('app.billing.payment_methods.make_default_btn') }}</button>
+            <button class="btn--main mr-2" v-if="!paymentDetail.default">{{ $t('app.billing.payment_methods.make_default_btn') }}</button>
             <button class="btn--danger" @click="deleteCard({paymentDetail})">{{ $t('app.billing.payment_methods.delete_btn') }}</button>
           </div>
         </div>
