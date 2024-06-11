@@ -28,8 +28,8 @@
       <span class="error-message" v-if="errors.country" v-for="error in errors.country">{{ error }}</span>
 
       <label class="label">{{ $t('app.billing.details.postal_code') }}</label>
-      <input type="text" class="form-field" :class="{'form-error': errors.postal_code !== undefined}" v-model="address.postal_code" />
-      <span class="error-message" v-if="errors.postal_code" v-for="error in errors.postal_code">{{ error }}</span>
+      <input type="text" class="form-field" :class="{'form-error': errors.post_code !== undefined}" v-model="address.post_code" />
+      <span class="error-message" v-if="errors.post_code" v-for="error in errors.post_code">{{ error }}</span>
 
       <div class="mt-3">
 
