@@ -52,31 +52,35 @@ describe("planservice", () => {
     describe("Change Plan", () => {
         it("Should return response if successful", async () => {
 
+            const id = 'id'
             const planName = "plan-name";
             const paymentSchedule = "payment-schedule";
+            const currency = "usd";
 
-            mock.onPost(`/api/billing/plans/change/` + planName + '/' + paymentSchedule).reply(200, {success: true});
+            mock.onPost(`/api/billing/subscription/`+id+'/change/' + planName + '/' + paymentSchedule+'/'+currency).reply(200, {success: true});
 
             // when
-            const result = await planservice.changePlan(planName, paymentSchedule)
+            const result = await planservice.changePlan(id, planName, paymentSchedule, currency)
 
             // then
-            expect(mock.history.post[0].url).toEqual(`/api/billing/plans/change/` + planName + '/' + paymentSchedule);
+            expect(mock.history.post[0].url).toEqual(`/api/billing/subscription/`+id+'/change/' + planName + '/' + paymentSchedule+'/'+currency);
             expect(result.data).toEqual({success: true});
         });
 
         it("Should return error", async () => {
 
+            const id = 'id'
             const planName = "plan-name";
             const paymentSchedule = "payment-schedule";
+            const currency = "usd";
 
-            mock.onPost(`/api/billing/plans/change/` + planName + '/' + paymentSchedule).reply(400, {success: false, error: "Error message here"});
+            mock.onPost(`/api/billing/subscription/`+id+'/change/' + planName + '/' + paymentSchedule+'/'+currency).reply(400, {success: false, error: "Error message here"});
 
             try {
-                await planservice.changePlan(planName, paymentSchedule);
+                await planservice.changePlan(id, planName, paymentSchedule, currency);
                 fail("Didn't throw error")
             } catch (error) {
-                expect(mock.history.post[0].url).toEqual(`/api/billing/plans/change/` + planName + '/' + paymentSchedule);
+                expect(mock.history.post[0].url).toEqual(`/api/billing/subscription/`+id+'/change/' + planName + '/' + paymentSchedule+'/'+currency);
                 expect(error).toEqual("Error message here");
 
             }

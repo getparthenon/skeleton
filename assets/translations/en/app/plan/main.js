@@ -13,6 +13,7 @@ export const PLAN_MAIN_TRANSLATIONS = {
     features: "Features",
     your_current_plan: "Your Current Plan",
     plan_options: "Plan Options",
+    currency_label: "Currency",
     errors: {
         general_error: "Something went wrong! Try again later!",
         payment_failure: "Payment failed for the reason: {reason}",

@@ -14,12 +14,19 @@
       </select>
     </div>
 
+    <div class="my-5 text-end">
+      {{ $t('app.plan.main.currency_label') }}
+      <select v-model="currentCurrency">
+        <option v-for="currency in currencies">{{currency}}</option>
+      </select>
+    </div>
+
     <div class="columns md:flex md:flex-row gap-4 ">
-      <div class="column" v-for="(plan, planName) in plans" :class="{'border-2 border-red-500': isCurrentPlan(planName)}">
+      <div class="column" v-for="(plan, planName) in plans" :class="{'border-2 border-red-500': isCurrentPlan(planName, this.currentCurrency)}">
         <h2 class="h2">{{ plan.name }}</h2>
-        <h3 class="text-xl text-red-500" v-if="isCurrentPlan(planName)">{{ $t('app.plan.main.your_current_plan') }}</h3>
+        <h3 class="text-xl text-red-500" v-if="isCurrentPlan(planName, this.currentCurrency)">{{ $t('app.plan.main.your_current_plan') }}</h3>
         <div class="plan_head_rgt my-3" v-if="plan.prices[paymentSchedule] !== undefined">
-          <h4 class="h1">${{ plan.prices[paymentSchedule].USD.amount }}<span>/{{ $t('app.plan.main.payment_schedule_'+paymentSchedule) }}</span></h4>
+          <h4 class="h1">{{ plan.prices[paymentSchedule][currentCurrency].amount }} {{currentCurrency}}<span>/{{ $t('app.plan.main.payment_schedule_'+paymentSchedule) }}</span></h4>
       </div>
       <div class="plans_bdy">
         <h6 class="mb-5">{{ $t('app.plan.main.features') }}:</h6>
@@ -33,7 +40,7 @@
       </div>
       <div class="button-container" v-if="in_progress === false">
         <button class="btn--main block w-full" @click="select(planName, paymentSchedule, plan)" v-if="this.current_plans.length == 0">{{ $t('app.plan.main.select_plan') }}</button>
-        <button class="btn--main block w-full" @click="change(planName, paymentSchedule, plan)" v-else-if="!isCurrentPlan(planName) || planSchedule(planName) !== paymentSchedule">{{ $t('app.plan.main.change') }}</button>
+        <button class="btn--main block w-full" @click="change(planName, paymentSchedule, plan)" v-else-if="!isCurrentPlan(planName, this.currentCurrency) || planSchedule(planName) !== paymentSchedule">{{ $t('app.plan.main.change') }}</button>
         <div v-else>
 
           <button class="btn--danger w-full mb-2" @click="cancel(planName)"  v-if="in_progress === false">{{ $t('app.plan.main.cancel_button') }}</button>
@@ -80,13 +87,24 @@ export default {
       stripe: {},
       error_message: undefined,
       in_progress: false,
-      currency: 'USD',
+      currentCurrency: 'USD',
       sending: false,
+      currencies: [],
     }
   },
   mounted() {
     planservice.fetchPlanInfo().then(response =>{
       this.plans = response.data.plans;
+      for (const key in this.plans) {
+        var plan = this.plans[key];
+        console.log(plan);
+        for (const key in plan.prices['year']) {
+          if (!this.currencies.includes(key)) {
+            this.currencies.push(key)
+          }
+        }
+      }
+
       if (response.data.current_plans !== null && response.data.current_plans !== undefined) {
         this.current_plans = response.data.current_plans;
       }
@@ -99,7 +117,7 @@ export default {
     },
     select: function (planName, paymentSchedule, plan) {
        this.in_progress = true;
-      planservice.startSubscriptionFromPaymentDetails(planName, paymentSchedule, this.currency).then(response => {
+      planservice.startSubscriptionFromPaymentDetails(planName, paymentSchedule, this.currentCurrency).then(response => {
 
         const newPlan = plan;
         newPlan.schedule = paymentSchedule;
@@ -146,9 +164,9 @@ export default {
 
       return false;
     },
-    isCurrentPlan: function (planName) {
+    isCurrentPlan: function (planName, currency) {
       for (var i = 0; i < this.current_plans.length; i++) {
-        if (this.current_plans[i].name === planName) {
+        if (this.current_plans[i].name === planName && this.current_plans[i].currency === currency) {
           return true;
         }
       }
@@ -157,9 +175,27 @@ export default {
     },
     change: function (planName, paymentSchedule) {
       this.in_progress = true;
-      planservice.changePlan(planName, paymentSchedule).then(
+
+      if (this.current_plans.length === 1) {
+        var subscription = this.current_plans[0];
+      } else {
+        for (var i =0; i < this.current_plans.length; i++) {
+          var currentSubscription = this.current_plans[i];
+
+          if (currentSubscription.plan_name === planName) {
+            var subscription = currentSubscription;
+            break;
+          }
+        }
+      }
+      if (subscription === undefined) {
+        this.error_message = this.$t('app.plan.main.errors.general_error')
+        return;
+      }
+
+      planservice.changePlan(subscription.id, planName, paymentSchedule, this.currentCurrency).then(
           response => {
-              this.current_plan = response.data.plan;
+            this.current_plans[i] = response.data.plan;
               this.in_progress = false;
           },
           error => {
