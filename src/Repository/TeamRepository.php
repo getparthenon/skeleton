@@ -1,8 +1,13 @@
 <?php
 
+/*
+ * Copyright 2024 all rights reserved
+ */
+
 namespace App\Repository;
 
 use App\Entity\User;
+use Parthenon\Billing\Entity\CustomerInterface;
 use Parthenon\Payments\SubscriptionInterface;
 use Parthenon\User\Entity\UserInterface;
 
@@ -22,5 +27,10 @@ class TeamRepository extends \Parthenon\User\Repository\TeamRepository implement
             ->where('t.subscription.paymentId is not null')
             ->getQuery()
             ->getResult();
+    }
+
+    public function getByExternalReference(string $externalReference): CustomerInterface
+    {
+        return $this->entityRepository->findOneBy(['externalReference' => $externalReference]);
     }
 }
