@@ -36,6 +36,8 @@ services:
     Parthenon\User\Notification\MessageFactory: '@App\User\Notification\MessageFactory'
     Parthenon\User\Repository\TeamInviteCodeRepositoryInterface: '@App\Repository\TeamInviteCodeRepository'
 
+    Parthenon\Billing\Factory\EntityFactoryInterface: '@App\Billing\EntityFactory'
+
     App\Repository\UserRepository:
         arguments:
             $entityRepository: '@app.repository.orm.user'
