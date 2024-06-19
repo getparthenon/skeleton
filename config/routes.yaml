@@ -13,5 +13,5 @@ parthenon_user_controllers:
 
 parthenon_payments_controllers:
     prefix: /api
-    resource: ../vendor/parthenon/parthenon/src/Payments/Controller/
+    resource: ../vendor/parthenon/parthenon/src/Billing/Controller/
     type: attribute

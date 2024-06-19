@@ -8,16 +8,11 @@ use Parthenon\Payments\Subscriber\SubscriberInterface;
 use Parthenon\User\Entity\MemberInterface;
 use Parthenon\User\Entity\TeamInterface;
 
-/**
- * @ORM\Entity()
- *
- * @ORM\Table(name="users")
- */
+#[ORM\Entity]
+#[ORM\Table("users")]
 class User extends \Parthenon\User\Entity\User implements MemberInterface, LimitedUserInterface
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", fetch="EAGER", inversedBy="members")
-     */
+    #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'members')]
     private Team|SubscriberInterface $team;
 
     public function getTeam(): Team

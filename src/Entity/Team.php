@@ -8,23 +8,17 @@ use Parthenon\Payments\Entity\Subscription;
 use Parthenon\Payments\Subscriber\SubscriberInterface;
 use Parthenon\User\Entity\UserInterface;
 
-/**
- * @ORM\Entity()
- *
- * @ORM\Table(name="teams")
- */
+#[ORM\Entity]
+#[ORM\Table("teams")]
 class Team extends \Parthenon\User\Entity\Team implements SubscriberInterface
 {
-    /**
-     * @ORM\Embedded(class="Parthenon\Payments\Entity\Subscription")
-     */
+    #[ORM\Embedded(Subscription::class)]
     private ?Subscription $subscription;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="team")
-     *
      * @var UserInterface[]|Collection
      */
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: "team")]
     protected Collection $members;
 
     public function setSubscription(Subscription $subscription)
