@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace migrations;
+namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240619174459 extends AbstractMigration
+final class Version20241202092637 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -49,7 +49,7 @@ final class Version20240619174459 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_37970FA79395C3F3 ON payment_card (customer_id)');
         $this->addSql('COMMENT ON COLUMN payment_card.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN payment_card.customer_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE price (id UUID NOT NULL, product_id UUID DEFAULT NULL, amount INT NOT NULL, currency VARCHAR(255) NOT NULL, recurring BOOLEAN DEFAULT NULL, public BOOLEAN DEFAULT NULL, is_deleted BOOLEAN DEFAULT NULL, schedule VARCHAR(255) DEFAULT NULL, external_reference VARCHAR(255) DEFAULT NULL, payment_provider_details_url VARCHAR(255) DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, deleted_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE price (id UUID NOT NULL, product_id UUID DEFAULT NULL, amount INT DEFAULT NULL, currency VARCHAR(255) NOT NULL, recurring BOOLEAN DEFAULT NULL, usage BOOLEAN DEFAULT NULL, units INT DEFAULT NULL, public BOOLEAN DEFAULT NULL, type VARCHAR(255) NOT NULL, including_tax BOOLEAN DEFAULT NULL, is_deleted BOOLEAN DEFAULT NULL, schedule VARCHAR(255) DEFAULT NULL, external_reference VARCHAR(255) DEFAULT NULL, payment_provider_details_url VARCHAR(255) DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, deleted_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_CAC822D94584665A ON price (product_id)');
         $this->addSql('COMMENT ON COLUMN price.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN price.product_id IS \'(DC2Type:uuid)\'');
@@ -130,6 +130,10 @@ final class Version20240619174459 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN team_invite_codes.team_id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE teams (id UUID NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, deleted_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, name VARCHAR(255) DEFAULT NULL, billing_email VARCHAR(255) NOT NULL, external_customer_reference VARCHAR(255) DEFAULT NULL, payment_provider_details_url VARCHAR(255) DEFAULT NULL, billing_address_company_name VARCHAR(255) DEFAULT NULL, billing_address_street_line_one VARCHAR(255) DEFAULT NULL, billing_address_street_line_two VARCHAR(255) DEFAULT NULL, billing_address_city VARCHAR(255) DEFAULT NULL, billing_address_region VARCHAR(255) DEFAULT NULL, billing_address_country VARCHAR(255) DEFAULT NULL, billing_address_postcode VARCHAR(255) DEFAULT NULL, subscription_plan_name VARCHAR(255) DEFAULT NULL, subscription_payment_schedule VARCHAR(255) DEFAULT NULL, subscription_active BOOLEAN DEFAULT NULL, subscription_status VARCHAR(255) DEFAULT NULL, subscription_amount INT DEFAULT NULL, subscription_currency VARCHAR(255) DEFAULT NULL, subscription_started_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, subscription_valid_until TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, subscription_updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, subscription_ended_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, subscription_seats INT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN teams.id IS \'(DC2Type:uuid)\'');
+        $this->addSql('CREATE TABLE tier_component (id UUID NOT NULL, price_id UUID DEFAULT NULL, first_unit INT NOT NULL, last_unit INT DEFAULT NULL, unit_price INT NOT NULL, flat_fee INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_5A490D39D614C7E7 ON tier_component (price_id)');
+        $this->addSql('COMMENT ON COLUMN tier_component.id IS \'(DC2Type:uuid)\'');
+        $this->addSql('COMMENT ON COLUMN tier_component.price_id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE users (id UUID NOT NULL, team_id UUID DEFAULT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, name VARCHAR(255) DEFAULT NULL, confirmation_code VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, activated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, deactivated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, deleted_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, is_confirmed BOOLEAN NOT NULL, is_deleted BOOLEAN NOT NULL, roles TEXT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_1483A5E9296CD8AE ON users (team_id)');
         $this->addSql('COMMENT ON COLUMN users.id IS \'(DC2Type:uuid)\'');
@@ -170,13 +174,13 @@ final class Version20240619174459 extends AbstractMigration
         $this->addSql('ALTER TABLE team_invite_codes ADD CONSTRAINT FK_E05E9270A76ED395 FOREIGN KEY (user_id) REFERENCES users (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE team_invite_codes ADD CONSTRAINT FK_E05E9270C58DAD6E FOREIGN KEY (invited_user_id) REFERENCES users (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE team_invite_codes ADD CONSTRAINT FK_E05E9270296CD8AE FOREIGN KEY (team_id) REFERENCES teams (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE tier_component ADD CONSTRAINT FK_5A490D39D614C7E7 FOREIGN KEY (price_id) REFERENCES price (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE users ADD CONSTRAINT FK_1483A5E9296CD8AE FOREIGN KEY (team_id) REFERENCES teams (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE charge_back DROP CONSTRAINT FK_250DACE84C3A3BB');
         $this->addSql('ALTER TABLE charge_back DROP CONSTRAINT FK_250DACE89395C3F3');
         $this->addSql('ALTER TABLE forgot_password_code DROP CONSTRAINT FK_B30A7571A76ED395');
@@ -212,6 +216,7 @@ final class Version20240619174459 extends AbstractMigration
         $this->addSql('ALTER TABLE team_invite_codes DROP CONSTRAINT FK_E05E9270A76ED395');
         $this->addSql('ALTER TABLE team_invite_codes DROP CONSTRAINT FK_E05E9270C58DAD6E');
         $this->addSql('ALTER TABLE team_invite_codes DROP CONSTRAINT FK_E05E9270296CD8AE');
+        $this->addSql('ALTER TABLE tier_component DROP CONSTRAINT FK_5A490D39D614C7E7');
         $this->addSql('ALTER TABLE users DROP CONSTRAINT FK_1483A5E9296CD8AE');
         $this->addSql('DROP TABLE charge_back');
         $this->addSql('DROP TABLE forgot_password_code');
@@ -235,6 +240,7 @@ final class Version20240619174459 extends AbstractMigration
         $this->addSql('DROP TABLE subscription_plan_limit');
         $this->addSql('DROP TABLE team_invite_codes');
         $this->addSql('DROP TABLE teams');
+        $this->addSql('DROP TABLE tier_component');
         $this->addSql('DROP TABLE users');
     }
 }
