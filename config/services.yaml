@@ -65,3 +65,9 @@ services:
     parthenon.user.repository.orm.invite_code_repository_doctrine: '@App\Repository\Orm\InviteCodeRepository'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+
+    Redis:
+        class: Redis
+        calls:
+            - connect: ['%env(REDIS_HOST)%']

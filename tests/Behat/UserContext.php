@@ -4,6 +4,7 @@ namespace App\Tests\Behat;
 
 use App\Entity\ForgotPasswordCode;
 use App\Entity\InviteCode;
+use App\Entity\Subscription;
 use App\Entity\Team;
 use App\Entity\User;
 use App\Repository\Orm\InviteCodeRepository;
@@ -16,7 +17,8 @@ use Behat\Mink\Session;
 use Doctrine\ORM\EntityManagerInterface;
 use Parthenon\Athena\Entity\Link;
 use Parthenon\Athena\Entity\Notification;
-use Parthenon\Payments\Entity\Subscription;
+use Parthenon\Billing\Entity\EmbeddedSubscription;
+use Parthenon\Billing\Enum\SubscriptionStatus;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
@@ -620,6 +622,18 @@ class UserContext implements Context
     }
 
     /**
+     * @Then there will not be an invite code for :arg1
+     */
+    public function thereWillNotBeAnInviteCodeFor($email)
+    {
+        $inviteCode = $this->inviteCodeRepository->findOneBy(['email' => $email]);
+
+        if ($inviteCode) {
+            throw new \Exception('Invite code found');
+        }
+    }
+
+    /**
      * @Given the invite code :arg1 exists
      */
     public function theInviteCode($code)
@@ -726,10 +740,11 @@ class UserContext implements Context
             $team->addMember($user);
         }
         $team->setCreatedAt(new \DateTime('now'));
-        $team->setSubscription(new Subscription());
+        $team->setSubscription(new EmbeddedSubscription());
         $team->getSubscription()->setPlanName($plan);
         $team->getSubscription()->setValidUntil(new \DateTime('+7 days'));
         $team->getSubscription()->setActive(true);
+        $team->setBillingEmail($user?->getEmail() ?? 'billing.email@example.org');
 
         $this->teamRepository->getEntityManager()->persist($team);
 
@@ -738,6 +753,17 @@ class UserContext implements Context
             $user->setTeam($team);
             $this->teamRepository->getEntityManager()->persist($user);
         }
+
+        $subscription = new Subscription();
+        $subscription->setCustomer($team);
+        $subscription->setPlanName($plan);
+        $subscription->setValidUntil(new \DateTime("+7 days"));
+        $subscription->setActive(true);
+        $subscription->setCreatedAt(new \DateTime());
+        $subscription->setStatus(SubscriptionStatus::ACTIVE);
+        $subscription->setStartOfCurrentPeriod(new \DateTime());
+
+        $this->teamRepository->getEntityManager()->persist($subscription);
 
         $this->teamRepository->getEntityManager()->flush();
     }
@@ -767,5 +793,29 @@ class UserContext implements Context
                 throw new \Exception('Email found');
             }
         }
+    }
+
+    /**
+     * @When I edit my settings with the name :arg1
+     */
+    public function iEditMySettingsWithTheName($arg1)
+    {
+        $this->sendJsonRequest('GET', '/api/user/settings');
+        $content = $this->getJsonContent()['form'];
+        $output = [];
+        foreach ($content as $key => $options) {
+            $output[$key] = $options;
+        }
+
+        $output['name'] = $arg1;
+        $this->sendJsonRequest('POST', '/api/user/settings', $output);
+    }
+
+    /**
+     * @When I visit the settings page
+     */
+    public function iVisitTheSettingsPage()
+    {
+        $this->session->visit('/api/user/settings');
     }
 }

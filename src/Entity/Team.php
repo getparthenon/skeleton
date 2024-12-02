@@ -4,44 +4,93 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Parthenon\Payments\Entity\Subscription;
-use Parthenon\Payments\Subscriber\SubscriberInterface;
+use Parthenon\Billing\Entity\CustomerInterface;
+use Parthenon\Billing\Entity\EmbeddedSubscription;
+use Parthenon\Billing\Entity\Subscription;
+use Parthenon\Common\Address;
 use Parthenon\User\Entity\UserInterface;
 
 #[ORM\Entity]
 #[ORM\Table('teams')]
-class Team extends \Parthenon\User\Entity\Team implements SubscriberInterface
+class Team extends \Parthenon\User\Entity\Team implements CustomerInterface
 {
-    #[ORM\Embedded(Subscription::class)]
-    private ?Subscription $subscription;
-
-    /**
-     * @var UserInterface[]|Collection
-     */
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'team')]
+    #[ORM\OneToMany(mappedBy: 'team', targetEntity: User::class)]
     protected Collection $members;
 
-    public function setSubscription(Subscription $subscription)
+    #[ORM\Embedded(class: Address::class)]
+    protected Address $billingAddress;
+
+    #[ORM\Column(name: 'external_customer_reference', nullable: true)]
+    protected ?string $externalCustomerReference;
+
+    #[ORM\Column(name: 'payment_provider_details_url', nullable: true)]
+    protected ?string $paymentProviderDetailsUrl;
+
+    #[ORM\Embedded(class: EmbeddedSubscription::class)]
+    private ?EmbeddedSubscription $subscription;
+
+    public function getMembers(): array
     {
-        $this->subscription = $subscription;
+        return $this->members->toArray();
     }
 
-    public function getSubscription(): ?Subscription
+    public function setMembers(Collection $members): void
+    {
+        $this->members = $members;
+    }
+
+    public function getBillingAddress(): Address
+    {
+        return $this->billingAddress;
+    }
+
+    public function setBillingAddress(Address $address): void
+    {
+        $this->billingAddress = $address;
+    }
+
+    public function getExternalCustomerReference(): ?string
+    {
+        return $this->externalCustomerReference;
+    }
+
+    public function setExternalCustomerReference($externalCustomerReference): void
+    {
+        $this->externalCustomerReference = $externalCustomerReference;
+    }
+
+    public function getPaymentProviderDetailsUrl(): ?string
+    {
+        return $this->paymentProviderDetailsUrl;
+    }
+
+    public function setPaymentProviderDetailsUrl($paymentProviderDetailsUrl): void
+    {
+        $this->paymentProviderDetailsUrl = $paymentProviderDetailsUrl;
+    }
+
+    public function getSubscription(): ?EmbeddedSubscription
     {
         return $this->subscription;
     }
 
-    public function hasActiveSubscription(): bool
+    public function setSubscription(?EmbeddedSubscription $subscription): void
     {
-        if (!$this->subscription) {
-            return false;
-        }
-
-        return $this->subscription->isActive();
+        $this->subscription = $subscription;
     }
 
-    public function getIdentifier(): string
+    public function getDisplayName(): string
     {
-        return (string) $this->getName();
+        return $this->getBillingEmail();
+    }
+
+    public function hasBillingAddress(): bool
+    {
+        return isset($this->billingAddress);
+    }
+
+    public function hasExternalCustomerReference(): bool
+    {
+        return isset($this->externalCustomerReference);
     }
 }

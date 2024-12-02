@@ -5,7 +5,7 @@ services:
     image: bytemark/smtp
     restart: always
     networks:
-      - billabear
+      - parthenon
 
   database:
     image: postgres:13.3-alpine3.14
@@ -19,10 +19,32 @@ services:
       - ./docker/database/data:/var/lib/postgresql/data
       - ./docker/database/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - billabear
+      - parthenon
+
+  redis:
+    image: redis:5-alpine
+    networks:
+      - parthenon
+    ports:
+      - "6379:6379"
+
+  rediscommander:
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      REDIS_HOSTS: redis
+      REDIS_HOST: redis
+      REDIS_PORT: redis:6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      HTTP_USER: root
+      HTTP_PASSWORD: root
+    ports:
+      - 8081:8081
+    networks:
+      - parthenon
 
   php-fpm:
-    image: billabear/ubuntu-php-fpm:8.2
+    image: billabear/ubuntu-php-fpm:8.4
     depends_on:
       - database
     environment:
@@ -32,7 +54,7 @@ services:
     volumes:
       - .:/var/www
     networks:
-      - billabear
+      - parthenon
 
   nginx:
     image: getparthenon/ubuntu-nginx:21.04
@@ -46,8 +68,8 @@ services:
     ports:
       - "80:80"
     networks:
-      - billabear
+      - parthenon
 
 networks:
-  billabear:
+  parthenon:
     driver: bridge

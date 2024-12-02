@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Parthenon\Payments\Plan\LimitedUserInterface;
-use Parthenon\Payments\Subscriber\SubscriberInterface;
+use Parthenon\Billing\Plan\LimitedUserInterface;
 use Parthenon\User\Entity\MemberInterface;
 use Parthenon\User\Entity\TeamInterface;
 
@@ -13,7 +12,7 @@ use Parthenon\User\Entity\TeamInterface;
 class User extends \Parthenon\User\Entity\User implements MemberInterface, LimitedUserInterface
 {
     #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'members')]
-    private Team|SubscriberInterface $team;
+    private Team $team;
 
     public function getTeam(): Team
     {

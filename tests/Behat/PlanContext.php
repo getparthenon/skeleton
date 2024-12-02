@@ -5,7 +5,7 @@ namespace App\Tests\Behat;
 use Behat\Behat\Context\Context;
 use Behat\Mink\Session;
 use Doctrine\ORM\EntityManagerInterface;
-use Parthenon\Payments\Plan\PlanManager;
+use Parthenon\Billing\Plan\PlanManager;
 
 class PlanContext implements Context
 {
@@ -20,7 +20,7 @@ class PlanContext implements Context
      */
     public function iViewThePlans()
     {
-        $this->sendJsonRequest('GET', '/api/plans');
+        $this->sendJsonRequest('GET', '/api/billing/plans');
     }
 
     /**
