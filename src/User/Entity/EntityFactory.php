@@ -25,7 +25,6 @@ class EntityFactory extends BaseFactory
         return \App\Entity\InviteCode::createForUser($user, $email, $role);
     }
 
-
     public function buildTeamInviteCode(UserInterface $user, TeamInterface $team, string $email, string $role): TeamInviteCode
     {
         return \App\Entity\TeamInviteCode::createForUserAndTeam($user, $team, $email, $role);

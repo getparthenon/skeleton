@@ -9,7 +9,7 @@ use Parthenon\Payments\Subscriber\SubscriberInterface;
 use Parthenon\User\Entity\UserInterface;
 
 #[ORM\Entity]
-#[ORM\Table("teams")]
+#[ORM\Table('teams')]
 class Team extends \Parthenon\User\Entity\Team implements SubscriberInterface
 {
     #[ORM\Embedded(Subscription::class)]
@@ -18,7 +18,7 @@ class Team extends \Parthenon\User\Entity\Team implements SubscriberInterface
     /**
      * @var UserInterface[]|Collection
      */
-    #[ORM\OneToMany(targetEntity: User::class, mappedBy: "team")]
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'team')]
     protected Collection $members;
 
     public function setSubscription(Subscription $subscription)

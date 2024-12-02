@@ -9,7 +9,7 @@ use Parthenon\User\Entity\MemberInterface;
 use Parthenon\User\Entity\TeamInterface;
 
 #[ORM\Entity]
-#[ORM\Table("users")]
+#[ORM\Table('users')]
 class User extends \Parthenon\User\Entity\User implements MemberInterface, LimitedUserInterface
 {
     #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'members')]
