@@ -75,6 +75,9 @@ jobs:
         run: |
           composer install
 
+      - name: PHP_CS_FIXER_IGNORE_ENV - new php version workaround
+        run: echo "PHP_CS_FIXER_IGNORE_ENV=true" >> $GITHUB_ENV
+        
       - name: Code Style
         run: |
           vendor/bin/php-cs-fixer fix src --dry-run
