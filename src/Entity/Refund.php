@@ -10,5 +10,4 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'refund')]
 class Refund extends \Parthenon\Billing\Entity\Refund
 {
-
 }
